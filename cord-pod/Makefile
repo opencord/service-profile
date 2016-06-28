@@ -13,7 +13,7 @@ RUN_TOSCA_BOOTSTRAP=python ../common/run_tosca.py $(XOS_BOOTSTRAP_PORT) $(ADMIN_
 RUN_TOSCA=python ../common/run_tosca.py $(XOS_UI_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
 
 .PHONY: xos
-xos: prereqs dirs download_services bootstrap onboarding podconfig
+xos: prereqs dirs download_xos download_services bootstrap onboarding podconfig
 
 prereqs:
 	sudo make -f ../common/Makefile.prereqs
@@ -31,6 +31,9 @@ bootstrap:
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
+
+download_xos:
+	make -f ../common/Makefile.services xos_core
 
 download_services:
 	make -f ../common/Makefile.services
@@ -168,6 +171,6 @@ images:
 	mkdir -p ./images
 
 .PHONY: local_containers
-local_containers:
+local_containers: prereqs download_xos
 	make -f ../common/Makefile.containers update_certs xos_devel synchronizer onboarding_synchronizer
 

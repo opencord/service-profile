@@ -59,6 +59,9 @@ update:
 
 $(XOS_DIR):
 	git -C ../.. clone https://gerrit.opencord.org/p/xos.git
+	# Make sure the configuratiosn dir doesn't exist
+	# TODO: remove this after configurations dir has been removed from xos repo
+	rm -rf $(XOS_DIR)/xos/configurations
 
 update_xos:
 	git -C $(XOS_DIR) pull

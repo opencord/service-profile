@@ -13,7 +13,7 @@ ADMIN_PASSWORD=letmein
 RUN_TOSCA_BOOTSTRAP=python ../common/run_tosca.py $(XOS_BOOTSTRAP_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
 RUN_TOSCA=python ../common/run_tosca.py $(XOS_UI_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
 
-frontend: prereqs dirs download_services bootstrap onboarding frontendconfig
+frontend: prereqs dirs download_xos download_services bootstrap onboarding frontendconfig
 
 prereqs:
 	sudo make -f ../common/Makefile.prereqs
@@ -22,6 +22,9 @@ dirs:
 	# if this directory doesn't exist, then docker-compose will create it with root permission
 	mkdir -p key_import
 	mkdir -p onboarding-docker-compose
+
+download_xos:
+	make -f ../common/Makefile.services xos_core
 
 download_services:
 	make -f ../common/Makefile.services
@@ -48,7 +51,7 @@ frontendconfig:
 	echo "[FRONTENDCONFIG]"
 	$(RUN_TOSCA) sample.yaml
 
-containers:
+containers: prereqs download_xos
 	make -f ../common/Makefile.containers xos_devel synchronizer onboarding_synchronizer
 
 stop:

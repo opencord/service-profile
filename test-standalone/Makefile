@@ -29,7 +29,7 @@ prepare: xos
 	sudo docker exec -i teststandalone_xos_ui_1 bash -c "cd /opt/xos/tests/api; npm install --production"
 	sudo docker exec teststandalone_xos_ui_1 pip install dredd_hooks
 
-xos: prereqs dirs download_services bootstrap onboarding
+xos: prereqs dirs download_xos download_services bootstrap onboarding
 
 prereqs:
 	sudo make -f ../common/Makefile.prereqs
@@ -45,6 +45,9 @@ bootstrap:
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh 9998
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run -e CONFIG_DIR=$(CONFIG_DIR) xos_bootstrap_ui python /opt/xos/tosca/run.py none - < xos.yaml
+
+download_xos:
+	make -f ../common/Makefile.services xos_core
 
 download_services:
 	make -f ../common/Makefile.services
@@ -113,7 +116,7 @@ base-container:
 devel-container: base-container
 	make -f ../common/Makefile.containers xos_devel synchronizer onboarding_synchronizer
 
-containers: devel-container
+containers: prereqs download_xos devel-container
 	make -f ../common/Makefile.containers xos_test
 
 stop:
