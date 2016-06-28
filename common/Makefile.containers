@@ -1,0 +1,26 @@
+include ../common/Makedefs
+
+local_containers: xos_devel synchronizer onboarding_synchronizer
+
+xos_devel:
+	cd $(XOS_DIR)/containers/xos; make devel
+
+xos_base:
+	cd $(XOS_DIR)/containers/xos; make base
+
+xos_test:
+	cd $(XOS_DIR)/containers/xos; make test
+
+synchronizer:
+	cd $(XOS_DIR)/containers/synchronizer; make
+
+onboarding_synchronizer:
+	cd $(XOS_DIR)/containers/onboarding_synchronizer; make
+
+update_certs:
+	echo "" > $(XOS_DIR)/containers/xos/local_certs.crt
+	for CRT in $$(ls /usr/local/share/ca-certificates/*) ; do \
+	        echo Adding Certificate: $$CRT ;\
+	        cat $$CRT >> $(XOS_DIR)/containers/xos/local_certs.crt ;\
+	        echo "" >> $(XOS_DIR)/containers/xos/local_certs.crt ;\
+	done
