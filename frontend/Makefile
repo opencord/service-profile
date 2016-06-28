@@ -79,8 +79,6 @@ mock-cord-pod: onboard-cord-pod
 	$(RUN_TOSCA) ../cord-pod/mgmt-net.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-vtn-vsg.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-volt-devices.yaml
-	sudo docker exec frontend_xos_ui_1 cp /opt/xos/configurations/cord-pod/xos_cord_config /opt/xos/xos_configuration/
-	sudo docker exec frontend_xos_ui_1 touch /opt/xos/xos/settings.py
 
 onboard-cord-pod:
 	sudo bash -c "echo somekey > key_import/vsg_rsa"
@@ -90,6 +88,7 @@ onboard-cord-pod:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/olt/xos/volt-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vsg/xos/vsg-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) xos-cord-branding.yaml
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vrouter
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/volt
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vsg
