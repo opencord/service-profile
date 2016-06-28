@@ -1,0 +1,12 @@
+include Makedefs
+
+local_containers: xos_devel synchronizer onboarding_synchronizer
+
+xos_devel:
+	cd $(XOS_DIR)/containers/xos; make devel
+
+synchronizer:
+	cd $(XOS_DIR)/containers/synchronizer; make
+
+onboarding_synchronizer:
+	cd $(XOS_DIR)/containers/onboarding_synchronizer; make
