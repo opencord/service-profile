@@ -58,12 +58,12 @@ update_services:
 onboarding:
 	echo "[ONBOARDING]"
 	bash ../common/wait_for_onboarding_ready.sh 9998 xos
-	sudo bash -c "echo somekey > key_import/vsg_rsa"
-	sudo bash -c "echo somekey > key_import/vsg_rsa.pub"
-	sudo bash -c "echo somekey > key_import/volt_rsa"
-	sudo bash -c "echo somekey > key_import/volt_rsa.pub"
-	sudo bash -c "echo somekey > key_import/onos_rsa"
-	sudo bash -c "echo somekey > key_import/onos_rsa.pub"
+	bash -c "echo somekey > key_import/vsg_rsa"
+	bash -c "echo somekey > key_import/vsg_rsa.pub"
+	bash -c "echo somekey > key_import/volt_rsa"
+	bash -c "echo somekey > key_import/volt_rsa.pub"
+	bash -c "echo somekey > key_import/onos_rsa"
+	bash -c "echo somekey > key_import/onos_rsa.pub"
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < ../common/disable-onboarding.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/olt/xos/volt-onboard.yaml

@@ -12,7 +12,7 @@ xos_bootstrap_ui:
         - xos_db
     volumes:
       - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config
-      - ../vtn/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
+      - ../cord-pod/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
       - ../../xos_services:/opt/xos_services
 
 xos_synchronizer_onboarding:
