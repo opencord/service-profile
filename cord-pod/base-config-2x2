@@ -1,27 +1,20 @@
 {
     "ports" : {
-    "of:0000000000000001/5" : {
+    "of:0000cc37ab6180ca/5" : {
         "interfaces" : [
             {
-                "ips" : [ "10.0.1.254/24" ]
+                "ips" : [ "10.6.1.254/24" ]
             }
         ]
     },
-    "of:0000000000000001/7" : {
+    "of:0000cc37ab6182d2/5" : {
         "interfaces" : [
             {
-                "ips" : [ "10.0.1.254/24" ]
+                "ips" : [ "10.6.2.254/24" ]
             }
         ]
     },
-    "of:0000000000000002/5" : {
-        "interfaces" : [
-            {
-                "ips" : [ "10.0.2.254/24" ]
-            }
-        ]
-    },
-    "of:0000000000000002/32" : {
+    "of:0000cc37ab6182d2/32" : {
         "interfaces" : [
             {
                 "name" : "internet-router",
@@ -40,71 +33,70 @@
     }
     },
     "devices" : {
-        "of:0000000000000001" : {
+        "of:0000cc37ab6180ca" : {
             "segmentrouting" : {
                 "name" : "Leaf-R1",
                 "nodeSid" : 101,
-                "routerIp" : "10.0.1.254",
+                "routerIp" : "10.6.0.8",
                 "routerMac" : "00:00:00:00:01:80",
                 "isEdgeRouter" : true,
                 "adjacencySids" : []
             }
         },
-        "of:0000000000000002" : {
+        "of:0000cc37ab6182d2" : {
             "segmentrouting" : {
                 "name" : "Leaf-R2",
                 "nodeSid" : 102,
-                "routerIp" : "10.0.2.254",
+                "routerIp" : "10.6.0.11"
                 "routerMac" : "00:00:00:00:02:80",
                 "isEdgeRouter" : true,
                 "adjacencySids" : []
             }
         },
-        "of:0000000000000191" : {
+        "of:0000cc37ab618048" : {
             "segmentrouting" : {
                 "name" : "Spine-R1",
                 "nodeSid" : 103,
-                "routerIp" : "192.168.0.11",
+                "routerIp" : "10.6.0.18",
                 "routerMac" : "00:00:01:00:11:80",
                 "isEdgeRouter" : false,
                 "adjacencySids" : []
             }
         },
-        "of:0000000000000192" : {
+        "of:0000cc37ab617ec2" : {
             "segmentrouting" : {
                 "name" : "Spine-R2",
                 "nodeSid" : 104,
-                "routerIp" : "192.168.0.22",
+                "routerIp" : "10.6.0.17",
                 "routerMac" : "00:00:01:00:22:80",
                 "isEdgeRouter" : false,
                 "adjacencySids" : []
             }
         }
     },
-    "hosts" : {},
     "links" : {
-        "of:0000000000000001/1-of:0000000000000191/1" : {
+        "of:0000cc37ab6180ca/1-of:0000cc37ab618048/1" : {
             "basic" : {}
         },
-        "of:0000000000000001/3-of:0000000000000192/1" : {
+        "of:0000cc37ab6180ca/3-of:0000cc37ab617ec2/1" : {
             "basic" : {}
         },
-        "of:0000000000000002/1-of:0000000000000191/3" : {
+        "of:0000cc37ab6182d2/1-of:0000cc37ab618048/3" : {
             "basic" : {}
         },
-        "of:0000000000000002/3-of:0000000000000192/3" : {
+        "of:0000cc37ab6182d2/3-of:0000cc37ab617ec2/3" : {
             "basic" : {}
         },
-        "of:0000000000000191/1-of:0000000000000001/1" : {
+        "of:0000cc37ab618048/1-of:0000cc37ab6180ca/1" : {
             "basic" : {}
         },
-        "of:0000000000000192/1-of:0000000000000001/3" : {
+        "of:0000cc37ab617ec2/1-of:0000cc37ab6180ca/3" : {
             "basic" : {}
         },
-        "of:0000000000000191/3-of:0000000000000002/1" : {
+        "of:0000cc37ab618048/3-of:0000cc37ab6182d2/1" : {
             "basic" : {}
         },
-        "of:0000000000000192/3-of:0000000000000002/3" : {
+        "of:0000cc37ab617ec2/3-of:0000cc37ab6182d2/3" : {
             "basic" : {}
         }
     },
@@ -123,35 +115,21 @@
                 "vRouterMacs" : [
                     "a4:23:05:34:56:78", "a4:23:05:34:56:79"
                 ],
-                "vRouterId" : "of:0000000000000002",
+                "vRouterId" : "of:0000cc37ab6182d2",
                 "suppressSubnet" : [
-                    "of:0000000000000002/31", "of:0000000000000002/32"
+                    "of:0000cc37ab6182d2/31", "of:0000cc37ab6182d2/32"
                 ],
                 "suppressHostByProvider" : [
                     "org.onosproject.provider.host"
                 ],
                 "suppressHostByPort" : [
-                    "of:0000000000000002/31", "of:0000000000000002/32"
-                ]
-            },
-            "xconnect": {
-                "of:0000000000000001": [
-                    {
-                        "vlan": 10,
-                        "ports": [5, 73],
-                        "name": "OLT1"
-                    },
-                    {
-                        "vlan": 20,
-                        "ports": [5, 89],
-                        "name": "OLT2"
-                    }
+                    "of:0000cc37ab6182d2/31", "of:0000cc37ab6182d2/32"
                 ]
             }
         },
         "org.onosproject.router" : {
             "router" : {
-                "controlPlaneConnectPoint" : "of:0000000000000002/31",
+                "controlPlaneConnectPoint" : "of:0000cc37ab6182d2/31",
                 "ospfEnabled" : "true",
                 "pimEnabled" : "true",
                 "interfaces" : [ "internet-router" ]
