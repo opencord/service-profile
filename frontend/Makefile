@@ -83,7 +83,8 @@ clean-config-folder:
 
 mock-cord-pod: onboard-cord-pod
 	$(RUN_TOSCA) ../cord-pod/mgmt-net.yaml
-	$(RUN_TOSCA) ../cord-pod/cord-vtn-vsg.yaml
+	$(RUN_TOSCA) ../cord-pod/cord-services.yaml
+	$(RUN_TOSCA) ../cord-pod/cord-test-subscriber.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-volt-devices.yaml
 
 onboard-cord-pod:
