@@ -85,8 +85,11 @@ fabric: fabric.yaml
 
 cord: vsg_custom_images
 	$(RUN_TOSCA) mgmt-net.yaml
-	$(RUN_TOSCA) cord-vtn-vsg.yaml
+	$(RUN_TOSCA) cord-services.yaml
 	$(RUN_TOSCA) cord-volt-devices.yaml
+
+cord-subscriber:
+	$(RUN_TOSCA) cord-test-subscriber.yaml
 
 clean-nodes:
 	rm -f nodes.yaml
