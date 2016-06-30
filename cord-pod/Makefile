@@ -148,7 +148,10 @@ rm:
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) rm
 
 showlogs:
-	sudo MYIP=$(MYIP) docker-compose logs
+	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) logs
+
+showlogs_bootstrap:
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) logs
 
 cleanup: stop rm
 	./cleanup.sh
