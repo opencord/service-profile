@@ -55,6 +55,9 @@ download_services:
 update_services:
 	make -f ../common/Makefile.services update
 
+update_xos:
+	make -f ../common/Makefile.services update_xos
+
 onboarding:
 	echo "[ONBOARDING]"
 	bash ../common/wait_for_onboarding_ready.sh 9998 xos
