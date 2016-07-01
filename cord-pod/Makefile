@@ -102,6 +102,10 @@ update-nodes: nodes.yaml
 
 new-nodes: clean-nodes update-nodes vtn
 
+rebuild:
+	bash ../common/rebuild.sh $(XOS_BOOTSTRAP_PORT)
+	bash ../common/wait_for_onboarding_ready.sh 81 xos
+
 exampleservice: onboard-exampleservice
 	$(RUN_TOSCA) pod-exampleservice.yaml
 
