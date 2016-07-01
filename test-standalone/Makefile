@@ -122,6 +122,10 @@ devel-container: base-container
 containers: prereqs download_xos devel-container
 	make -f ../common/Makefile.containers xos_test
 
+rebuild:
+	bash ../common/rebuild.sh $(XOS_BOOTSTRAP_PORT)
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+
 stop:
 	test ! -s $(DOCKER_COMPOSE_YML) || sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) stop
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) stop
