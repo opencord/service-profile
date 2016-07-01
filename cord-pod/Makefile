@@ -120,6 +120,7 @@ onboard-monitoringservice: download-monitoringservice
 	sudo cp id_rsa key_import/monitoringservice_rsa
 	sudo cp id_rsa.pub key_import/monitoringservice_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/monitoring/xos/monitoring-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) monitoring_synchronizer.yaml
 	bash ../common/wait_for_onboarding_ready.sh 81 services/monitoring
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	bash ../common/wait_for_xos_port.sh 80
