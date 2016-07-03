@@ -186,5 +186,5 @@ images:
 
 .PHONY: local_containers
 local_containers: prereqs download_xos
-	make -f ../common/Makefile.containers update_certs xos_devel synchronizer onboarding_synchronizer
+	make -f ../common/Makefile.containers update_certs xos_base xos_devel synchronizer onboarding_synchronizer
 
