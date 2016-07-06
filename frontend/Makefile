@@ -122,5 +122,5 @@ exampleservice:
 	sudo bash -c "echo somekey > key_import/exampleservice_rsa"
 	sudo bash -c "echo somekey > key_import/exampleservice_rsa.pub"
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/exampleservice/xos/exampleservice-onboard.yaml
-	bash ../common/wait_for_onboarding_ready.sh 9998 services/exampleservice
-	bash ../common/wait_for_onboarding_ready.sh 9998 xos
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/exampleservice
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
