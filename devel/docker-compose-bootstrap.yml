@@ -44,6 +44,8 @@ xos_synchronizer_openstack:
         org.xosproject.target: openstack
     links:
         - xos_db
+    extra_hosts:
+        - ctl:${MYIP}
     volumes:
         - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config:ro
         - ../setup:/root/setup:ro
