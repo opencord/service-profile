@@ -26,3 +26,23 @@ topology_template:
           - xos:
              node: xos
              relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/api/utility:
+      type: tosca.nodes.XOSVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/api/utility, ENV_VAR ] }
+          read_only: false
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/tests:
+      type: tosca.nodes.XOSVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/tests, ENV_VAR ] }
+          read_only: false
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS
