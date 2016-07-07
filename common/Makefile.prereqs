@@ -39,3 +39,17 @@ endif
 /usr/local/bin/docker-compose:
 	sudo bash -c "curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
 	sudo chmod +x /usr/local/bin/docker-compose
+
+rebuild_docker:
+	stat docker_build || git clone https://github.com/dotcloud/docker.git docker_build
+	sudo make -C docker_build build
+	sudo make -C docker_build binary
+	sudo service docker stop
+	sudo mv /usr/bin/docker /usr/bin/docker-old
+	sudo cp docker_build/bundles/latest/binary-client/docker /usr/bin/
+	sudo cp docker_build/bundles/latest/binary-daemon/dockerd /usr/bin/
+	sudo cp docker_build/bundles/latest/binary-daemon/docker-containerd /usr/bin/
+	sudo cp docker_build/bundles/latest/binary-daemon/docker-containerd-shim /usr/bin/
+	sudo cp docker_build/bundles/latest/binary-daemon/docker-containerd-ctr /usr/bin/
+	sudo cp docker_build/bundles/latest/binary-daemon/docker-runc /usr/bin/
+	sudo service docker start

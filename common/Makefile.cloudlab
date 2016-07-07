@@ -10,6 +10,7 @@ all: prereqs admin-openrc flat_name nodes_yaml public_key private_key ceilometer
 prereqs:
 	make -f Makefile.prereqs
 	mkdir -p $(SETUPDIR)
+	sudo ./check_docker_version.sh
 
 admin-openrc:
 	sudo cat /root/setup/admin-openrc.sh > $(SETUPDIR)/admin-openrc.sh
