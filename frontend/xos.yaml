@@ -36,22 +36,22 @@ topology_template:
               node: xos
               relationship: tosca.relationships.UsedByXOS
 
-    /opt/xos/core/static:
+    /opt/xos/core:
           type: tosca.nodes.XOSVolume
           properties:
-              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/static/, ENV_VAR ] }
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/, ENV_VAR ] }
               read_only: false
           requirements:
               - xos:
                   node: xos
                   relationship: tosca.relationships.UsedByXOS
 
-    /opt/xos/core/xoslib/static:
-      type: tosca.nodes.XOSVolume
-      properties:
-          host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/static/, ENV_VAR ] }
-          read_only: false
-      requirements:
-          - xos:
-              node: xos
-              relationship: tosca.relationships.UsedByXOS
+    /opt/xos/templates:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/templates/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
