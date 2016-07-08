@@ -117,8 +117,9 @@ onboard-exampleservice:
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	bash ../common/wait_for_xos_port.sh 80
 
-cord-monitoringservice: ceilometer_custom_images cord onboard-monitoringservice
+cord-monitoringservice: ceilometer_custom_images onboard-monitoringservice
 	$(RUN_TOSCA) monitoringservice.yaml
+	$(RUN_TOSCA) monitoringtenant.yaml
 
 onboard-monitoringservice: download-monitoringservice
 	sudo cp id_rsa key_import/monitoringservice_rsa
@@ -168,15 +169,19 @@ cleanup: stop rm
 	./cleanup.sh
 	bash -c "source ./admin-openrc.sh; nova list --all-tenants; neutron net-list"
 
-ceilometer_custom_images: images/ceilometer-trusty-server-multi-nic.img
-	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || glance image-create --name ceilometer-trusty-server-multi-nic --disk-format qcow2 --file ./images/ceilometer-trusty-server-multi-nic.img --container-format bare"
+ceilometer_custom_images: images/ceilometer-service-trusty-server-multi-nic.img images/ceilometer-trusty-server-multi-nic.img
+	#TODO: Add logic for service VM custom image (ceilometer-service-trusty-server-multi-nic)
+	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || glance image-create --name ceilometer-trusty-server-multi-nic --disk-format qcow2 --file ./images/ceilometer-trusty-server-multi-nic.compressed.qcow2 --container-format bare"
 
 vsg_custom_images: images/vsg-1.0.img
 	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.0 || glance image-create --name vsg-1.0 --disk-format qcow2 --file ./images/vsg-1.0.img --container-format bare"
 
 images/ceilometer-trusty-server-multi-nic.img: images
-	wget http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -P ./images
-	mv ./images/ceilometer-trusty-server-multi-nic.compressed.qcow2 ./images/ceilometer-trusty-server-multi-nic.img
+	bash -c "source ../setup/admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || wget http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -P ./images"
+
+images/ceilometer-service-trusty-server-multi-nic.img: images
+	#TODO: Add logic for service VM custom image (ceilometer-service-trusty-server-multi-nic) once image is uploaded into vicci portal
+	#bash -c "source ../setup/admin-openrc.sh; glance image-show ceilometer-service-trusty-server-multi-nic || wget http://www.vicci.org/cord/ceilometer-service-trusty-server-multi-nic.compressed.qcow2 -P ./images"
 
 images/vsg-1.0.img: images
 	wget http://www.vicci.org/cord/vsg-1.0.img -P ./images
