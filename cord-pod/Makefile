@@ -184,7 +184,7 @@ images/ceilometer-service-trusty-server-multi-nic.img: images
 	#bash -c "source ../setup/admin-openrc.sh; glance image-show ceilometer-service-trusty-server-multi-nic || wget http://www.vicci.org/cord/ceilometer-service-trusty-server-multi-nic.compressed.qcow2 -P ./images"
 
 images/vsg-1.0.img: images
-	wget http://www.vicci.org/cord/vsg-1.0.img -P ./images
+	[ -s images/vsg-1.0.img ] || wget http://www.vicci.org/cord/vsg-1.0.img -P ./images
 
 images:
 	mkdir -p ./images
