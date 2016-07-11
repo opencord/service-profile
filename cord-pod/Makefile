@@ -24,7 +24,7 @@ dirs:
 	mkdir -p onboarding-docker-compose
 
 bootstrap:
-	echo "[BOOTSTRAP]"
+	@echo "[BOOTSTRAP]"
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh 81
@@ -45,7 +45,7 @@ update_xos:
 	make -f ../common/Makefile.services update_xos
 
 onboarding:
-	echo "[ONBOARDING]"
+	@echo "[ONBOARDING]"
 	# on-board any services here
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
@@ -75,7 +75,7 @@ onboarding:
 	bash ../common/wait_for_xos_port.sh 80
 
 podconfig: nodes.yaml images.yaml
-	echo "[PODCONFIG]"
+	@echo "[PODCONFIG]"
 	$(RUN_TOSCA) setup.yaml
 	$(RUN_TOSCA) nodes.yaml
 	$(RUN_TOSCA) images.yaml

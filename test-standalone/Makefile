@@ -40,7 +40,7 @@ dirs:
 	mkdir -p onboarding-docker-compose
 
 bootstrap:
-	echo "[BOOTSTRAP]"
+	@echo "[BOOTSTRAP]"
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh 9998
@@ -59,7 +59,7 @@ update_xos:
 	make -f ../common/Makefile.services update_xos
 
 onboarding:
-	echo "[ONBOARDING]"
+	@echo "[ONBOARDING]"
 	bash ../common/wait_for_onboarding_ready.sh 9998 xos
 	bash -c "echo somekey > key_import/vsg_rsa"
 	bash -c "echo somekey > key_import/vsg_rsa.pub"

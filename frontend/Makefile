@@ -36,7 +36,7 @@ update_xos:
 	make -f ../common/Makefile.services update_xos
 
 bootstrap:
-	echo "[BOOTSTRAP]"
+	@echo "[BOOTSTRAP]"
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
@@ -45,13 +45,13 @@ bootstrap:
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
 
 onboarding:
-	echo "[ONBOARDING]"
+	@echo "[ONBOARDING]"
 	# on-board any services here
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 frontendconfig:
-	echo "[FRONTENDCONFIG]"
+	@echo "[FRONTENDCONFIG]"
 	$(RUN_TOSCA) sample.yaml
 
 containers: prereqs download_xos
