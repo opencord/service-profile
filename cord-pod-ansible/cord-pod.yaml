@@ -1,0 +1,8 @@
+---
+
+- name: Local Environment
+  hosts: head
+  sudo: yes
+  roles:
+    - prereqs
+    - local_environment

@@ -1,0 +1,11 @@
+---
+- name: create key_import directory
+  file: 
+      name=key_import 
+      state=directory
+
+- name: create onboarding-docker-compose directory
+  file:
+      name=onboarding-docker-compose
+      state=directory
+ 
