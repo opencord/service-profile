@@ -1,0 +1,5 @@
+---
+- name: download xos from repo
+  git:
+     repo={{ xos_repo }}
+     dest={{ xos_core_dir }}
