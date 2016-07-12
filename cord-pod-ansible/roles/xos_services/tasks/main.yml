@@ -1,0 +1,15 @@
+---
+- name: download xos services
+  git:
+     repo="{{ item.repo }}"
+     dest="{{ xos_services_dir }}/{{ item.name }}"
+  with_items:
+     - { name: "exampleservice", repo: "https://gerrit.opencord.org/p/exampleservice.git" }
+     - { name: "volt", repo: "https://gerrit.opencord.org/p/olt.git" }
+     - { name: "vsg", repo: "https://gerrit.opencord.org/p/vsg.git" }
+     - { name: "vtn", repo: "https://gerrit.opencord.org/p/vtn.git" }
+     - { name: "vrouter", repo: "https://gerrit.opencord.org/p/vrouter.git" }
+     - { name: "vtr", repo: "https://gerrit.opencord.org/p/vtr.git" }
+     - { name: "onos-service", repo: "https://gerrit.opencord.org/p/onos-service.git" }
+     - { name: "fabric", repo: "https://gerrit.opencord.org/p/fabric.git" }
+     - { name: "monitoring", repo: "https://gerrit.opencord.org/p/monitoring.git" }
