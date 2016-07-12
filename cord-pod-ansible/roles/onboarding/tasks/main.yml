@@ -1,0 +1,30 @@
+---
+
+#- name: disable onboarding
+#  uri:
+#    url="http://127.0.0.1:{{ bootstrap_port }}/utility/tosca/run"
+#    user={{ bootstrap_user }}
+#    password={{ bootstrap_password }}
+#    body= {{ "{" }} 'recipe': {{ lookup('file', disable_tosca_yaml) }} {{ "}" }}
+
+- name: disable onboarding
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', disable_onboarding_tosca_yml) }}
+
+- name: onboard services
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', item) }}
+  with_items: "{{ onboard_services | default([]) }}"
+
+- name: enable onboarding
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', enable_onboarding_tosca_yml) }}
