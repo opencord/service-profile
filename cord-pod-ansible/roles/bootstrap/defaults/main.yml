@@ -1,0 +1,3 @@
+fixtures_yml: "{{ playbook_dir }}/../common/fixtures.yaml"
+
+mydeployment_yml: "{{ playbook_dir }}/../common/mydeployment.yaml"
