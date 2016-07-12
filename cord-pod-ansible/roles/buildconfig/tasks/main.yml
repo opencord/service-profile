@@ -1,0 +1,4 @@
+---
+
+- name: make nodes.yaml
+  shell: export SETUPDIR={{ setup_dir }}; {{ base_dir }}/common/make-nodes-yaml.sh
