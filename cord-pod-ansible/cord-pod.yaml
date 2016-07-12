@@ -1,0 +1,6 @@
+---
+
+- name: Prereqs
+  hosts: head
+  roles:
+    - prereqs
