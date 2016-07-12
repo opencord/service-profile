@@ -1,0 +1,41 @@
+---
+- name: create key_import directory
+  file: 
+      name=key_import 
+      state=directory
+
+- name: create onboarding-docker-compose directory
+  file:
+      name=onboarding-docker-compose
+      state=directory
+
+- name: create images directory
+  file:
+      name=images
+      state=directory
+
+- name: create images_staging directory
+  file:
+      name=images_staging
+      state=directory
+
+- name: download xos from repo
+  git:
+     repo={{ xos_repo }}
+     dest={{ xos_core_dir }}
+
+- name: download xos services
+  git:
+     repo="{{ item.repo }}"
+     dest="{{ xos_services_dir }}/{{ item.name }}"
+  with_items:
+     - { name: "exampleservice", repo: "https://gerrit.opencord.org/p/exampleservice.git" }
+     - { name: "olt", repo: "https://gerrit.opencord.org/p/olt.git" }
+     - { name: "vsg", repo: "https://gerrit.opencord.org/p/vsg.git" }
+     - { name: "vtn", repo: "https://gerrit.opencord.org/p/vtn.git" }
+     - { name: "vrouter", repo: "https://gerrit.opencord.org/p/vrouter.git" }
+     - { name: "vtr", repo: "https://gerrit.opencord.org/p/vtr.git" }
+     - { name: "onos-service", repo: "https://gerrit.opencord.org/p/onos-service.git" }
+     - { name: "fabric", repo: "https://gerrit.opencord.org/p/fabric.git" }
+     - { name: "monitoring", repo: "https://gerrit.opencord.org/p/monitoring.git" }
+ 

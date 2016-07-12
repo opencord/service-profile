@@ -1,0 +1,4 @@
+---
+
+image_temp_dir: "{{ config_dir }}/images_staging"
+image_dest_dir: "{{ config_dir }}/images"
