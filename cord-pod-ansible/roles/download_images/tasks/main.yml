@@ -1,0 +1,23 @@
+---
+
+- name: check image existence
+  shell: "source {{ setup_dir }}/admin_openrc.sh; glance image-show {{ item.name }}"
+  register: checked_images
+  with_items: "{{ images | default([]) }}"
+
+- name: download images
+  get_url:
+    url={{ item.item.url }}
+    dest={{ image_temp_dir}}/{{ item.item.filename }}
+  when: item.rc != 0
+  with_items: "{{ checked_images.results | default([]) }}"
+
+- name: move images to images dir
+  command: "mv {{ image_temp_dir }}/{{ item.item.name }} {{ image_dest_dir}}/{{ item.item.name }}"
+  when: item.rc != 0
+  with_items: "{{ checked_images.results | default([]) }}"
+
+- name: add images to glance
+  shell: "source {{ setup_dir }}/admin_openrc.sh; glance image-create --name {{ item.item.name }} --disk-format qcow2 --file ./images/{{ item.item.filename }} --container-format bare"
+  when: item.rc != 0
+  with_items: "{{ checked_images.results | default([]) }}"
