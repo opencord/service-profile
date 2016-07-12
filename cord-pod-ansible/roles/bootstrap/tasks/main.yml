@@ -1,0 +1,32 @@
+---
+
+- name: remove old docker-compose-bootstrap file
+  file:
+      path=onboarding-docker-compose/docker-compose.yml
+      state=absent
+
+- name: run docker-compose to start bootstrapping
+  shell: CONFIG_DIR={{ config_dir }} docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} up -d
+    chdir={{ config_dir }}
+  sudo: true
+
+- name: wait for XOS bootstrap_ui to come online
+  uri:
+      url: "http://0.0.0.0:{{ bootstrap_port }}/"
+  register: result
+  retries: 120
+  delay: 1
+  until: result['status']|default(0)==200
+
+- name: add fixtures
+  shell: docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < {{ fixtures_yml }}
+
+- name: add mydeployment
+  shell: docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < {{ mydeployment_yml }}
+
+- name: run tosca recipe xos.yaml
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', xos_tosca_yml) }}
