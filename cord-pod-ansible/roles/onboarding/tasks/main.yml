@@ -1,0 +1,77 @@
+---
+
+#- name: disable onboarding
+#  uri:
+#    url="http://127.0.0.1:{{ bootstrap_port }}/utility/tosca/run"
+#    user={{ bootstrap_user }}
+#    password={{ bootstrap_password }}
+#    body= {{ "{" }} 'recipe': {{ lookup('file', disable_tosca_yaml) }} {{ "}" }}
+
+- name: disable onboarding
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', disable_onboarding_tosca_yml) }}
+
+- name: install private keys
+  copy:
+     dest="{{ key_import_dir }}/{{ item.name }}"
+     src="{{ item.private_fn }}"
+  with_items: "{{ onboard_keys | default([]) }}"
+
+- name: install public keys
+  copy:
+     dest="{{ key_import_dir }}/{{ item.name }}.pub"
+     src="{{ item.public_fn }}"
+  with_items: "{{ onboard_keys | default([]) }}"
+
+- name: onboard services
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', item.yaml) }}
+  with_items: "{{ onboard_services | default([]) }}"
+
+- name: run synchronizers.yml tosca recipe
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', synchronizers_yml) }}
+  when: synchronizers_yml is defined
+
+- name: enable onboarding
+  xostosca:
+     port={{ bootstrap_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', enable_onboarding_tosca_yml) }}
+
+- name: wait for onboarding ready for service {{ item.name }}
+  uri:
+      url: "http://0.0.0.0:{{ bootstrap_port }}/api/utility/onboarding/services/{{ item.name }}/ready/"
+      return_content: true
+  register: result
+  retries: 60
+  delay: 5
+  until: result.content=="true"
+  with_items: "{{ onboard_services | default([]) }}"
+
+- name: wait for onboarding ready for xos core
+  uri:
+      url: "http://0.0.0.0:{{ bootstrap_port }}/api/utility/onboarding/xos/ready/"
+      return_content: true
+  register: result
+  retries: 60
+  delay: 5
+  until: result.content=="true"
+
+- name: wait for XOS ui to come online
+  uri:
+      url: "http://0.0.0.0:{{ ui_port }}/"
+  register: result
+  retries: 120
+  delay: 1
+  until: result['status']|default(0)==200

@@ -1,0 +1,20 @@
+---
+
+- name: check image existence
+  command: "bash -c \"source {{ setup_dir }}/admin-openrc.sh; glance image-show {{ item.name }}\""
+  ignore_errors: yes
+  register: checked_images
+  with_items: "{{ images | default([]) }}"
+
+- name: download images
+  get_url:
+    url={{ item.item.url }}
+    dest={{ image_dest_dir }}/{{ item.item.filename }}
+    tmp_dest={{ image_temp_dir }}
+  when: item.rc != 0
+  with_items: "{{ checked_images.results | default([]) }}"
+
+- name: add images to glance
+  command: "bash -c \"source {{ setup_dir }}/admin-openrc.sh; glance image-create --name {{ item.item.name }} --disk-format qcow2 --file ./images/{{ item.item.filename }} --container-format bare\""
+  when: item.rc != 0
+  with_items: "{{ checked_images.results | default([]) }}"

@@ -1,0 +1,9 @@
+---
+
+- name: run config recipe {{ item.name }}
+  xostosca:
+     port={{ ui_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', item.yaml) }}
+  with_items: "{{ config_recipes | default([]) }}"

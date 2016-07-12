@@ -1,0 +1,4 @@
+---
+
+bootstrap_yml: "{{ config_dir }}/docker-compose-bootstrap.yml"
+docker_compose_yml: "{{ config_dir }}/onboarding-docker-compose/docker-compose.yml"

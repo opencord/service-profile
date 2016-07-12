@@ -1,0 +1,4 @@
+---
+
+- name: build local containers
+  shell: make -f {{ config_dir }}/../common/Makefile.containers update_certs xos_base xos_devel synchronizer onboarding_synchronizer

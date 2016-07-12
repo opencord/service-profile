@@ -1,0 +1,12 @@
+---
+
+- name: Include vars
+  hosts: head
+  tasks:
+    - include_vars: vars/cord-pod_defaults.yml
+
+- name: Stop
+  hosts: head
+  roles:
+    - stop
+
