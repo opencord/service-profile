@@ -1,0 +1,13 @@
+---
+
+- name: make nodes.yaml
+  shell: export SETUPDIR={{ setup_dir }}; bash {{ config_dir }}/../common/make-nodes-yaml.sh
+
+- name: make images.yaml
+  shell: export SETUPDIR={{ setup_dir }}; bash {{ config_dir }}/../common/make-images-yaml.sh
+
+- name: make vtn-external.yaml
+  shell: export SETUPDIR={{ setup_dir }}; bash {{ config_dir }}/scripts/make-vtn-external-yaml.sh
+
+- name: make fabric.yaml
+  shell: export SETUPDIR={{ setup_dir }}; bash {{ config_dir }}/scripts/make-fabric-yaml.sh
