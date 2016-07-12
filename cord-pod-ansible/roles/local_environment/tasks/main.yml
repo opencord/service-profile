@@ -1,0 +1,13 @@
+---
+- name: create key_import directory
+  file: 
+      name=key_import 
+      state=directory
+      owner={{ ansible_ssh_user }}
+
+- name: create onboarding-docker-compose directory
+  file:
+      name=onboarding-docker-compose
+      state=directory
+      owner={{ ansible_ssh_user }}
+ 
