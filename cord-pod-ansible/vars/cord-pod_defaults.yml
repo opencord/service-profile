@@ -1,0 +1,7 @@
+---
+
+xos_repo: https://gerrit.opencord.org/p/xos.git
+
+xos_core_dir: {{ base_dir }}/xos
+
+xos_services_dir: {{ base_dir }}/xos

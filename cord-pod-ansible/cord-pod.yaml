@@ -1,0 +1,14 @@
+---
+
+- name: Include vars
+  hosts: head
+  roles:
+    - include_vars: vars/cord-pod_defaults.yml
+
+- name: Local Environment
+  hosts: head
+  sudo: yes
+  roles:
+    - prereqs
+    - local_environment
+    - xos_core
