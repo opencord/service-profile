@@ -1,0 +1,14 @@
+---
+
+xos_repo: https://gerrit.opencord.org/p/xos.git
+
+base_dir: "{{ playbook_dir }}/../.."
+
+xos_core_dir: "{{ base_dir }}/xos"
+
+xos_services_dir: "{{ base_dir }}/xos"
+
+bootstrap_yml: "{{ playbook_dir }}/docker-compose-bootstrap.yaml"
+
+bootstrap_project: "cordpodbs"
+

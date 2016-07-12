@@ -1,0 +1,20 @@
+---
+
+- name: remove old docker-compose-bootstrap file
+  file:
+      path=onboarding-docker-compose/docker-compose.yml
+      state=absent
+
+- name: run docker-compose to start bootstrapping
+  command: CONFIG_DIR={{ playbook_dir }} docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} up -d
+  sudo: true
+
+- name: wait for XOS bootstrap_ui to come online
+  wait_for: 
+      port={{ bootstrap_port }}
+
+- name: add fixtures
+  shell: docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < {{ fixtures_yml }}
+
+- name: add mydeployment
+  shell: docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < {{ mydeployment_yml }}
