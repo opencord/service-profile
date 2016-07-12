@@ -1,0 +1,12 @@
+---
+
+- name: check to see if onboarding yaml is present
+  stat: path=onboarding-docker-compose/docker-compose.yml
+  register: onboarding_compose
+
+- name: stop onboarded containers
+  shell: docker-compose -p {{ docker_project }} -f {{ docker_compose_yml }} rm -f
+  when: onboarding_compose.stat.exists == True
+
+- name: stop bootstrap containers
+  shell: docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} rm -f
