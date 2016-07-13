@@ -78,8 +78,14 @@ rm: stop
 ps:
 	sudo docker-compose ps
 
-enter-xos:
+enter-ui:
 	sudo docker exec -ti frontend_xos_ui_1 bash
+
+enter-bootstrap-ui:
+	sudo docker exec -ti frontendbs_xos_bootstrap_ui_1 bash
+
+enter-db:
+	sudo docker exec -ti frontendbs_xos_db_1 bash
 
 django-restart:
 	sudo docker exec frontend_xos_ui_1 touch /opt/xos/xos/settings.py

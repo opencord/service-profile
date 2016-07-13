@@ -16,5 +16,5 @@ Vagrant.configure("2") do |config|
   end
 
   # make the frontend config
-  config.vm.provision "shell", inline: "cd /opt/service-profile/frontend/ && make"
+  config.vm.provision "shell", inline: "cd /opt/service-profile/frontend/ && make containers && make"
  end
