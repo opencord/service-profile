@@ -68,8 +68,14 @@ rm: stop
 ps:
 	sudo docker-compose ps
 
-enter-xos:
+enter-ui:
 	sudo docker exec -ti frontend_xos_ui_1 bash
+
+enter-bootstrap-ui:
+	sudo docker exec -ti frontendbs_xos_bootstrap_ui_1 bash
+
+enter-db:
+	sudo docker exec -ti frontendbs_xos_db_1 bash
 
 django-restart:
 	sudo docker exec frontend_xos_ui_1 touch /opt/xos/xos/settings.py
@@ -113,3 +119,4 @@ exampleservice:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/exampleservice/xos/exampleservice-onboard.yaml
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/exampleservice
 	bash ../common/wait_for_onboarding_ready.sh 9998 xos
+
