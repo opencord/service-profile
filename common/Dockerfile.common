@@ -58,8 +58,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python-neutronclient
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python-glanceclient
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python-ceilometerclient
 
-RUN pip install django_rest_swagger
-
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python-setuptools
 RUN easy_install python_gflags
 RUN easy_install --upgrade httplib2
