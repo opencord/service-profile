@@ -1,0 +1,139 @@
+{
+    "ports" : {
+    "of:0000cc37ab6180ca/5" : {
+        "interfaces" : [
+            {
+                "ips" : [ "10.6.1.254/24" ]
+            }
+        ]
+    },
+    "of:0000cc37ab6182d2/5" : {
+        "interfaces" : [
+            {
+                "ips" : [ "10.6.2.254/24" ]
+            }
+        ]
+    },
+    "of:0000cc37ab6182d2/32" : {
+        "interfaces" : [
+            {
+                "name" : "internet-router",
+                "ips" : [ "10.231.254.202/30" ],
+                "mac" : "00:16:3e:4b:5a:04"
+            }
+        ],
+        "pimInterface" : {
+            "interfaceName" : "internet-router",
+            "enabled" : true,
+            "helloInterval" : 1,
+            "holdTime" : 3,
+            "propagationDelay" : 500,
+            "overrideInterval" : 2500
+         }
+    }
+    },
+    "devices" : {
+        "of:0000cc37ab6180ca" : {
+            "segmentrouting" : {
+                "name" : "Leaf-R1",
+                "nodeSid" : 101,
+                "routerIp" : "10.6.0.8",
+                "routerMac" : "00:00:00:00:01:80",
+                "isEdgeRouter" : true,
+                "adjacencySids" : []
+            }
+        },
+        "of:0000cc37ab6182d2" : {
+            "segmentrouting" : {
+                "name" : "Leaf-R2",
+                "nodeSid" : 102,
+                "routerIp" : "10.6.0.11",
+                "routerMac" : "00:00:00:00:02:80",
+                "isEdgeRouter" : true,
+                "adjacencySids" : []
+            }
+        },
+        "of:0000cc37ab618048" : {
+            "segmentrouting" : {
+                "name" : "Spine-R1",
+                "nodeSid" : 103,
+                "routerIp" : "10.6.0.18",
+                "routerMac" : "00:00:01:00:11:80",
+                "isEdgeRouter" : false,
+                "adjacencySids" : []
+            }
+        },
+        "of:0000cc37ab617ec2" : {
+            "segmentrouting" : {
+                "name" : "Spine-R2",
+                "nodeSid" : 104,
+                "routerIp" : "10.6.0.17",
+                "routerMac" : "00:00:01:00:22:80",
+                "isEdgeRouter" : false,
+                "adjacencySids" : []
+            }
+        }
+    },
+    "links" : {
+        "of:0000cc37ab6180ca/1-of:0000cc37ab618048/1" : {
+            "basic" : {}
+        },
+        "of:0000cc37ab6180ca/3-of:0000cc37ab617ec2/1" : {
+            "basic" : {}
+        },
+        "of:0000cc37ab6182d2/1-of:0000cc37ab618048/3" : {
+            "basic" : {}
+        },
+        "of:0000cc37ab6182d2/3-of:0000cc37ab617ec2/3" : {
+            "basic" : {}
+        },
+        "of:0000cc37ab618048/1-of:0000cc37ab6180ca/1" : {
+            "basic" : {}
+        },
+        "of:0000cc37ab617ec2/1-of:0000cc37ab6180ca/3" : {
+            "basic" : {}
+        },
+        "of:0000cc37ab618048/3-of:0000cc37ab6182d2/1" : {
+            "basic" : {}
+        },
+        "of:0000cc37ab617ec2/3-of:0000cc37ab6182d2/3" : {
+            "basic" : {}
+        }
+    },
+    "apps" : {
+        "org.onosproject.core" : {
+            "core" : {
+                "linkDiscoveryMode" : "STRICT"
+            },
+            "multicast": {
+                "ingressVlan": "None",
+                "egressVlan": "None"
+            }
+        },
+        "org.onosproject.segmentrouting" : {
+            "segmentrouting" : {
+                "vRouterMacs" : [
+                    "a4:23:05:34:56:78", "a4:23:05:34:56:79"
+                ],
+                "vRouterId" : "of:0000cc37ab6182d2",
+                "suppressSubnet" : [
+                    "of:0000cc37ab6182d2/31", "of:0000cc37ab6182d2/32"
+                ],
+                "suppressHostByProvider" : [
+                    "org.onosproject.provider.host"
+                ],
+                "suppressHostByPort" : [
+                    "of:0000cc37ab6182d2/31", "of:0000cc37ab6182d2/32"
+                ]
+            }
+        },
+        "org.onosproject.router" : {
+            "router" : {
+                "controlPlaneConnectPoint" : "of:0000cc37ab6182d2/31",
+                "ospfEnabled" : "true",
+                "pimEnabled" : "true",
+                "interfaces" : [ "internet-router" ]
+            }
+        }
+    }
+}

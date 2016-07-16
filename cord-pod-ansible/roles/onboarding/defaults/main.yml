@@ -1,0 +1,6 @@
+---
+
+disable_onboarding_tosca_yml: "{{ config_dir }}/../common/disable-onboarding.yaml"
+enable_onboarding_tosca_yml: "{{ config_dir }}/../common/enable-onboarding.yaml"
+
+# onboard_services: 

@@ -1,0 +1,7 @@
+fixtures_yml: "{{ config_dir }}/../common/fixtures.yaml"
+
+mydeployment_yml: "{{ config_dir }}/../common/mydeployment.yaml"
+
+bootstrap_yml: "{{ config_dir }}/docker-compose-bootstrap.yml"
+
+xos_tosca_yml: "{{ config_dir }}/xos.yaml"

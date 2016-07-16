@@ -1,0 +1,25 @@
+---
+# tasks for prereqs
+
+- name: install httpie
+  apt:
+      pkg=httpie
+
+- name: install curl
+  apt:
+      pkg=curl
+
+- name: is docker installed
+  command: which docker
+  register: docker_installed
+
+- name: install docker
+  command: wget wget -qO- https://get.docker.com/ | sh
+  when: docker_installed.rc != 0
+
+# XXX fixme -- current username is hardcoded to ubuntu
+
+- name: add user to docker group
+  user:
+      name=ubunu
+      groups=docker
