@@ -38,7 +38,7 @@ onboard_services:
  - { name: "vtr", yaml: "{{ xos_services_dir }}/vtr/xos/vtr-onboard.yaml" }
 
 images:
- - { name: "vsg-1.0", filename: "vsg-1.0.img", url: "http://www.vicci.org/cord/vsg-1.0.img" }
+ - { name: "vsg-1.1", filename: "vsg-1.1.img", url: "http://www.vicci.org/cord/vsg-1.1.img" }
 
 config_recipes:
  - { name: "setup", yaml: "{{ setup_dir }}/setup.yaml" }
