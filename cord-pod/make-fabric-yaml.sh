@@ -24,7 +24,7 @@ topology_template:
           replaces: service_ONOS_Fabric
           rest_onos/v1/network/configuration/: { get_artifact: [ SELF, fabric_network_cfg_json, LOCAL_FILE ] }
       artifacts:
-          fabric_network_cfg_json: /root/setup/cord-fabric-vr.json
+          fabric_network_cfg_json: /root/setup/network-cfg-quickstart.json
 
     service#fabric:
       type: tosca.nodes.FabricService
