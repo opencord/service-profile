@@ -1,0 +1,31 @@
+---
+
+synchronizers_yml: "{{ config_dir }}/synchronizers.yaml"
+
+onboard_keys:
+  - { name: "vsg_rsa", private_fn: "{{ config_dir }}/id_rsa", public_fn: "{{ config_dir }}/id_rsa.pub" }
+  - { name: "volt_rsa", private_fn: "{{ config_dir }}/id_rsa", public_fn: "{{ config_dir }}/id_rsa.pub" }
+  - { name: "onos_rsa", private_fn: "{{ config_dir }}/id_rsa", public_fn: "{{ config_dir }}/id_rsa.pub" }
+
+onboard_services:
+ - { name: "vrouter", yaml: "{{ xos_services_dir }}/vrouter/xos/vrouter-onboard.yaml" }
+ - { name: "volt", yaml: "{{ xos_services_dir }}/olt/xos/volt-onboard.yaml" }
+ - { name: "vsg", yaml: "{{ xos_services_dir }}/vsg/xos/vsg-onboard.yaml" }
+ - { name: "vtr", yaml: "{{ xos_services_dir }}/vtn/xos/vtn-onboard.yaml" }
+ - { name: "onos", yaml: "{{ xos_services_dir }}/onos-service/xos/onos-onboard.yaml" }
+ - { name: "fabric", yaml: "{{ xos_services_dir }}/fabric/xos/fabric-onboard.yaml" }
+ - { name: "vtr", yaml: "{{ xos_services_dir }}/vtr/xos/vtr-onboard.yaml" }
+
+images:
+ - { name: "vsg-1.1", filename: "vsg-1.1.img", url: "http://www.vicci.org/cord/vsg-1.1.img" }
+
+config_recipes:
+ - { name: "setup", yaml: "{{ setup_dir }}/setup.yaml" }
+ - { name: "nodes", yaml: "{{ setup_dir }}/nodes.yaml" }
+ - { name: "images", yaml: "{{ setup_dir }}/images.yaml" }
+ - { name: "vtn-external", yaml: "{{ setup_dir }}/vtn-external.yaml" }
+ - { name: "fabric", yaml: "{{ setup_dir }}/fabric.yaml" }
+ - { name: "mgmt-net", yaml: "{{ setup_dir }}/mgmt-net.yaml" }
+ - { name: "cord-services", yaml: "{{ setup_dir }}/cord-services.yaml" }
+ - { name: "cord-volt-devices", yaml: "{{ setup_dir }}/cord-volt-devices.yaml" }
+ - { name: "cord-test-subscriber", yaml: "{{ setup_dir }}/cord-test-subscriber.yaml" }

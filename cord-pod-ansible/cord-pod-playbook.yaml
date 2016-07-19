@@ -4,6 +4,7 @@
   hosts: head
   tasks:
     - include_vars: vars/cord-pod_defaults.yml
+    - include_vars: vars/cord-stack_defaults.yml
 
 - name: Prerequisites
   hosts: head
