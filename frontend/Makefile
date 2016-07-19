@@ -130,3 +130,8 @@ exampleservice:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/exampleservice/xos/exampleservice-onboard.yaml
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/exampleservice
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
+
+dashboard:
+	$(RUN_TOSCA) ./dashboard.yaml
+
