@@ -1,0 +1,10 @@
+---
+
+onboard_keys:
+  - { name: "exampleservice_rsa", private_fn: "{{ config_dir }}/id_rsa", public_fn: "{{ config_dir }}/id_rsa.pub" }
+
+onboard_services:
+  - { name: "exampleservice", yaml: "{{ xos_services_dir }}/exampleservice/xos/exampleservice-onboard.yaml" }
+
+config_recipes:
+  - { name: "pod-exampleservice", yaml: "{{ setup_dir }}/pod-exampleservice.yaml" }

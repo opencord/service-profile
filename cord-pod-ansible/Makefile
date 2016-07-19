@@ -18,3 +18,9 @@ rm: stop
 
 local_containers:
 	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" local-containers-playbook.yaml
+
+cord-monitoringservice:
+	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" monitoring-playbook.yaml
+
+exampleservice:
+	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" exampleservice-playbook.yaml

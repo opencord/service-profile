@@ -1,0 +1,25 @@
+---
+
+- name: Include vars
+  hosts: head
+  tasks:
+    - include_vars: vars/cord-pod_defaults.yml
+    - include_vars: vars/monitoring_defaults.yml
+
+- name: Download images
+  hosts: head
+  roles:
+    - download_images
+
+- name: Onboarding
+  hosts: head
+  roles:
+    - onboarding
+
+- name: Configuration
+  hosts: head
+  roles:
+    - config
+  tags:
+    - config
+

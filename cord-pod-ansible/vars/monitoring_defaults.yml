@@ -1,0 +1,15 @@
+---
+
+onboard_keys:
+  - { name: "monitoringservice_rsa", private_fn: "{{ config_dir }}/id_rsa", public_fn: "{{ config_dir }}/id_rsa.pub" }
+
+onboard_services:
+ - { name: "monitoring", yaml: "{{ xos_services_dir }}/monitoring/xos/monitoring-onboard.yaml" }
+
+images:
+ - { name: "ceilometer-trusty-server-multi-nic", filename: "ceilometer-trusty-server-multi-nic.compressed.qcow2", url: "http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2" }
+
+config_recipes:
+ - { name: "monitoringservice", yaml: "{{ setup_dir }}/monitoringservice.yaml" }
+ - { name: "monitoringtenant", yaml: "{{ setup_dir }}/monitoringtenant.yaml" }
+
