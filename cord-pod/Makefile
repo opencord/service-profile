@@ -84,6 +84,7 @@ vtn: vtn-external.yaml
 	$(RUN_TOSCA) vtn-external.yaml
 
 fabric: fabric.yaml
+	cp ../../xos_services/fabric/config/network-cfg-quickstart.json .
 	$(RUN_TOSCA) fabric.yaml
 
 cord: vsg_custom_images
