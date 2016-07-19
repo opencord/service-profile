@@ -16,6 +16,9 @@ stop:
 rm: stop
 	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" cord-pod-rm-playbook.yaml
 
+cleanup: rm
+	scripts/cleanup.sh
+
 local_containers:
 	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" local-containers-playbook.yaml
 
