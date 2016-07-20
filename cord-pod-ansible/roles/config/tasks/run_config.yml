@@ -1,0 +1,12 @@
+- set_fact: recipe="{{ item }}"
+
+- name: run config recipe {{ recipe.name }}
+  xostosca:
+     port={{ ui_port }}
+     username={{ bootstrap_user }}
+     password={{ bootstrap_password }}
+     recipe={{ lookup('file', recipe.yaml) }}
+
+- name: post-recipe delay
+  pause: seconds="{{ recipe.post_delay }}"
+  when: recipe.post_delay is defined
