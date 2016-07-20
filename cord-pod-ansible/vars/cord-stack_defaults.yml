@@ -28,4 +28,4 @@ config_recipes:
  - { name: "mgmt-net", yaml: "{{ setup_dir }}/mgmt-net.yaml"}
  - { name: "cord-services", yaml: "{{ setup_dir }}/cord-services.yaml" }
  - { name: "cord-volt-devices", yaml: "{{ setup_dir }}/cord-volt-devices.yaml" }
- - { name: "cord-test-subscriber", yaml: "{{ setup_dir }}/cord-test-subscriber.yaml" }
+

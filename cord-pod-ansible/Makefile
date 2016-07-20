@@ -22,6 +22,9 @@ cleanup: rm
 local_containers:
 	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" local-containers-playbook.yaml
 
+cord-subscriber:
+	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" test-subscriber-playbook.yaml
+
 cord-monitoringservice:
 	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" monitoring-playbook.yaml
 

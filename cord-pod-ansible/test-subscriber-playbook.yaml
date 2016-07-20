@@ -1,0 +1,15 @@
+---
+
+- name: Include vars
+  hosts: head
+  tasks:
+    - include_vars: vars/cord-pod_defaults.yml
+    - include_vars: vars/cord-test-subscriber_defaults.yml
+
+- name: Configuration
+  hosts: head
+  roles:
+    - config
+  tags:
+    - config
+
