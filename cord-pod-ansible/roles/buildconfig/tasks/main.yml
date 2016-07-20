@@ -9,5 +9,8 @@
 - name: make vtn-external.yaml
   shell: export SETUPDIR={{ setup_dir }}; bash {{ config_dir }}/scripts/make-vtn-external-yaml.sh
 
+- name: copy network-cfg-quickstart.json from fabric service repo
+  copy: src="{{ xos_services_dir }}/fabric/config/network-cfg-quickstart.json" dest="{{ setup_dir }}"
+
 - name: make fabric.yaml
   shell: export SETUPDIR={{ setup_dir }}; bash {{ config_dir }}/scripts/make-fabric-yaml.sh
