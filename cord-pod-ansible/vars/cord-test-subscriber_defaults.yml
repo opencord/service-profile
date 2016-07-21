@@ -1,3 +1,3 @@
 config_recipes:
- - { name: "cord-test-subscriber", yaml: "{{ setup_dir }}/cord-test-subscriber.yaml", post_delay: 30 }
+ - { name: "cord-test-subscriber", yaml: "{{ setup_dir }}/cord-test-subscriber.yaml", post_delay: 60 }
  - { name: "vtn-external", yaml: "{{ setup_dir }}/vtn-external.yaml" }
