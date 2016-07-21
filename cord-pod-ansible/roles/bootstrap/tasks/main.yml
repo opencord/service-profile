@@ -20,9 +20,11 @@
 
 - name: add fixtures
   shell: docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < {{ fixtures_yml }}
+  sudo: true
 
 - name: add mydeployment
   shell: docker-compose -p {{ bootstrap_project }} -f {{ bootstrap_yml }} run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < {{ mydeployment_yml }}
+  sudo: true
 
 - name: run tosca recipe xos.yaml
   xostosca:
