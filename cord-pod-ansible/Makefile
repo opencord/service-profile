@@ -19,7 +19,7 @@ rm: stop
 cleanup: rm
 	scripts/cleanup.sh
 
-local_containers:
+local_containers: /usr/bin/ansible
 	ansible-playbook -i inventory/local --connection=local -e "config_dir=$(CONFIG_DIR)" local-containers-playbook.yaml
 
 cord-subscriber:
