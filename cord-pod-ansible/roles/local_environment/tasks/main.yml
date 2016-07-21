@@ -23,11 +23,13 @@
   git:
      repo={{ xos_repo }}
      dest={{ xos_core_dir }}
+     update=no
 
 - name: download xos services
   git:
      repo="{{ item.repo }}"
      dest="{{ xos_services_dir }}/{{ item.name }}"
+     update=no
   with_items:
      - { name: "exampleservice", repo: "https://gerrit.opencord.org/p/exampleservice.git" }
      - { name: "olt", repo: "https://gerrit.opencord.org/p/olt.git" }
