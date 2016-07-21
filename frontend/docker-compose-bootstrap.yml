@@ -19,6 +19,9 @@ xos_bootstrap_ui:
       - ../../xos_services:/opt/xos_services
       - ../../xos/xos/api/utility:/opt/xos/api/utility
       - ../../xos/xos/core:/opt/xos/core
+      - ../../xos/xos/xos:/opt/xos/xos
+      - ../../xos/xos/tosca:/opt/xos/tosca
+      - ../../xos/xos/synchronizers:/opt/xos/synchronizers
 
 xos_synchronizer_onboarding:
     image: xosproject/xos-synchronizer-onboarding
