@@ -18,7 +18,11 @@ xos_bootstrap_ui:
       - ../cord-pod/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
       - ../../xos_services:/opt/xos_services
       - ../../xos/xos/api/utility:/opt/xos/api/utility
-      - ../../xos/xos/core:/opt/xos/core
+      - ../../xos/xos/core/models:/opt/xos/core/models
+      - ../../xos/xos/core/templatetags:/opt/xos/core/templatetags
+      - ../../xos/xos/xos:/opt/xos/xos
+      - ../../xos/xos/tosca:/opt/xos/tosca
+      - ../../xos/xos/synchronizers:/opt/xos/synchronizers
 
 xos_synchronizer_onboarding:
     image: xosproject/xos-synchronizer-onboarding
