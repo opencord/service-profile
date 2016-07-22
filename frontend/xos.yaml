@@ -36,10 +36,10 @@ topology_template:
               node: xos
               relationship: tosca.relationships.UsedByXOS
 
-    /opt/xos/core:
+    /opt/xos/core/models:
           type: tosca.nodes.XOSVolume
           properties:
-              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/, ENV_VAR ] }
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/models/, ENV_VAR ] }
               read_only: false
           requirements:
               - xos:
