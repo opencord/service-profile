@@ -25,6 +25,9 @@ dirs:
 
 bootstrap:
 	@echo "[BOOTSTRAP]"
+	@echo "XOS Image Build Date: `docker inspect -f '{{ .Created }}' xosproject/xos`"
+	@echo "XOS Image Commit Hash: `docker inspect -f '{{ .Config.Labels.XOS_GIT_COMMIT_HASH }}' xosproject/xos`"
+	@echo "XOS Image Commit Date: `docker inspect -f '{{ .Config.Labels.XOS_GIT_COMMIT_DATE }}' xosproject/xos`"
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh 81
