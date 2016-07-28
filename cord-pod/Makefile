@@ -80,6 +80,13 @@ podconfig: nodes.yaml images.yaml
 vtn: vtn-external.yaml
 	$(RUN_TOSCA) vtn-external.yaml
 
+delete_fabric_config:
+        http -a karaf:karaf DELETE http://onos-fabric:8181/onos/v1/network/configuration/
+
+reactivate_fabric_apps:
+        http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
+        http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
+
 fabric: fabric.yaml
 	cp ../../xos_services/fabric/config/network-cfg-quickstart.json .
 	$(RUN_TOSCA) fabric.yaml
