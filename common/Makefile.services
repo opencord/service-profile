@@ -1,51 +1,56 @@
 include ../common/Makedefs
-include ../common/Makedefs.branches
 
 GITOPTS=-c advice.detachedHead=false
 
 services: $(SERVICE_DIR) \
           $(SERVICE_DIR)/exampleservice \
           $(SERVICE_DIR)/olt \
-	  $(SERVICE_DIR)/vsg \
+	        $(SERVICE_DIR)/vsg \
           $(SERVICE_DIR)/vtn \
-	  $(SERVICE_DIR)/vrouter \
-	  $(SERVICE_DIR)/vtr \
-	  $(SERVICE_DIR)/onos-service \
-	  $(SERVICE_DIR)/fabric
+	        $(SERVICE_DIR)/vrouter \
+	        $(SERVICE_DIR)/vtr \
+	        $(SERVICE_DIR)/onos-service \
+	        $(SERVICE_DIR)/fabric
 
 monitoring_services: $(SERVICE_DIR)/monitoring
 
 xos_core: $(XOS_DIR)
 
+$(XOS_DIR):
+	git -C ../.. $(GITOPTS) clone -b $(XOS_BRANCH) $(XOS_GIT_URL)
+
+update_xos:
+	git -C $(XOS_DIR) pull
+
 $(SERVICE_DIR):
 	mkdir -p $(SERVICE_DIR)
 
 $(SERVICE_DIR)/exampleservice:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone  -b $(EXAMPLESERVICE_BRANCH) https://gerrit.opencord.org/p/exampleservice.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone  -b $(EXAMPLESERVICE_BRANCH) $(EXAMPLESERVICE_GIT_URL)
 
 $(SERVICE_DIR)/olt:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(OLT_BRANCH) https://gerrit.opencord.org/p/olt.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(OLT_BRANCH) $(OLT_GIT_URL)
 
 $(SERVICE_DIR)/vsg:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VSG_BRANCH) https://gerrit.opencord.org/p/vsg.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VSG_BRANCH) $(VSG_GIT_URL)
 
 $(SERVICE_DIR)/vtn:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VTN_BRANCH) https://gerrit.opencord.org/p/vtn.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VTN_BRANCH) $(VTN_GIT_URL)
 
 $(SERVICE_DIR)/vrouter:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VROUTER_BRANCH) https://gerrit.opencord.org/p/vrouter.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VROUTER_BRANCH) $(VROUTER_GIT_URL)
 
 $(SERVICE_DIR)/vtr:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VTR_BRANCH) https://gerrit.opencord.org/p/vtr.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VTR_BRANCH) $(VTR_GIT_URL)
 
 $(SERVICE_DIR)/onos-service:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(ONOS_BRANCH) https://gerrit.opencord.org/p/onos-service.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(ONOS_BRANCH) $(ONOS_GIT_URL)
 
 $(SERVICE_DIR)/fabric:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(FABRIC_BRANCH) https://gerrit.opencord.org/p/fabric.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(FABRIC_BRANCH) $(FABRIC_GIT_URL)
 
 $(SERVICE_DIR)/monitoring:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(MONITORING_BRANCH) https://gerrit.opencord.org/p/monitoring.git
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(MONITORING_BRANCH) $(MONITORING_GIT_URL)
 
 cleanup:
 	rm -rf $(SERVICE_DIR)/*
@@ -60,8 +65,3 @@ update:
 	git -C $(SERVICE_DIR)/onos-service pull
 	git -C $(SERVICE_DIR)/fabric pull
 
-$(XOS_DIR):
-	git -C ../.. $(GITOPTS) clone -b $(XOS_BRANCH) https://gerrit.opencord.org/p/xos.git
-
-update_xos:
-	git -C $(XOS_DIR) pull
