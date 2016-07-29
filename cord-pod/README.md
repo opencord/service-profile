@@ -64,13 +64,23 @@ assumes that *databr* takes the MAC address of *veth0* when it is added as a por
 
 Note that setting up the full fabric is beyond the scope of this README.
 
+### Build XOS
+
+To build the XOS container images from source, use the following:
+
+Then run:
+
+```
+ubuntu@xos:~/service-profile/cord-pod$ make local_containers
+```
+
 ### Bringing up XOS
 
 The OpenStack installer above creates a VM called *xos* on the head node.
 To bring up XOS in this VM, first log into the head node and run:
 ```
 $ ssh ubuntu@xos
-ubuntu@xos:~$ cd xos/xos/configurations/cord-pod
+ubuntu@xos:~$ cd service-profile/cord-pod
 ```
 
 Next, check that the following files exist in this directory
@@ -84,7 +94,7 @@ XOS can then be brought up for CORD by running a few `make` commands.
 First, run:
 
 ```
-ubuntu@xos:~/xos/xos/configurations/cord-pod$ make
+ubuntu@xos:~/service-profile/cord-pod$ make
 ```
 
 Before proceeding, you should verify that objects in XOS are
@@ -104,7 +114,7 @@ and select *Users* at left.  Make sure there is a green check next to `padmin@vi
 Then run:
 
 ```
-ubuntu@xos:~/xos/xos/configurations/cord-pod$ make vtn
+ubuntu@xos:~/service-profile/cord-pod$ make vtn
 ```
 The above step configures the ONOS VTN app by generating a configuration
 and pushing it to ONOS.  You are able to see and modify the configuration
@@ -145,7 +155,19 @@ help fixing the problem.  This must be working to bring up VMs on the POD.
 Then run:
 
 ```
-ubuntu@xos:~/xos/xos/configurations/cord-pod$ make cord
+ubuntu@xos:~/service-profile/cord-pod$ make fabric
+```
+
+Then run:
+
+```
+ubuntu@xos:~/service-profile/cord-pod$ make cord
+```
+
+Then run:
+
+```
+ubuntu@xos:~/service-profile/cord-pod$ make cord-subscriber
 ```
 
 
