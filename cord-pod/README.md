@@ -68,7 +68,7 @@ does the following:
   - Tears down XOS as well as all OpenStack state that it created
   - Onboards all CORD services, and configures the ONOS apps
   - Creates a sample CORD subscriber (which spins up a vSG)
-  - Onboards `exampleservice` (described in the [Tutorial on Assumbling and On-Boarding Services](https://wiki.opencord.org/display/CORD/Assembling+and+On-Boarding+Services%3A+A+Tutorial))
+  - Onboards `exampleservice` (described in the [Tutorial on Assembling and On-Boarding Services](https://wiki.opencord.org/display/CORD/Assembling+and+On-Boarding+Services%3A+A+Tutorial))
   - Creates an `exampleservice` tenant (which creates a VM and loads and configures Apache in it)
 
 ### Useful diagnostics
@@ -85,7 +85,7 @@ hostname=nova-compute, hostMgmtIp=192.168.122.177/24, dpIp=192.168.199.1/24, br-
 Total 1 nodes
 ```
 The important part is the `init=COMPLETE` at the end.  If you do not see this, refer to
-[the CORD VTN page on the ONOS Wiki](https://wiki.onosproject.org/display/ONOS/CORD+VTN) for
+[the CORD VTN Configuration Guide](https://wiki.opencord.org/display/CORD/VTN+Configuration+Guide) for
 help fixing the problem.  This must be working to bring up VMs on the POD.
 
 #### Inspecting the vSG
