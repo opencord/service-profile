@@ -81,11 +81,11 @@ vtn: vtn-external.yaml
 	$(RUN_TOSCA) vtn-external.yaml
 
 delete_fabric_config:
-        http -a karaf:karaf DELETE http://onos-fabric:8181/onos/v1/network/configuration/
+	http -a karaf:karaf DELETE http://onos-fabric:8181/onos/v1/network/configuration/
 
 reactivate_fabric_apps:
-        http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
-        http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
+	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
+	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
 
 fabric: fabric.yaml
 	cp ../../xos_services/fabric/config/network-cfg-quickstart.json .
@@ -113,10 +113,8 @@ exampleservice: onboard-exampleservice
 onboard-exampleservice:
 	sudo cp id_rsa key_import/exampleservice_rsa
 	sudo cp id_rsa.pub key_import/exampleservice_rsa.pub
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/exampleservice/xos/exampleservice-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) exampleservice-synchronizer.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh 81 services/exampleservice
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	bash ../common/wait_for_xos_port.sh 80
@@ -187,4 +185,3 @@ images:
 .PHONY: local_containers
 local_containers: prereqs download_xos
 	make -f ../common/Makefile.containers update_certs xos_devel synchronizer onboarding_synchronizer
-
