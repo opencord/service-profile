@@ -6,7 +6,7 @@ This directory holds files that are used to configure a development POD for
 CORD.  For more information on the CORD project, including how to get started, check out
 [the CORD wiki](http://wiki.opencord.org/).
 
-XOS is composed of several core services that are typically containerized. [Dynamic On-boarding System and Service Profiles](http://wiki.opencord.org/display/CORD/Dynamic+On-boarding+System+and+Service+Profiles) describes these containers and how they fit together. 
+XOS is composed of several core services that are typically containerized. [Dynamic On-boarding System and Service Profiles](http://wiki.opencord.org/display/CORD/Dynamic+On-boarding+System+and+Service+Profiles) describes these containers and how they fit together.
 
 This document is primarily focused on how to start the cord-pod service-profile. This service profile is usually located in `~/service-profile/cord-pod/` on an installed pod. This directory is usually located in the `xos` virtual machine.
 
@@ -16,6 +16,9 @@ The following prerequisites should be met:
 
 1. OpenStack should be installed, and OpenStack services (keystone, nova, neutron, glance, etc) should be started.
 2. ONOS should be installed, and at a minimum, ONOS-Cord should be running the VTN app.
+
+The usual way to meet these prerequisites is by following one of the methods of
+[building a CORD POD on the CORD Wiki](https://wiki.opencord.org/display/CORD/Build+a+CORD+POD).
 
 ### Makefile Targets to launch this service-profile
 
@@ -40,7 +43,7 @@ Configures the cord stack.
 Creates a sample subscriber in the cord stack.
 
 #### `make exampleservice`
-Builds an example service that launches a web server. 
+Builds an example service that launches a web server.
 
 ### Utility Makefile targets
 
@@ -48,7 +51,7 @@ Builds an example service that launches a web server.
 Stops all running containers.
 
 #### `make rm`
-Stops all running containers and then permanently destroys them. As the database is destroyed, this will cause loss of data. 
+Stops all running containers and then permanently destroys them. As the database is destroyed, this will cause loss of data.
 
 #### `make cleanup`
 Performs both `make stop` and `make cleanup`, and then goes to some extra effort to destroy associated networks, VMs, etc. This is handy when developing using single-node-pod, as it will cleanup the XOS installation and allow the profile to be started fresh.
@@ -59,6 +62,14 @@ A common developer workflow that involves completely restarting the profile is:
 
 1. Upload new code
 2. Execute `make cleanup; make; make vtn; make fabric; make cord; make cord-subscriber; make exampleservice`
+
+This workflow exercises many of the capabilities of a CORD POD.  It
+does the following:
+  - Tears down XOS as well as all OpenStack state that it created
+  - Onboards all CORD services, and configures the ONOS apps
+  - Creates a sample CORD subscriber (which spins up a vSG)
+  - Onboards `exampleservice` (described in the [Tutorial on Assumbling and On-Boarding Services](https://wiki.opencord.org/display/CORD/Assembling+and+On-Boarding+Services%3A+A+Tutorial))
+  - Creates an `exampleservice` tenant (which creates a VM and loads and configures Apache in it)
 
 ### Useful diagnostics
 
@@ -112,17 +123,7 @@ CONTAINER ID        IMAGE                    COMMAND             CREATED        
 
 #### Logging into XOS on CloudLab (or any remote host)
 
-The XOS service is accessible on the POD at `http://xos/`, but `xos` maps to a private IP address
-on the management network.  If you install CORD on CloudLab 
-you will not be able to directly access the XOS GUI.
-In order to log into the XOS GUI in the browser on your local machine (desktop or laptop), 
-you can set up an SSH tunnel to your CloudLab node.  Assuming that 
-`<your-cloudlab-node>` is the DNS name of the CloudLab node hosting your experiment,
-run the following on your local machine to create the tunnel:
-
-```
-$ ssh -L 8888:xos:80 <your-cloudlab-node>
-```
-
-Then you should be able to access the XOS GUI by pointing your browser to
-`http://localhost:8888`.  Default username/password is `padmin@vicci.org/letmein`.
+The [CORD POD installation process](https://wiki.opencord.org/display/CORD/Build+a+CORD+POD)
+forwards port 80 on the head node to the `xos` VM.
+You should be able to access the XOS GUI by simply pointing your browser at the head
+node.  Default username/password is `padmin@vicci.org/letmein`.
