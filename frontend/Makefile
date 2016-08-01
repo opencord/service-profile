@@ -96,6 +96,7 @@ clean-config-folder:
 
 mock-cord-pod: onboard-cord-pod
 	$(RUN_TOSCA) ../cord-pod/mgmt-net.yaml
+	$(RUN_TOSCA) mocks/onos.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-services.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-test-subscriber.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-volt-devices.yaml
@@ -105,15 +106,23 @@ onboard-cord-pod:
 	sudo bash -c "echo somekey > key_import/vsg_rsa.pub"
 	sudo bash -c "echo somekey > key_import/volt_rsa"
 	sudo bash -c "echo somekey > key_import/volt_rsa.pub"
+	sudo bash -c "echo somekey > key_import/onos_rsa"
+	sudo bash -c "echo somekey > key_import/onos_rsa.pub"
 	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/olt/xos/volt-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vsg/xos/vsg-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/fabric-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos-cord-branding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vrouter
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/volt
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vsg
+	bash ../common/wait_for_onboarding_ready.sh 9998 services/onos
+	bash ../common/wait_for_onboarding_ready.sh 9998 services/fabric
+	bash ../common/wait_for_onboarding_ready.sh 9998 services/vtr
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
