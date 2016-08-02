@@ -14,6 +14,7 @@ xos_bootstrap_ui:
       - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config
       - ../cord-pod/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
       - ../../xos_services:/opt/xos_services
+      - ../../xos/xos/core/tests:/opt/xos/core/tests
 
 xos_synchronizer_onboarding:
     image: xosproject/xos-synchronizer-onboarding

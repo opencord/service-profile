@@ -20,6 +20,10 @@ xos_bootstrap_ui:
       - ../../xos/xos/api/utility:/opt/xos/api/utility
       - ../../xos/xos/core/models:/opt/xos/core/models
       - ../../xos/xos/core/templatetags:/opt/xos/core/templatetags
+      - ../../xos/xos/core/xoslib/dashboards:/opt/xos/core/xoslib/dashboards
+      - ../../xos/xos/core/xoslib/static/css:/opt/xos/core/xoslib/static/css
+      - ../../xos/xos/core/xoslib/static/images:/opt/xos/core/xoslib/static/images
+      - ../../xos/xos/core/xoslib/static/js:/opt/xos/core/xoslib/static/js
       - ../../xos/xos/xos:/opt/xos/xos
       - ../../xos/xos/tosca:/opt/xos/tosca
       - ../../xos/xos/synchronizers:/opt/xos/synchronizers

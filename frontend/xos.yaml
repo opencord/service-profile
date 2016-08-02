@@ -46,6 +46,56 @@ topology_template:
                   node: xos
                   relationship: tosca.relationships.UsedByXOS
 
+    /opt/xos/core/templatetags:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/templatetags/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/dashboards:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/dashboards/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/static/css:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/static/css/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/static/images:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/static/images/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/static/js:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/static/js/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
     /opt/xos/templates:
           type: tosca.nodes.XOSVolume
           properties:

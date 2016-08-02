@@ -17,7 +17,7 @@ topology_template:
         frontend_only: true
         source_ui_image: xosproject/xos-test
 
-    /opt/xos/xos_configuration/xos_common_config:
+    /opt/xos/core/xos_common_config:
       type: tosca.nodes.XOSVolume
       properties:
           host_path: { path_join: [ SELF, CONFIG_DIR, ../common/xos_common_config, ENV_VAR ] }
