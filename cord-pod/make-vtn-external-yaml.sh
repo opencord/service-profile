@@ -42,8 +42,18 @@ EOF
 
 NODES=$( bash -c "source $SETUPDIR/admin-openrc.sh ; nova host-list" |grep compute|awk '{print $2}' )
 I=0
+BRIDGE_IDX=1
 for NODE in $NODES; do
     echo $NODE
+    BRIDGE_ID=$(printf "of:%016d" $BRIDGE_IDX )
+    BRIDGE_IDX=$(expr $BRIDGE_IDX + 1)
+    FIP=$(ssh -o StrictHostKeyChecking=no $NODE ip -4 addr show fabric 2> /dev/null | grep inet | awk '{print $2}')
+    if [ -z "$FIP" ]
+    then
+      # Single-node POD case
+      FIP="10.168.0.253/24"
+    fi
+
     cat >> $FN <<EOF
     $NODE:
       type: tosca.nodes.Node
@@ -53,7 +63,7 @@ for NODE in $NODES; do
       type: tosca.nodes.Tag
       properties:
           name: bridgeId
-          value: of:0000000000000001
+          value: $BRIDGE_ID
       requirements:
           - target:
               node: $NODE
@@ -81,7 +91,7 @@ for NODE in $NODES; do
       type: tosca.nodes.Tag
       properties:
           name: dataPlaneIp
-          value: 10.168.0.253/24
+          value: $FIP
       requirements:
           - target:
               node: $NODE
