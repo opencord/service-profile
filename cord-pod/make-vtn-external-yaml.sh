@@ -47,7 +47,7 @@ for NODE in $NODES; do
     echo $NODE
     BRIDGE_ID=$(printf "of:%016d" $BRIDGE_IDX )
     BRIDGE_IDX=$(expr $BRIDGE_IDX + 1)
-    FIP=$(ssh -o StrictHostKeyChecking=no $NODE ip -4 addr show fabric 2> /dev/null | grep inet | awk '{print $2}')
+    FIP=$(ssh -i node_key -o StrictHostKeyChecking=no $NODE ip -4 addr show fabric 2> /dev/null | grep inet | awk '{print $2}')
     if [ -z "$FIP" ]
     then
       # Single-node POD case
