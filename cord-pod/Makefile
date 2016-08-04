@@ -169,15 +169,15 @@ cleanup: stop rm
 ceilometer_custom_images: images/ceilometer-trusty-server-multi-nic.img
 	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || glance image-create --name ceilometer-trusty-server-multi-nic --disk-format qcow2 --file ./images/ceilometer-trusty-server-multi-nic.img --container-format bare"
 
-vsg_custom_images: images/vsg-1.0.img
-	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.0 || glance image-create --name vsg-1.0 --disk-format qcow2 --file ./images/vsg-1.0.img --container-format bare"
+vsg_custom_images: images/vsg-1.1.img
+	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.1 || glance image-create --name vsg-1.1 --disk-format qcow2 --file ./images/vsg-1.1.img --container-format bare"
 
 images/ceilometer-trusty-server-multi-nic.img: images
 	wget http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -P ./images
 	mv ./images/ceilometer-trusty-server-multi-nic.compressed.qcow2 ./images/ceilometer-trusty-server-multi-nic.img
 
-images/vsg-1.0.img: images
-	wget http://www.vicci.org/cord/vsg-1.0.img -P ./images
+images/vsg-1.1.img: images
+	[ -s images/vsg-1.1.img ] || wget http://www.vicci.org/cord/vsg-1.1.img -P ./images
 
 images:
 	mkdir -p ./images

@@ -126,7 +126,7 @@ topology_template:
           no-delete: true
           no-update: true
 
-    image#vsg-1.0:
+    image#vsg-1.1:
       type: tosca.nodes.Image
 
     mysite:
@@ -168,5 +168,5 @@ topology_template:
               node: management
               relationship: tosca.relationships.ConnectsToNetwork
           - image:
-              node: image#vsg-1.0
+              node: image#vsg-1.1
               relationship: tosca.relationships.DefaultImage
