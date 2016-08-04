@@ -5,12 +5,13 @@ GITOPTS=-c advice.detachedHead=false
 services: $(SERVICE_DIR) \
           $(SERVICE_DIR)/exampleservice \
           $(SERVICE_DIR)/olt \
-	        $(SERVICE_DIR)/vsg \
+          $(SERVICE_DIR)/vsg \
           $(SERVICE_DIR)/vtn \
-	        $(SERVICE_DIR)/vrouter \
-	        $(SERVICE_DIR)/vtr \
-	        $(SERVICE_DIR)/onos-service \
-	        $(SERVICE_DIR)/fabric
+          $(SERVICE_DIR)/vrouter \
+          $(SERVICE_DIR)/vtr \
+          $(SERVICE_DIR)/onos-service \
+          $(SERVICE_DIR)/fabric \
+          $(SERVICE_DIR)/hypercache
 
 monitoring_services: $(SERVICE_DIR)/monitoring
 
@@ -52,6 +53,9 @@ $(SERVICE_DIR)/fabric:
 $(SERVICE_DIR)/monitoring:
 	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(MONITORING_BRANCH) $(MONITORING_GIT_URL)
 
+$(SERVICE_DIR)/hypercache:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(HYPERCACHE_BRANCH) $(HYPERCACHE_GIT_URL)
+
 cleanup:
 	rm -rf $(SERVICE_DIR)/*
 
@@ -64,4 +68,5 @@ update:
 	git -C $(SERVICE_DIR)/vtr pull
 	git -C $(SERVICE_DIR)/onos-service pull
 	git -C $(SERVICE_DIR)/fabric pull
+	git -C $(SERVICE_DIR)/hypercache pull
 
