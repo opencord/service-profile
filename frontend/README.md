@@ -14,7 +14,7 @@ You'll be able to visit XOS at `0.0.0.0:9000` and the `xos/core/xoslib` folder i
 If you need to work on the Django application itself:
 - comment out the `sleep 86400` command for the `xos_bootstrap_ui` container in `docker-compose-bootstrap.yml`
 - comment the `python /opt/xos/manage.py runserver 0.0.0.0:9998 --insecure --makemigrations` in the same file
-- run `make containers`.
+- run `make local_containers`.
 - run `make`
 
 You'll notice that the `make` command will hang on to `Waiting for XOS to start listening on port 9998`, so in another shell:
@@ -51,7 +51,7 @@ Restart the containers: `make stop; make`
 
 Delete the containers and relaunch them: `make rm; make`
 
-Build the containers from scratch using the local XOS source tree: `make containers`
+Build the containers from scratch using the local XOS source tree: `make local_containers`
 
 View logs: `make showlogs`
 
