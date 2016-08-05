@@ -51,7 +51,7 @@ frontendconfig:
 	echo "[FRONTENDCONFIG]"
 	$(RUN_TOSCA) sample.yaml
 
-containers: prereqs download_xos
+local_containers: prereqs download_xos
 	make -f ../common/Makefile.containers xos_devel synchronizer onboarding_synchronizer
 
 stop:
