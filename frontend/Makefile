@@ -143,6 +143,14 @@ exampleservice:
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
+hypercache:
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/hypercache/xos/hpc-onboard.yaml
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/hpc
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
+	$(RUN_TOSCA) mocks/cdn.yaml
+	$(RUN_TOSCA) ../opencloud/cdn-content.yaml
+
 dashboard:
 	$(RUN_TOSCA) ./dashboard.yaml
 
