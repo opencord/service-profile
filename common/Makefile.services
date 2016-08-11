@@ -11,7 +11,8 @@ services: $(SERVICE_DIR) \
           $(SERVICE_DIR)/vtr \
           $(SERVICE_DIR)/onos-service \
           $(SERVICE_DIR)/fabric \
-          $(SERVICE_DIR)/hypercache
+          $(SERVICE_DIR)/hypercache \
+          $(SERVICE_DIR)/openstack
 
 monitoring_services: $(SERVICE_DIR)/monitoring
 
@@ -56,6 +57,9 @@ $(SERVICE_DIR)/monitoring:
 $(SERVICE_DIR)/hypercache:
 	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(HYPERCACHE_BRANCH) $(HYPERCACHE_GIT_URL)
 
+$(SERVICE_DIR)/openstack:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(OPENSTACK_BRANCH) $(OPENSTACK_GIT_URL)
+
 cleanup:
 	rm -rf $(SERVICE_DIR)/*
 
@@ -69,4 +73,4 @@ update:
 	git -C $(SERVICE_DIR)/onos-service pull
 	git -C $(SERVICE_DIR)/fabric pull
 	git -C $(SERVICE_DIR)/hypercache pull
-
+	git -C $(SERVICE_DIR)/openstack pull
