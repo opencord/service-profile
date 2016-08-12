@@ -22,24 +22,24 @@ xos_synchronizer_onboarding:
             max-size: "100k"
             max-file: "5"
 
-xos_synchronizer_openstack:
-    command: bash -c "sleep 120; python /opt/xos/synchronizers/openstack/xos-synchronizer.py"
-    image: xosproject/xos-synchronizer-openstack
-    labels:
-        org.xosproject.kind: synchronizer
-        org.xosproject.target: openstack
-    links:
-        - xos_db
-    volumes:
-        - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config:ro
-        - ./xos_cord_config:/opt/xos/xos_configuration/xos_cord_config:ro
-        - .:/root/setup:ro
-        - ./files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
-        - ./images:/opt/xos/images:ro
-    log_driver: "json-file"
-    log_opt:
-            max-size: "100k"
-            max-file: "5"
+#xos_synchronizer_openstack:
+#    command: bash -c "sleep 120; python /opt/xos/synchronizers/openstack/xos-synchronizer.py"
+#    image: xosproject/xos-synchronizer-openstack
+#    labels:
+#        org.xosproject.kind: synchronizer
+#        org.xosproject.target: openstack
+#    links:
+#        - xos_db
+#    volumes:
+#        - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config:ro
+#        - ./xos_cord_config:/opt/xos/xos_configuration/xos_cord_config:ro
+#        - .:/root/setup:ro
+#        - ./files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
+#        - ./images:/opt/xos/images:ro
+#    log_driver: "json-file"
+#    log_opt:
+#            max-size: "100k"
+#            max-file: "5"
 
 xos_bootstrap_ui:
     command: python /opt/xos/manage.py runserver 0.0.0.0:81 --insecure --makemigrations
