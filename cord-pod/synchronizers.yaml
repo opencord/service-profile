@@ -17,3 +17,8 @@ topology_template:
       properties:
         no-create: true
         synchronizer_config: /root/setup/files/vtr_synchronizer_config
+    servicecontroller#openstack:
+      type: tosca.nodes.ServiceController
+      properties:
+        no-create: true
+        synchronizer_config: /root/setup/files/openstack_synchronizer_config
