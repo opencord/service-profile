@@ -1,0 +1,26 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: >
+    * E-CORD DEMO GUI View
+imports:
+   - custom_types/xos.yaml
+
+topology_template:
+  node_templates:
+
+    # Register the Custom view in the system
+    Ecord:
+      type: tosca.nodes.DashboardView
+      properties:
+        url: template:xosEcordTopology
+
+    # Activate the Custom view for the user padmin@vicci.org
+    padmin@vicci.org:
+      type: tosca.nodes.User
+      properties:
+        no-create: True
+        no-delete: True
+      requirements:
+        - ecord_dashboard:
+            node: Ecord
+            relationship: tosca.relationships.UsesDashboard
