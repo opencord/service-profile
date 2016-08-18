@@ -13,7 +13,7 @@ fi
 echo "Waiting for $2 to be onboarded"
 while [[ 1 ]]; do
     STATUS=`curl 0.0.0.0:$1/api/utility/onboarding/$2/ready/ 2> /dev/null`
-    if [[ "$STATUS" == "true" ]]; then
+    if [[ "$STATUS" == "false" ]]; then
         echo "$2 is onboarded"
         exit 0
     fi

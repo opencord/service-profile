@@ -1,0 +1,11 @@
+# Use this version if you will be starting the Python interpreters from the command line - or in the debugger
+# Meant for development only. Starts the PostGres DB in a Docker container with a port that can be accessed
+# from outside of Docker.
+
+xos_db:
+    image: xosproject/xos-postgres
+    expose:
+        - "5432"
+    #  Show this port externally so we can access it outside of containers
+    ports:
+      - "5432:5432"
