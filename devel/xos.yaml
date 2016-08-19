@@ -35,3 +35,13 @@ topology_template:
           - xos:
              node: xos
              relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/images:
+      type: tosca.nodes.XOSVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, images, ENV_VAR ] }
+          read_only: true
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS
