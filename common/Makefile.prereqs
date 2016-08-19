@@ -52,4 +52,5 @@ rebuild_docker:
 	sudo cp docker_build/bundles/latest/binary-daemon/docker-containerd-shim /usr/bin/
 	sudo cp docker_build/bundles/latest/binary-daemon/docker-containerd-ctr /usr/bin/
 	sudo cp docker_build/bundles/latest/binary-daemon/docker-runc /usr/bin/
+	sudo cp docker_build/bundles/latest/binary-daemon/docker-proxy /usr/bin/
 	sudo service docker start
