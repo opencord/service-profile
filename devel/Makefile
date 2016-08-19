@@ -46,6 +46,11 @@ onboarding:
 	echo "[ONBOARDING]"
 	# on-board any services here
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/openstack
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 develconfig:
@@ -80,3 +85,7 @@ ps:
 
 upgrade_pkgs:
 	sudo pip install httpie --upgrade
+
+rebuild:
+	bash ../common/rebuild.sh $(XOS_BOOTSTRAP_PORT)
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
