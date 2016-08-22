@@ -14,6 +14,7 @@ topology_template:
         bootstrap_ui_port: 9998
         docker_project_name: devel
         db_container_name: develbs_xos_db_1
+        extra_hosts: ctl:CTLIP
 
     /opt/xos/xos_configuration/xos_common_config:
       type: tosca.nodes.XOSVolume
