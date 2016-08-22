@@ -33,7 +33,7 @@ download_services:
 update_services:
 	make -f ../common/Makefile.services update
 
-bootstrap:
+bootstrap: xos.yaml
 	echo "[BOOTSTRAP]"
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) MYIP=$(MYIP) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
@@ -41,6 +41,9 @@ bootstrap:
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
+
+xos.yaml: xos.m4
+	m4 -D CTLIP=$(MYIP) < xos.m4 > xos.yaml
 
 onboarding:
 	echo "[ONBOARDING]"
