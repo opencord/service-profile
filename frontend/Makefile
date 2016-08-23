@@ -74,6 +74,7 @@ showlogs_bootstrap:
 rm: stop
 	test ! -s $(DOCKER_COMPOSE_YML) || sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) rm -f
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) rm -f
+	[ -n "$(shell docker images -f \"dangling=true\" -q)" ] && docker rmi $(shell docker images -f "dangling=true" -q) || true
 
 ps:
 	sudo docker-compose ps
