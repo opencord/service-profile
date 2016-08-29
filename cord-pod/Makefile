@@ -7,6 +7,7 @@ DOCKER_PROJECT=cordpod
 BOOTSTRAP_PROJECT=cordpodbs
 XOS_BOOTSTRAP_PORT=81
 XOS_UI_PORT=80
+ONOS_APP_VERSION=1.0-rc4
 ADMIN_USERNAME=padmin@vicci.org
 ADMIN_PASSWORD=letmein
 RUN_TOSCA_BOOTSTRAP=python ../common/run_tosca.py $(XOS_BOOTSTRAP_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
@@ -140,7 +141,7 @@ images.yaml:
 	export SETUPDIR=.; bash ../common/make-images-yaml.sh
 
 vtn-external.yaml:
-	export SETUPDIR=.; bash ./make-vtn-external-yaml.sh
+	export SETUPDIR=.; bash ./make-vtn-external-yaml.sh $(ONOS_APP_VERSION)
 
 fabric.yaml:
 	export SETUPDIR=.; bash ./make-fabric-yaml.sh

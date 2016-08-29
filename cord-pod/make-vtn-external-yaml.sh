@@ -1,3 +1,4 @@
+ONOS_APP_VERSION=$1
 FN=$SETUPDIR/vtn-external.yaml
 
 rm -f $FN
@@ -114,7 +115,7 @@ cat >> $FN <<EOF
               node: service#vtn
               relationship: tosca.relationships.UsedByService
       properties:
-          install_dependencies: http://mavenrepo:8080/repository/org/opencord/cord-config/1.0.0-rc1/cord-config-1.0.0-rc1.oar,http://mavenrepo:8080/repository/org/opencord/vtn/1.0.0-rc1/vtn-1.0.0-rc1.oar
+          install_dependencies: http://mavenrepo:8080/repository/org/opencord/cord-config/${ONOS_APP_VERSION}/cord-config-${ONOS_APP_VERSION}.oar,http://mavenrepo:8080/repository/org/opencord/vtn/${ONOS_APP_VERSION}/vtn-${ONOS_APP_VERSION}.oar
           dependencies: org.onosproject.drivers, org.onosproject.drivers.ovsdb, org.onosproject.openflow-base, org.onosproject.ovsdb-base, org.onosproject.dhcp
           autogenerate: vtn-network-cfg
 EOF
