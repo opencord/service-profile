@@ -59,16 +59,16 @@ onboarding:
 	sudo cp id_rsa key_import/onos_rsa
 	sudo cp id_rsa key_import/onos_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vbbu/xos/vbbu-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vpgw/xos/vpgw-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vBBU/xos/vBBU-onboard.yaml
+	# $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vPGWC/xos/vPGWC-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
 	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
 	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vbbu
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vpgw
+	bash ../common/wait_for_onboarding_ready.sh 81 services/vBBU
+	#bash ../common/wait_for_onboarding_ready.sh 81 services/vPGWC
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vtn
 	bash ../common/wait_for_onboarding_ready.sh 81 services/onos
 	#bash ../common/wait_for_onboarding_ready.sh 81 services/fabric
