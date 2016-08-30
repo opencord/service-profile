@@ -12,6 +12,7 @@ topology_template:
       properties:
           visibility: private
           translation: none
+          vtn_kind: MANAGEMENT_LOCAL
 
     management:
       type: tosca.nodes.network.Network
@@ -38,3 +39,4 @@ topology_template:
           - site:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
+
