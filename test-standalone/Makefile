@@ -110,8 +110,11 @@ test: restore-initial-db-status
 test-tosca: restore-initial-db-status
 	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui bash -c "cd /opt/xos/tosca/tests; python ./alltests.py"
 
-test-ui: restore-initial-db-status
-	sudo docker exec -u root -i teststandalone_xos_1 bash -c "cd /opt/xos/tests/ui-e2e; python xos-e2e-test.py"
+test-e2e: restore-initial-db-status
+	sudo docker exec -u root -i teststandalone_xos_ui_1 bash -c "cd /opt/xos/tests/ui-e2e; python xos-e2e-test.py"
+
+test-ui:
+	sudo docker exec -u root -i teststandalone_xos_ui_1 bash -c "cd /opt/xos/tests/ui; npm install && bower install --allow-root; npm test;"
 
 base-container: 
 	make -f ../common/Makefile.containers xos_base
@@ -119,7 +122,7 @@ base-container:
 devel-container: base-container
 	make -f ../common/Makefile.containers xos_devel synchronizer onboarding_synchronizer
 
-containers: prereqs download_xos devel-container
+local_containers: prereqs download_xos devel-container
 	make -f ../common/Makefile.containers xos_test
 
 rebuild:

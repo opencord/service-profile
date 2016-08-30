@@ -46,3 +46,13 @@ topology_template:
           - xos:
              node: xos
              relationship: tosca.relationships.UsedByXOS
+
+    /opt/views:
+      type: tosca.nodes.XOSVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/views, ENV_VAR ] }
+          read_only: false
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS
