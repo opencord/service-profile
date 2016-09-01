@@ -67,7 +67,7 @@ onboarding:
 	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vBBU
+	bash ../common/wait_for_onboarding_ready.sh 81 services/vbbu
 	#bash ../common/wait_for_onboarding_ready.sh 81 services/vPGWC
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vtn
 	bash ../common/wait_for_onboarding_ready.sh 81 services/onos
