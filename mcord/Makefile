@@ -52,6 +52,9 @@ onboarding:
 	# on-board any services here
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+        
+	sudo cp id_rsa key_import/vsg_rsa
+	sudo cp id_rsa.pub key_import/vsg_rsa.pub
 	sudo cp id_rsa key_import/vBBU_rsa
 	sudo cp id_rsa.pub key_import/vBBU_rsa.pub
 	sudo cp id_rsa key_import/vPGW_rsa
@@ -59,6 +62,8 @@ onboarding:
 	sudo cp id_rsa key_import/onos_rsa
 	sudo cp id_rsa key_import/onos_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vsg/xos/vsg-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vBBU/xos/vBBU-onboard.yaml
 	# $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vPGWC/xos/vPGWC-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
@@ -67,6 +72,8 @@ onboarding:
 	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	bash ../common/wait_for_onboarding_ready.sh 81 services/vrouter
+	bash ../common/wait_for_onboarding_ready.sh 81 services/vsg
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vbbu
 	#bash ../common/wait_for_onboarding_ready.sh 81 services/vPGWC
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vtn

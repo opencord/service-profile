@@ -22,7 +22,7 @@ topology_template:
               node: MyDeployment
               relationship: tosca.relationships.MemberOfDeployment
 
-    nova-compute:
+    nova-compute-1:
       type: tosca.nodes.Node
       requirements:
         - site:
