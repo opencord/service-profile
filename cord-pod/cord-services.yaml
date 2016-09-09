@@ -116,8 +116,12 @@ topology_template:
           dependencies: org.onosproject.vrouter
           autogenerate: vrouter-network-cfg
 
-    Private:
+    template#vsg:
       type: tosca.nodes.NetworkTemplate
+      properties:
+          visibility: private
+          translation: none
+          vtn_kind: VSG
 
     management:
       type: tosca.nodes.network.Network.XOS
@@ -142,7 +146,7 @@ topology_template:
           ip_version: 4
       requirements:
           - network_template:
-              node: Private
+              node: template#vsg
               relationship: tosca.relationships.UsesNetworkTemplate
           - owner:
               node: mysite_vsg
