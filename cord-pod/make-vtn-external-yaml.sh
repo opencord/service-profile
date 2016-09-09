@@ -37,6 +37,7 @@ topology_template:
           xosUser: padmin@vicci.org
           xosPassword: letmein
           replaces: service_vtn
+          vtnAPIVersion: 2
 
 EOF
 
