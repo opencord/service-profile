@@ -7,11 +7,6 @@ imports:
 
 topology_template:
   node_templates:
-    servicecontroller#vsg:
-        type: tosca.nodes.ServiceController
-        properties:
-          no-create: true
-          synchronizer_config: /root/setup/files/vcpe_synchronizer_config
     servicecontroller#openstack:
       type: tosca.nodes.ServiceController
       properties:

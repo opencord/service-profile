@@ -53,8 +53,6 @@ onboarding:
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
         
-	sudo cp id_rsa key_import/vsg_rsa
-	sudo cp id_rsa.pub key_import/vsg_rsa.pub
 	sudo cp id_rsa key_import/vBBU_rsa
 	sudo cp id_rsa.pub key_import/vBBU_rsa.pub
 	sudo cp id_rsa key_import/vPGW_rsa
@@ -62,24 +60,18 @@ onboarding:
 	sudo cp id_rsa key_import/onos_rsa
 	sudo cp id_rsa key_import/onos_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vsg/xos/vsg-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vBBU/xos/vBBU-onboard.yaml
 	# $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vPGWC/xos/vPGWC-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
 	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
-	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vrouter
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vsg
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vbbu
 	#bash ../common/wait_for_onboarding_ready.sh 81 services/vPGWC
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vtn
 	bash ../common/wait_for_onboarding_ready.sh 81 services/onos
 	#bash ../common/wait_for_onboarding_ready.sh 81 services/fabric
-	#bash ../common/wait_for_onboarding_ready.sh 81 services/vtr
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	bash ../common/wait_for_xos_port.sh 80
 
@@ -191,7 +183,7 @@ ceilometer_custom_images: images/ceilometer-service-trusty-server-multi-nic.img 
 	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || glance image-create --name ceilometer-trusty-server-multi-nic --disk-format qcow2 --file ./images/ceilometer-trusty-server-multi-nic.compressed.qcow2 --container-format bare"
 
 #vsg_custom_images: images/vsg-1.1.img
-	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.1 || glance image-create --name vsg-1.1 --disk-format qcow2 --file ./images/vsg-1.1.img --container-format bare"
+#	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.1 || glance image-create --name vsg-1.1 --disk-format qcow2 --file ./images/vsg-1.1.img --container-format bare"
 
 images/ceilometer-trusty-server-multi-nic.img: images
 	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || wget http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -P ./images"
