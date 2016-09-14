@@ -19,7 +19,7 @@ sys_dir=/opt/xos/synchronizers/openstack/sys
 model_policies_dir=/opt/xos/synchronizers/openstack/model_policies
 logfile=/var/log/xos_backend.log
 save_ansible_output=True
-backoff_disabled=False
+backoff_disabled=True
 pretend=False
 images_directory=/opt/xos/images
 
