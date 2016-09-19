@@ -55,8 +55,8 @@ onboarding:
         
 	sudo cp id_rsa key_import/vBBU_rsa
 	sudo cp id_rsa.pub key_import/vBBU_rsa.pub
-	sudo cp id_rsa key_import/vPGW_rsa
-	sudo cp id_rsa.pub key_import/vPGW_rsa.pub
+	sudo cp id_rsa key_import/vPGWC_rsa
+	sudo cp id_rsa.pub key_import/vPGWC_rsa.pub
 	sudo cp id_rsa key_import/onos_rsa
 	sudo cp id_rsa key_import/onos_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
