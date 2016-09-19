@@ -134,11 +134,11 @@ topology_template:
           icon_url: /static/mCordServices/service_server.png
           view_url: /admin/mcord/vpgwccomponent
           public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
-          #private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
-          private_key_fn: /opt/xos/services/vbbu/keys/vBBU_rsa
+          private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
+          #private_key_fn: /opt/xos/services/vbbu/keys/vBBU_rsa
       artifacts:
-          #pubkey: /opt/xos/services/vpgwc/keys/vPGWC_rsa.pub
-          pubkey: /opt/xos/services/vbbu/keys/vBBU_rsa.pub
+          pubkey: /opt/xos/services/vpgwc/keys/vPGWC_rsa.pub
+          #pubkey: /opt/xos/services/vbbu/keys/vBBU_rsa.pub
 
     m1.xlarge:
       type: tosca.nodes.Flavor
@@ -318,18 +318,17 @@ topology_template:
           network: noauto
           default_node: compute10
     
-    # TODO: will uncomment it when pgw service is ready
-    #mysite_VPGWC_Component:
-    #  description: MCORD Service default Component
-    #  type: tosca.nodes.VPGWCComponent
-    #  requirements:
-    #      - provider_service:
-    #          node: vPGWC
-    #          relationship: tosca.relationships.MemberOfService
-    #      - vpgwc_slice:
-    #          node: mysite_vpgwc_slice1
-    #          relationship: tosca.relationships.MemberOfSlice
-    #  properties:
-    #      display_message: vPGWC looks good!
-    #      s5s8_pgw_tag: 300
+    mysite_VPGWC_Component:
+      description: MCORD Service default Component
+      type: tosca.nodes.VPGWCComponent
+      requirements:
+          - provider_service:
+              node: vPGWC
+              relationship: tosca.relationships.MemberOfService
+          - vpgwc_slice:
+              node: mysite_vpgwc_slice1
+              relationship: tosca.relationships.MemberOfSlice
+      properties:
+          display_message: vPGWC looks good!
+          s5s8_pgw_tag: 300
 
