@@ -120,7 +120,7 @@ topology_template:
       properties:
           kind: RAN
           icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vBBU/vbbucomponent
+          view_url: /admin/vbbu/vbbucomponent
           public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
           private_key_fn: /opt/xos/services/vbbu/keys/vBBU_rsa
       artifacts:
@@ -132,7 +132,7 @@ topology_template:
       properties:
           kind: vEPC
           icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vPGWC/vpgwccomponent
+          view_url: /admin/vpgwc/vpgwccomponent
           public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
           private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
       artifacts:
