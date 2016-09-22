@@ -12,11 +12,41 @@ topology_template:
     mysite:
         type: tosca.nodes.Site
 
+    computeBBU1:
+        type: tosca.nodes.Node
+        requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - deployment:
+              node: MyDeployment
+              relationship: tosca.relationships.MemberOfDeployment
+
     computeBBU2:
         type: tosca.nodes.Node
         requirements:
           - site:
-              node: mysite 
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - deployment:
+              node: MyDeployment
+              relationship: tosca.relationships.MemberOfDeployment
+
+    compute9:
+        type: tosca.nodes.Node
+        requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - deployment:
+              node: MyDeployment
+              relationship: tosca.relationships.MemberOfDeployment
+
+    compute10:
+        type: tosca.nodes.Node
+        requirements:
+          - site:
+              node: mysite
               relationship: tosca.relationships.MemberOfSite
           - deployment:
               node: MyDeployment
@@ -31,14 +61,3 @@ topology_template:
         - deployment:
             node: MyDeployment
             relationship: tosca.relationships.MemberOfDeployment
-
-    compute10:
-        type: tosca.nodes.Node
-        requirements:
-          - site:
-              node: mysite 
-              relationship: tosca.relationships.MemberOfSite
-          - deployment:
-              node: MyDeployment
-              relationship: tosca.relationships.MemberOfDeployment
-
