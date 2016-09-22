@@ -25,10 +25,10 @@ topology_template:
              node: xos
              relationship: tosca.relationships.UsedByXOS
 
-    /opt/xos/xos_configuration/xos_cord_config:
+    /opt/xos/xos_configuration/xos_mcord_config:
       type: tosca.nodes.XOSVolume
       properties:
-          host_path: { path_join: [ SELF, CONFIG_DIR, xos_cord_config, ENV_VAR ] }
+          host_path: { path_join: [ SELF, CONFIG_DIR, xos_mcord_config, ENV_VAR ] }
           read_only: true
       requirements:
           - xos:
