@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
 
   # share the folder
   config.vm.synced_folder "../", "/opt/service-profile"
-  config.vm.synced_folder "../../xos", "/opt/xos", create: true
+  config.vm.synced_folder "../..", "/opt/xos", create: true
   config.vm.synced_folder "../../xos_services", "/opt/xos_services", create: true
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
