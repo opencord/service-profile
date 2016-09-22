@@ -33,6 +33,51 @@ topology_template:
           xosPassword: letmein
           replaces: service_vtn
 
+    nova-compute-1:
+      type: tosca.nodes.Node
+
+    # VTN bridgeId field for node nova-compute-1
+    nova-compute-1_bridgeId_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: bridgeId
+          value: of:0000000000000001
+      requirements:
+          - target:
+              node: nova-compute-1
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIntf field for node nova-compute-1
+    nova-compute-1_dataPlaneIntf_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIntf
+          value: fabric
+      requirements:
+          - target:
+              node: nova-compute-1
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIp field for node nova-compute-1
+    nova-compute-1_dataPlaneIp_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIp
+          value: 10.168.0.253/24
+      requirements:
+          - target:
+              node: nova-compute-1
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
     VTN_ONOS_app:
       type: tosca.nodes.ONOSVTNApp
       requirements:
