@@ -24,3 +24,13 @@ topology_template:
           - xos:
              node: xos
              relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/xos_configuration/xos_ecord_config:
+      type: tosca.nodes.XOSVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, ./xos_ecord_config, ENV_VAR ] }
+          read_only: true
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS

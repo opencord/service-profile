@@ -13,7 +13,7 @@ ADMIN_PASSWORD=letmein
 RUN_TOSCA_BOOTSTRAP=python ../common/run_tosca.py $(XOS_BOOTSTRAP_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
 RUN_TOSCA=python ../common/run_tosca.py $(XOS_UI_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
 
-metronetwork: prereqs dirs download_xos download_services bootstrap onboarding
+metronetwork: prereqs dirs download_xos download_services bootstrap onboarding services
 
 prereqs:
 	sudo make -f ../common/Makefile.prereqs
@@ -55,6 +55,9 @@ onboarding:
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/metronetwork
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
+
+services: 
+	$(RUN_TOSCA) ecord-services.yaml
 
 containers: prereqs download_xos
 	make -f ../common/Makefile.containers xos_devel synchronizer onboarding_synchronizer

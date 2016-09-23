@@ -1,0 +1,16 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: >
+    * E-CORD Services
+imports:
+   - custom_types/xos.yaml
+   - custom_types/metronet.yaml
+
+topology_template:
+  node_templates:
+
+    service#metronetwork:
+      type: tosca.nodes.MetroNetworkService
+      properties:
+          view_url: /admin/metronetwork/metronetworkservice/$id$/
+          kind: metronetwork
