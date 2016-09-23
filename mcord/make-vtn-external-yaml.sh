@@ -17,7 +17,7 @@ topology_template:
       type: tosca.nodes.ONOSService
       requirements:
       properties:
-          kind: onos
+          kind: CORD-Platform
           view_url: /admin/onos/onosservice/\$id$/
           no_container: true
           rest_hostname: onos-cord
@@ -26,6 +26,7 @@ topology_template:
     service#vtn:
       type: tosca.nodes.VTNService
       properties:
+          kind: CORD-Platform
           view_url: /admin/vtn/vtnservice/\$id$/
           privateGatewayMac: 00:00:00:00:00:01
           localManagementIp: 10.102.83.2/24
