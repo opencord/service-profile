@@ -13,7 +13,11 @@ services: $(SERVICE_DIR) \
           $(SERVICE_DIR)/fabric \
           $(SERVICE_DIR)/hypercache \
           $(SERVICE_DIR)/metro-net \
-          $(SERVICE_DIR)/openstack
+          $(SERVICE_DIR)/openstack \
+          $(SERVICE_DIR)/vBBU \
+          $(SERVICE_DIR)/vPGWC \
+          $(SERVICE_DIR)/vSGW \
+          $(SERVICE_DIR)/vMME
 
 monitoring_services: $(SERVICE_DIR)/monitoring
 
@@ -63,6 +67,18 @@ $(SERVICE_DIR)/metro-net:
 
 $(SERVICE_DIR)/openstack:
 	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(OPENSTACK_BRANCH) $(OPENSTACK_GIT_URL)
+
+$(SERVICE_DIR)/vBBU:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VBBU_BRANCH) $(VBBU_GIT_URL)
+
+$(SERVICE_DIR)/vPGWC:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VPGWC_BRANCH) $(VPGWC_GIT_URL)
+
+$(SERVICE_DIR)/vSGW:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VSGW_BRANCH) $(VSGW_GIT_URL)
+
+$(SERVICE_DIR)/vMME:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VMME_BRANCH) $(VMME_GIT_URL)
 
 cleanup:
 	rm -rf $(SERVICE_DIR)/*
