@@ -73,12 +73,15 @@ onboarding:
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/vsg/xos/vsg-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < ../common/enable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vrouter
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/volt
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vsg
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vtr
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/onos
+	bash ../common/wait_for_onboarding_ready.sh 9998 services/vtn
 	bash ../common/wait_for_onboarding_ready.sh 9998 xos
 	bash ../common/wait_for_xos_port.sh 9999
 
