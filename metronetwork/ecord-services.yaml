@@ -14,3 +14,11 @@ topology_template:
       properties:
           view_url: /admin/metronetwork/metronetworkservice/$id$/
           kind: metronetwork
+
+    device#metronetworkdevice:
+      type: tosca.nodes.MetroNetworkDevice
+      properties:
+          restCtrlUrl:  http://10.10.10.10:8181/onos
+          username: karaf
+          password: karaf
+          administrativeState: syncrequested
