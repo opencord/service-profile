@@ -30,7 +30,7 @@ cleanup_network lan_network
 cleanup_network wan_network
 cleanup_network mysite_vcpe-private
 cleanup_network mysite_vsg-access
-cleanup_network management
+#cleanup_network management
 cleanup_network lan_rru_network
 cleanup_network lan_3gpp_s5s8_pgw_network
 cleanup_network lan_3gpp_s1u_network
