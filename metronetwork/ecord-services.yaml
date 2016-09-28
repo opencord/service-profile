@@ -9,16 +9,16 @@ imports:
 topology_template:
   node_templates:
 
-    service#metronetwork:
-      type: tosca.nodes.MetroNetworkService
+    system#metronetwork:
+      type: tosca.nodes.MetroNetworkSystem
       properties:
-          view_url: /admin/metronetwork/metronetworkservice/$id$/
-          kind: metronetwork
+          administrativeState: active
 
-    device#metronetworkdevice:
+    device#TestMetroNet:
       type: tosca.nodes.MetroNetworkDevice
       properties:
           restCtrlUrl:  http://10.10.10.10:8181/onos
           username: karaf
           password: karaf
           administrativeState: syncrequested
+          id: TestMetroNet
