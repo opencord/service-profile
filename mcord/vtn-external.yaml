@@ -79,6 +79,133 @@ topology_template:
               node: service#ONOS_CORD
               relationship: tosca.relationships.MemberOfService
 
+    # VTN bridgeId field for node computeBBU1
+    computeBBU1_bridgeId_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: bridgeId
+          value: of:0000000000000006
+      requirements:
+          - target:
+              node: computeBBU1
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIntf field for node computeBBU1
+    computeBBU1_dataPlaneIntf_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIntf
+          value: fabric
+      requirements:
+          - target:
+              node: computeBBU1
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIp field for node computeBBU1
+    computeBBU1_dataPlaneIp_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIp
+          value: 10.102.82.6/24
+      requirements:
+          - target:
+              node: computeBBU1
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN bridgeId field for node computeBBU2
+    computeBBU2_bridgeId_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: bridgeId
+          value: of:0000000000000007
+      requirements:
+          - target:
+              node: computeBBU2
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIntf field for node computeBBU2
+    computeBBU2_dataPlaneIntf_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIntf
+          value: fabric
+      requirements:
+          - target:
+              node: computeBBU2
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIp field for node computeBBU2
+    computeBBU2_dataPlaneIp_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIp
+          value: 10.102.82.7/24
+      requirements:
+          - target:
+              node: computeBBU2
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN bridgeId field for node compute9
+    compute9_bridgeId_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: bridgeId
+          value: of:0000000000000009
+      requirements:
+          - target:
+              node: compute9
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIntf field for node compute9
+    compute9_dataPlaneIntf_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIntf
+          value: fabric
+      requirements:
+          - target:
+              node: compute9
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+    # VTN dataPlaneIp field for node compute9
+    compute9_dataPlaneIp_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: dataPlaneIp
+          value: 10.102.82.9/24
+      requirements:
+          - target:
+              node: compute9
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
+
     VTN_ONOS_app:
       type: tosca.nodes.ONOSVTNApp
       requirements:
