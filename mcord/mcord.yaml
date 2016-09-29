@@ -249,6 +249,9 @@ topology_template:
     mcord-vpgwc-onos-multi-nic:
       type: tosca.nodes.Image
 
+    trusty-server-multi-nic:
+      type: tosca.nodes.Image
+
     mysite_management:
       description: This slice exists solely to own the management network
       type: tosca.nodes.Slice
