@@ -155,3 +155,16 @@ hypercache:
 dashboard:
 	$(RUN_TOSCA) ./dashboard.yaml
 
+# before executing this clone the service from: https://github.com/teone/mcord-slicing-ui.git
+onboard-mcord-slicing: slicing-ui
+	# fix ports (now they are set to use the FE config ones
+	@echo "[ONBOARDING UI SERVICES]"
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_UI_PORT) xos
+	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/mcord-ui-slicing/xos/mcord-slicing-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_UI_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
+
+slicing-ui:
+	$(RUN_TOSCA) ./mocks/mcord-slicing-ui.yaml
