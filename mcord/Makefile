@@ -30,7 +30,7 @@ bootstrap:
 	@echo "XOS Image Commit Date: `docker inspect -f '{{ .Config.Labels.XOS_GIT_COMMIT_DATE }}' xosproject/xos`"
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
-	bash ../common/wait_for_xos_port.sh 81
+	bash ../common/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
@@ -50,7 +50,7 @@ update_xos:
 onboarding:
 	@echo "[ONBOARDING]"
 	# on-board any services here
-	bash ../common/wait_for_onboarding_ready.sh 81 xos
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
         
 	sudo cp id_rsa key_import/vBBU_rsa
@@ -67,13 +67,13 @@ onboarding:
 	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vbbu
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vpgwc
-	bash ../common/wait_for_onboarding_ready.sh 81 services/vtn
-	bash ../common/wait_for_onboarding_ready.sh 81 services/onos
-	#bash ../common/wait_for_onboarding_ready.sh 81 services/fabric
-	bash ../common/wait_for_onboarding_ready.sh 81 xos
-	bash ../common/wait_for_xos_port.sh 80
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vbbu
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vpgwc
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vtn
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/onos
+	#bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 podconfig: nodes.yaml images.yaml
 	@echo "[PODCONFIG]"
@@ -110,7 +110,7 @@ new-nodes: clean-nodes update-nodes vtn
 
 rebuild:
 	bash ../common/rebuild.sh $(XOS_BOOTSTRAP_PORT)
-	bash ../common/wait_for_onboarding_ready.sh 81 xos
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 
 exampleservice: onboard-exampleservice
 	$(RUN_TOSCA) pod-exampleservice.yaml
@@ -122,9 +122,9 @@ onboard-exampleservice:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/exampleservice/xos/exampleservice-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) exampleservice-synchronizer.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
-	bash ../common/wait_for_onboarding_ready.sh 81 services/exampleservice
-	bash ../common/wait_for_onboarding_ready.sh 81 xos
-	bash ../common/wait_for_xos_port.sh 80
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/exampleservice
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 cord-monitoringservice: ceilometer_custom_images onboard-monitoringservice
 	$(RUN_TOSCA) monitoringservice.yaml
@@ -135,9 +135,9 @@ onboard-monitoringservice: download-monitoringservice
 	sudo cp id_rsa.pub key_import/monitoringservice_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/monitoring/xos/monitoring-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) monitoring_synchronizer.yaml
-	bash ../common/wait_for_onboarding_ready.sh 81 services/monitoring
-	bash ../common/wait_for_onboarding_ready.sh 81 xos
-	bash ../common/wait_for_xos_port.sh 80
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/monitoring
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 download-monitoringservice:
 	make -f ../common/Makefile.services monitoring_services
