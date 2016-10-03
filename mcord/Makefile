@@ -13,7 +13,7 @@ RUN_TOSCA_BOOTSTRAP=python ../common/run_tosca.py $(XOS_BOOTSTRAP_PORT) $(ADMIN_
 RUN_TOSCA=python ../common/run_tosca.py $(XOS_UI_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
 
 .PHONY: xos
-xos: prereqs dirs download_xos download_services bootstrap onboarding podconfig
+xos: prereqs dirs download_xos download_services bootstrap onboarding podconfig slicing-ui
 
 prereqs:
 	sudo make -f ../common/Makefile.prereqs
@@ -64,14 +64,16 @@ onboarding:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vPGWC/xos/vPGWC-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
-	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
+	# $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/mcord_slicing_ui/xos/mcord-slicing-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vbbu
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vpgwc
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vtn
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/onos
-	#bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
+	# bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/mcord_slicing_ui
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
@@ -201,15 +203,6 @@ images:
 .PHONY: local_containers
 local_containers: prereqs download_xos
 	make -f ../common/Makefile.containers update_certs xos_base xos_devel synchronizer onboarding_synchronizer
-
-onboard-mcord-slicing: slicing-ui
-	@echo "[ONBOARDING UI SERVICES]"
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_UI_PORT) xos
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/mcord-ui-slicing/xos/mcord-slicing-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_UI_PORT) xos
-	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 slicing-ui:
 	$(RUN_TOSCA) ./mcord-slicing-ui.yaml
