@@ -202,3 +202,14 @@ images:
 local_containers: prereqs download_xos
 	make -f ../common/Makefile.containers update_certs xos_base xos_devel synchronizer onboarding_synchronizer
 
+onboard-mcord-slicing: slicing-ui
+	@echo "[ONBOARDING UI SERVICES]"
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_UI_PORT) xos
+	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/mcord-ui-slicing/xos/mcord-slicing-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_UI_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
+
+slicing-ui:
+	$(RUN_TOSCA) ./mcord-slicing-ui.yaml
