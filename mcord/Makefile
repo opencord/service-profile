@@ -13,7 +13,7 @@ RUN_TOSCA_BOOTSTRAP=python ../common/run_tosca.py $(XOS_BOOTSTRAP_PORT) $(ADMIN_
 RUN_TOSCA=python ../common/run_tosca.py $(XOS_UI_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)
 
 .PHONY: xos
-xos: prereqs dirs download_xos download_services bootstrap onboarding podconfig slicing-ui
+xos: prereqs dirs download_xos download_services bootstrap onboarding podconfig
 
 prereqs:
 	sudo make -f ../common/Makefile.prereqs
