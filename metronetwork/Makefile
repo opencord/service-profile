@@ -56,17 +56,6 @@ onboarding:
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
-vrouter_service:
-	@echo "[ONBOARDING]"
-	# on-board the metronetwork service
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vrouter
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
-	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
-
 services: 
 	$(RUN_TOSCA) ecord-services.yaml
 
