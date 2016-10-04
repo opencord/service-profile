@@ -65,7 +65,6 @@ onboarding:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
 	# $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/mcord_slicing_ui/xos/mcord-slicing-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vbbu
@@ -73,7 +72,6 @@ onboarding:
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vtn
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/onos
 	# bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/mcord_slicing_ui
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
@@ -203,6 +201,16 @@ images:
 .PHONY: local_containers
 local_containers: prereqs download_xos
 	make -f ../common/Makefile.containers update_certs xos_base xos_devel synchronizer onboarding_synchronizer
+
+onboard-slicing: slicing-ui
+	@echo "[ONBOARDING]"
+	# on-board slicing services here
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/mcord_slicing_ui/xos/mcord-slicing-onboard.yaml
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/mcord_slicing_ui
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 slicing-ui:
 	$(RUN_TOSCA) ./mcord-slicing-ui.yaml
