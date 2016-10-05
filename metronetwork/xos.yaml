@@ -13,7 +13,7 @@ topology_template:
         ui_port: 9999
         bootstrap_ui_port: 9998
         docker_project_name: metronetwork 
-        db_container_name: metronetworkdbs_xos_db_1
+        db_container_name: metronetworkbs_xos_db_1
 
     /opt/xos/xos_configuration/xos_common_config:
       type: tosca.nodes.XOSVolume
