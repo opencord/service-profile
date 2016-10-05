@@ -1,10 +1,28 @@
 # service-profile/common/Makedefs
 
-SERVICE_DIR ?= ../../xos_services
-XOS_DIR ?= ../../xos
+COMMON_DIR           ?= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+CONFIG_DIR           ?= $(COMMON_DIR)
 
+HOME_DIR             ?= $(shell echo ~)
+MYIP                 ?= $(shell hostname -i)
+
+XOS_DIR              ?= $(HOME_DIR)/xos
+SERVICE_DIR          ?= $(HOME_DIR)/xos_services
+
+XOS_BOOTSTRAP_PORT   ?= 81
+XOS_UI_PORT          ?= 80
+
+DOCKER_PROJECT       ?= unknown
+BOOTSTRAP_PROJECT    ?= $(DOCKER_PROJECT)bs
+
+ADMIN_USERNAME       ?= padmin@vicci.org
+ADMIN_PASSWORD       ?= letmein
+
+BOOTSTRAP_YML        ?= $(CONFIG_DIR)/docker-compose-bootstrap.yml
+DOCKER_COMPOSE_YML   ?= $(CONFIG_DIR)/onboarding-docker-compose/docker-compose.yml
+
+# git repos
 CORD_BASE_GIT_URL ?= https://gerrit.opencord.org/p
-
 DEFAULT_BRANCH ?= master
 
 XOS_BRANCH ?= $(DEFAULT_BRANCH)
@@ -45,3 +63,4 @@ METRONETWORK_GIT_URL ?= $(CORD_BASE_GIT_URL)/metro-net.git
 
 OPENSTACK_BRANCH ?= $(DEFAULT_BRANCH)
 OPENSTACK_GIT_URL ?= $(CORD_BASE_GIT_URL)/openstack.git
+
