@@ -40,8 +40,8 @@ bootstrap:
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/fixtures.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
 	$(RUN_TOSCA_BOOTSTRAP) dashboard.yaml
 
@@ -49,9 +49,9 @@ onboarding:
 	@echo "[ONBOARDING]"
 	# on-board the metronetwork service
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/disable-onboarding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/metro-net/xos/metronetworkservice-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/metronetwork
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
@@ -98,5 +98,3 @@ django-restart:
 clean-config-folder:
 	sudo docker exec metronetwork_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_mcord_config
 	sudo docker exec metronetwork_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_cord_config
-
-
