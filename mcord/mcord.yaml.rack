@@ -294,7 +294,7 @@ topology_template:
       properties:
           network: noauto
 #          default_flavor: m1.xlarge
-#default_node: computeBBU2 
+          default_node: computeBBU2 
 
     mysite_vpgwc_slice1:
       description: vPGWC Service Slice 1
@@ -317,7 +317,7 @@ topology_template:
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
-#default_node: compute10
+          default_node: compute10
     
     mysite_VPGWC_Component:
       description: MCORD Service default Component
