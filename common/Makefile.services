@@ -2,22 +2,29 @@ include ../common/Makedefs
 
 GITOPTS=-c advice.detachedHead=false
 
-services: $(SERVICE_DIR) \
-          $(SERVICE_DIR)/exampleservice \
-          $(SERVICE_DIR)/olt \
-          $(SERVICE_DIR)/vsg \
-          $(SERVICE_DIR)/vtn \
-          $(SERVICE_DIR)/vrouter \
-          $(SERVICE_DIR)/vtr \
-          $(SERVICE_DIR)/onos-service \
-          $(SERVICE_DIR)/fabric \
-          $(SERVICE_DIR)/hypercache \
-          $(SERVICE_DIR)/metro-net \
-          $(SERVICE_DIR)/openstack
-
-monitoring_services: $(SERVICE_DIR)/monitoring
-
 xos_core: $(XOS_DIR)
+
+services: $(SERVICE_DIR) \
+	$(SERVICE_DIR)/exampleservice \
+	$(SERVICE_DIR)/fabric \
+	$(SERVICE_DIR)/hypercache \
+	$(SERVICE_DIR)/olt \
+	$(SERVICE_DIR)/onos-service \
+	$(SERVICE_DIR)/openstack \
+	$(SERVICE_DIR)/vrouter \
+	$(SERVICE_DIR)/vsg \
+	$(SERVICE_DIR)/vtn \
+	$(SERVICE_DIR)/vtr \
+	$(SERVICE_DIR)/metro-net
+
+opencloud_services: $(SERVICE_DIR) \
+	$(SERVICE_DIR)/onos-service \
+	$(SERVICE_DIR)/openstack \
+	$(SERVICE_DIR)/vrouter \
+	$(SERVICE_DIR)/vtn
+
+monitoring_services: $(SERVICE_DIR) \
+	$(SERVICE_DIR)/monitoring
 
 $(XOS_DIR):
 	git -C ../.. $(GITOPTS) clone -b $(XOS_BRANCH) $(XOS_GIT_URL)
@@ -29,7 +36,7 @@ $(SERVICE_DIR):
 	mkdir -p $(SERVICE_DIR)
 
 $(SERVICE_DIR)/exampleservice:
-	git -C $(SERVICE_DIR) $(GITOPTS) clone  -b $(EXAMPLESERVICE_BRANCH) $(EXAMPLESERVICE_GIT_URL)
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(EXAMPLESERVICE_BRANCH) $(EXAMPLESERVICE_GIT_URL)
 
 $(SERVICE_DIR)/olt:
 	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(OLT_BRANCH) $(OLT_GIT_URL)

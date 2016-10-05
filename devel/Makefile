@@ -38,8 +38,8 @@ bootstrap: xos.yaml
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) MYIP=$(MYIP) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/fixtures.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
 
 xos.yaml: xos.m4
@@ -49,15 +49,15 @@ onboarding:
 	echo "[ONBOARDING]"
 	# on-board any services here
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/disable-onboarding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/openstack
 	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 develconfig:
-	$(RUN_TOSCA) ../common/cloudlab-openstack.yaml
+	$(RUN_TOSCA) ../common/tosca/cloudlab-openstack.yaml
 	$(RUN_TOSCA) ../setup/nodes.yaml
 
 common_cloudlab:
@@ -71,6 +71,10 @@ base:
 
 local_containers:
 	make -f ../common/Makefile.containers xos_devel synchronizer onboarding_synchronizer
+
+rebuild:
+	bash ../common/rebuild.sh $(XOS_BOOTSTRAP_PORT)
+	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 
 stop:
 	test ! -s $(DOCKER_COMPOSE_YML) || sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) stop

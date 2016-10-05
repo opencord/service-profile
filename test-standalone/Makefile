@@ -67,13 +67,13 @@ onboarding:
 	bash -c "echo somekey > key_import/volt_rsa.pub"
 	bash -c "echo somekey > key_import/onos_rsa"
 	bash -c "echo somekey > key_import/onos_rsa.pub"
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < ../common/disable-onboarding.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < ../common/tosca/disable-onboarding.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/olt/xos/volt-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/vsg/xos/vsg-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < ../common/enable-onboarding.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py None - < ../common/tosca/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vrouter
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/volt
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vsg
@@ -90,16 +90,16 @@ restore-initial-db-status:
 	sudo docker exec $(DB_NAME) psql -U postgres -d xos -c "SELECT setval('core_flavor_id_seq', 1)" >/dev/null 2>&1
 	sudo docker exec $(DB_NAME) psql -U postgres -d xos -c "SELECT setval('core_service_id_seq', 1)" >/dev/null 2>&1
 	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/manage.py --noobserver loaddata /opt/xos/core/fixtures/core_initial_data.json
-	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
-	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
+	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py none - < ../common/tosca/fixtures.yaml
+	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py none - < ../common/tosca/mydeployment.yaml
 	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py padmin@vicci.org - < ../frontend/sample.yaml
 
 	# sudo docker-compose run xos python /opt/xos/tosca/run.py padmin@vicci.org /opt/xos/configurations/cord-pod/setup.yaml
 	# sudo docker-compose run xos python /opt/xos/tosca/run.py padmin@vicci.org /opt/xos/configurations/cord-pod/nodes.yaml
 	# sudo docker-compose run xos python /opt/xos/tosca/run.py padmin@vicci.org /opt/xos/configurations/cord-pod/images.yaml
-	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py padmin@vicci.org - < ../cord-pod/mgmt-net.yaml
+	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py padmin@vicci.org - < ../common/tosca/mgmt-net.yaml
 	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py padmin@vicci.org - < services.yaml
-	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py padmin@vicci.org - < ../cord-pod/cord-volt-devices.yaml
+	sudo docker-compose -p $(DOCKER_PROJECT) -f $(DOCKER_COMPOSE_YML) run xos_ui python /opt/xos/tosca/run.py padmin@vicci.org - < ../common/tosca/cord-volt-devices.yaml
 
 
 test: restore-initial-db-status

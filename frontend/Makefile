@@ -40,8 +40,8 @@ bootstrap:
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/fixtures.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
 
 onboarding:
@@ -96,7 +96,7 @@ clean-config-folder:
 	sudo docker exec frontend_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_cord_config
 
 mock-cord-pod: onboard-cord-pod
-	$(RUN_TOSCA) ../cord-pod/mgmt-net.yaml
+	$(RUN_TOSCA) ../common/tosca/mgmt-net.yaml
 	$(RUN_TOSCA) mocks/onos.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-services.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-test-subscriber.yaml
@@ -109,7 +109,7 @@ onboard-cord-pod:
 	sudo bash -c "echo somekey > key_import/volt_rsa.pub"
 	sudo bash -c "echo somekey > key_import/onos_rsa"
 	sudo bash -c "echo somekey > key_import/onos_rsa.pub"
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/disable-onboarding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/olt/xos/volt-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vsg/xos/vsg-onboard.yaml
@@ -117,7 +117,7 @@ onboard-cord-pod:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/fabric-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos-cord-branding.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vrouter
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/volt
 	bash ../common/wait_for_onboarding_ready.sh 9998 services/vsg
@@ -129,7 +129,7 @@ onboard-cord-pod:
 
 mock-mcord:
 	# check this
-	$(RUN_TOSCA) ../cord-pod/mgmt-net.yaml
+	$(RUN_TOSCA) ../common/tosca/mgmt-net.yaml
 	$(RUN_TOSCA) mocks/mcord.yaml
 	sudo docker exec frontend_xos_ui_1 cp /opt/xos/configurations/mcord/xos_mcord_config /opt/xos/xos_configuration/
 	sudo docker exec frontend_xos_ui_1 touch /opt/xos/xos/settings.py

@@ -31,8 +31,8 @@ bootstrap:
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh 81
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/fixtures.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
 
 download_xos:
@@ -51,7 +51,7 @@ onboarding:
 	@echo "[ONBOARDING]"
 	# on-board any services here
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/disable-onboarding.yaml
 	sudo cp id_rsa key_import/vsg_rsa
 	sudo cp id_rsa.pub key_import/vsg_rsa.pub
 	sudo cp id_rsa key_import/volt_rsa
@@ -67,7 +67,7 @@ onboarding:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtr/xos/vtr-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vrouter
 	bash ../common/wait_for_onboarding_ready.sh 81 services/volt
 	bash ../common/wait_for_onboarding_ready.sh 81 services/vsg
@@ -80,7 +80,7 @@ onboarding:
 
 podconfig: nodes.yaml images.yaml
 	@echo "[PODCONFIG]"
-	$(RUN_TOSCA) setup.yaml
+	$(RUN_TOSCA) ../common/tosca/setup.yaml
 	$(RUN_TOSCA) nodes.yaml
 	$(RUN_TOSCA) images.yaml
 
@@ -99,9 +99,9 @@ fabric: fabric.yaml
 	$(RUN_TOSCA) fabric.yaml
 
 cord: vsg_custom_images
-	$(RUN_TOSCA) mgmt-net.yaml
+	$(RUN_TOSCA) ../common/tosca/mgmt-net.yaml
 	$(RUN_TOSCA) cord-services.yaml
-	$(RUN_TOSCA) cord-volt-devices.yaml
+	$(RUN_TOSCA) ../common/tosca/cord-volt-devices.yaml
 
 cord-subscriber:
 	$(RUN_TOSCA) cord-test-subscriber.yaml
@@ -124,10 +124,10 @@ exampleservice: onboard-exampleservice
 onboard-exampleservice:
 	sudo cp id_rsa key_import/exampleservice_rsa
 	sudo cp id_rsa.pub key_import/exampleservice_rsa.pub
-	$(RUN_TOSCA_BOOTSTRAP) ../common/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/disable-onboarding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/exampleservice/xos/exampleservice-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) exampleservice-synchronizer.yaml
-	$(RUN_TOSCA_BOOTSTRAP) ../common/enable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) ../common/tosca/enable-onboarding.yaml
 	bash ../common/wait_for_onboarding_ready.sh 81 services/exampleservice
 	bash ../common/wait_for_onboarding_ready.sh 81 xos
 	bash ../common/wait_for_xos_port.sh 80
@@ -185,25 +185,6 @@ cleanup: stop rm
 	./cleanup.sh
 	bash -c "source ./admin-openrc.sh; nova list --all-tenants; neutron net-list"
 
-ceilometer_custom_images: images/ceilometer-service-trusty-server-multi-nic.img images/ceilometer-trusty-server-multi-nic.img
-	#TODO: Add logic for service VM custom image (ceilometer-service-trusty-server-multi-nic)
-	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || glance image-create --name ceilometer-trusty-server-multi-nic --disk-format qcow2 --file ./images/ceilometer-trusty-server-multi-nic.compressed.qcow2 --container-format bare"
-
-vsg_custom_images: images/vsg-1.1.img
-	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.1 || glance image-create --name vsg-1.1 --disk-format qcow2 --file ./images/vsg-1.1.img --container-format bare"
-
-images/ceilometer-trusty-server-multi-nic.img: images
-	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || wget http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -P ./images"
-
-images/ceilometer-service-trusty-server-multi-nic.img: images
-	#TODO: Add logic for service VM custom image (ceilometer-service-trusty-server-multi-nic) once image is uploaded into vicci portal
-	#bash -c "source ../setup/admin-openrc.sh; glance image-show ceilometer-service-trusty-server-multi-nic || wget http://www.vicci.org/cord/ceilometer-service-trusty-server-multi-nic.compressed.qcow2 -P ./images"
-
-images/vsg-1.1.img: images
-	[ -s images/vsg-1.1.img ] || wget http://www.vicci.org/cord/vsg-1.1.img -P ./images
-
-images:
-	mkdir -p ./images
 
 .PHONY: local_containers
 local_containers: prereqs download_xos
