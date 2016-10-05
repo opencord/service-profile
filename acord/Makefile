@@ -35,8 +35,8 @@ bootstrap:
 	sudo rm -f onboarding-docker-compose/docker-compose.yml
 	sudo CONFIG_DIR=$(CONFIG_DIR) MYIP=$(MYIP) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash ../common/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/fixtures.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/mydeployment.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/fixtures.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < ../common/tosca/mydeployment.yaml
 	$(RUN_TOSCA_BOOTSTRAP) xos.yaml
 
 onboarding:
@@ -46,7 +46,7 @@ onboarding:
 	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
 
 develconfig:
-	$(RUN_TOSCA) ../common/cloudlab-openstack.yaml
+	$(RUN_TOSCA) ../common/tosca/cloudlab-openstack.yaml
 	$(RUN_TOSCA) ../setup/nodes.yaml
 
 cord-monitoringservice: devstack_ceilometer_custom_images onboard-monitoringservice ceilometer_devstack_cord_plugins
