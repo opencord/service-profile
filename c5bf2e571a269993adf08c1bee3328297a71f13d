@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a014df3_6d5fb773",
+        "filename": "mcord/mcord.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2016-10-05T02:42:30Z",
+      "side": 1,
+      "message": "how about we make mcord.yaml be a symlink to the profile we want to be the default (like mcord.yaml.cloudlab)",
+      "revId": "c5bf2e571a269993adf08c1bee3328297a71f13d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a014df3_4d54fb53",
+        "filename": "mcord/nodes.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2016-10-05T02:42:30Z",
+      "side": 1,
+      "message": "same here, maybe nodes.yaml should be a symlink to the cloudlab version if that is the intended default",
+      "revId": "c5bf2e571a269993adf08c1bee3328297a71f13d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
