@@ -43,11 +43,10 @@ topology_template:
       requirements:
           - deployment:
                node: MyDeployment
-               relationship: tosca.relationships.SiteDeployment
-               requirements:
-                   - controller:
-                       node: MyOpenStack
-                       relationship: tosca.relationships.UsesController
+               relationship: tosca.relationships.MemberOfDeployment
+          - controller:
+               node: MyOpenStack
+               relationship: tosca.relationships.UsesController
     Topology:
       type: tosca.nodes.DashboardView
       properties:

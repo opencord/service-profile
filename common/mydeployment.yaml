@@ -42,7 +42,7 @@ topology_template:
       requirements:
           - deployment:
                node: MyDeployment
-               relationship: tosca.relationships.SiteDeployment
+               relationship: tosca.relationships.MemberOfDeployment
 
     # Attach the Tenant view to the MyDeployment deployment
     Tenant:

@@ -89,11 +89,10 @@ topology_template:
       requirements:
           - deployment:
                node: StanfordDeployment
-               relationship: tosca.relationships.SiteDeployment
-               requirements:
-                   - controller:
-                       node: CloudLab
-                       relationship: tosca.relationships.UsesController
+               relationship: tosca.relationships.MemberOfDeployment
+          - controller:
+               node: CloudLab
+               relationship: tosca.relationships.UsesController
 
 
     # Nodes
