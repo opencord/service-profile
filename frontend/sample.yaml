@@ -47,10 +47,9 @@ topology_template:
           - deployment:
                node: MyDeployment
                relationship: tosca.relationships.SiteDeployment
-               requirements:
-                   - controller:
-                       node: CloudLab
-                       relationship: tosca.relationships.UsesController
+          - controller:
+               node: CloudLab
+               relationship: tosca.relationships.UsesController
 
     Public shared IPv4:
       type: tosca.nodes.NetworkTemplate
