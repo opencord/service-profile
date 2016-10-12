@@ -9,6 +9,9 @@ imports:
 topology_template:
   node_templates:
 
+    m1.small:
+      type: tosca.nodes.Flavor
+
     Private:
       type: tosca.nodes.NetworkTemplate
 
@@ -68,6 +71,9 @@ topology_template:
           - image:
               node: trusty-server-multi-nic
               relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+              node: m1.small
+              relationship: tosca.relationships.DefaultFlavor
 
     service#exampleservice:
       type: tosca.nodes.ExampleService
@@ -92,3 +98,6 @@ topology_template:
           - tenant:
               node: service#exampleservice
               relationship: tosca.relationships.TenantOfService
+          - dependency:
+              node: mysite_exampleservice
+              relationship: tosca.relationships.DependsOn
