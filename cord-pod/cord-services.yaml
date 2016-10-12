@@ -130,6 +130,13 @@ topology_template:
           no-delete: true
           no-update: true
 
+    management_hosts:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          no-create: true
+          no-delete: true
+          no-update: true
+
     image#vsg-1.1:
       type: tosca.nodes.Image
 
@@ -171,6 +178,9 @@ topology_template:
           - management:
               node: management
               relationship: tosca.relationships.ConnectsToNetwork
+#          - management_hosts:
+#              node: management_hosts
+#              relationship: tosca.relationships.ConnectsToNetwork
           - image:
               node: image#vsg-1.1
               relationship: tosca.relationships.DefaultImage
