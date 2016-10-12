@@ -27,6 +27,28 @@ topology_template:
               node: mysite_management
               relationship: tosca.relationships.MemberOfSlice
 
+    host_management_template:
+      type: tosca.nodes.NetworkTemplate
+      properties:
+          visibility: private
+          translation: none
+          vtn_kind: MANAGEMENT_HOST
+          start_ip: 10.1.0.128
+          end_ip: 10.1.0.254
+
+    host_management:
+      type: tosca.nodes.network.Network
+      properties:
+          ip_version: 4
+          cidr: 45.55.25.244/24
+      requirements:
+          - network_template:
+              node: host_management_template
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_management
+              relationship: tosca.relationships.MemberOfSlice
+
     mysite:
       type: tosca.nodes.Site
 
