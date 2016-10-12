@@ -31,6 +31,7 @@ cleanup_network wan_network
 cleanup_network mysite_vcpe-private
 cleanup_network mysite_vsg-access
 cleanup_network management
+cleanup_network management_hosts
 
 echo "Deleting networks"
 # Delete all networks beginning with mysite_
@@ -46,5 +47,6 @@ neutron net-delete public_network || true
 neutron net-delete hpc_client_network || true
 neutron net-delete ceilometer_network || true
 neutron net-delete management || true
+neutron net-delete management_hosts || true
 neutron net-delete mysite_vsg-access || true
 neutron net-delete exampleservice-public || true
