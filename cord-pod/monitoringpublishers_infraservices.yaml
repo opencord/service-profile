@@ -1,0 +1,37 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Setup CORD-related services -- vOLT, vCPE, vBNG.
+
+imports:
+   - custom_types/xos.yaml
+   - custom_types/monitoring_tosca_types.yaml
+
+topology_template:
+  node_templates:
+    service_ceilometer:
+      type: tosca.nodes.CeilometerService
+      properties:
+          no-create: true
+          no-update: true
+          no-delete: true
+
+    openstack_monitoring_publisher_tenant:
+      description: OpenStack Monitoring Publisher Tenant
+      type: tosca.nodes.OpenStackMonitoringPublisher
+      properties:
+          publish_agent_host: 192.168.122.20
+      requirements:
+          - provider_service:
+              node: service_ceilometer
+              relationship: tosca.relationships.TenantOfService
+
+    onos_monitoring_publisher_tenant:
+      description: ONOS Monitoring Publisher Tenant
+      type: tosca.nodes.ONOSMonitoringPublisher
+      properties:
+          publish_agent_host: 192.168.122.20
+          onos_service_endpoints: 192.168.122.110
+      requirements:
+          - provider_service:
+              node: service_ceilometer
+              relationship: tosca.relationships.TenantOfService
