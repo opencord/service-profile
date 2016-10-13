@@ -114,6 +114,20 @@ rebuild-monitoringservice:
 	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 
+install-inframonitoring-agents:
+	bash $(SERVICE_DIR)/monitoring/xos/synchronizer/ceilometer/monitoring_agent/install_monitoring_ceilometer.sh
+
+enable-inframonitoring: inframonitoring_yaml
+	$(RUN_TOSCA) inframonitoring.yaml
+
+enable-vsgmonitoring:
+	$(RUN_TOSCA) vsgmonitoring.yaml
+
+enable-exampleservicemonitoring:
+	$(RUN_TOSCA) exampleservicemonitoring.yaml
+
+inframonitoring_yaml:
+	export SETUPDIR=$(CONFIG_DIR); bash ./make-inframonitoring-yaml.sh
+
 virtualbng_json:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-virtualbng-json.sh
-
