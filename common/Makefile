@@ -173,7 +173,6 @@ xos_devel_c:
 xos_test_c:
 	cd $(XOS_DIR)/containers/xos; make test
 
-
 # utilties/convenience targets
 cleanup: stop rm $(CONFIG_DIR)/cleanup.sh
 	$(CONFIG_DIR)/cleanup.sh
