@@ -99,9 +99,12 @@ onboard-exampleservice: $(SERVICE_DIR)/exampleservice
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
-cord-monitoringservice: onboard-monitoringservice
+cord-monitoringservice: ceilometer_custom_images onboard-monitoringservice
 	$(RUN_TOSCA) monitoringservice.yaml
 	$(RUN_TOSCA) monitoringtenant.yaml
+
+monitoringpublishers:
+	$(RUN_TOSCA) monitoringpublishers.yaml
 
 onboard-monitoringservice: $(SERVICE_DIR)/monitoring
 	sudo cp id_rsa key_import/monitoringservice_rsa
@@ -115,3 +118,11 @@ onboard-monitoringservice: $(SERVICE_DIR)/monitoring
 virtualbng_json:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-virtualbng-json.sh
 
+ceilometer_custom_images: images/ceilometer-service-trusty-server-multi-nic.img images/ceilometer-trusty-server-multi-nic.img
+	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || glance image-create --name ceilometer-trusty-server-multi-nic --disk-format qcow2 --file ./images/ceilometer-trusty-server-multi-nic.compressed.qcow2 --container-format bare"
+	#TODO: Add logic for service VM custom image (ceilometer-service-trusty-server-multi-nic)
+	#Assuming that monitoring service custom image is copied to home folder of the XOS virtual machine
+	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-service-trusty-server-multi-nic || glance image-create --name ceilometer-service-trusty-server-multi-nic --disk-format qcow2 --file ~/ceiloservice-sep13-2016-v2 --container-format bare"
+
+images/ceilometer-trusty-server-multi-nic.img: images
+	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || wget http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -P ./images"
