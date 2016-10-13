@@ -114,6 +114,23 @@ rebuild-monitoringservice:
 	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 
+rebuild-vsg:
+	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) vsg
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+
+rebuild-fabric:
+	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) fabric
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+
+enable-inframonitoring:
+	bash $(SERVICE_DIR)/monitoring/xos/synchronizer/ceilometer/monitoring_agent/install_monitoring_ceilometer.sh
+	$(RUN_TOSCA) monitoringpublishers_infraservices.yaml
+
+enable-vsgmonitoring:
+	$(RUN_TOSCA) monitoringpublishers_vsg.yaml
+
+enable-exampleservicemonitoring:
+	$(RUN_TOSCA) monitoringpublishers_exampleservice.yaml
+
 virtualbng_json:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-virtualbng-json.sh
-
