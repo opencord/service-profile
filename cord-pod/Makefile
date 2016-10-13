@@ -136,6 +136,9 @@ cord-monitoringservice: ceilometer_custom_images onboard-monitoringservice
 	$(RUN_TOSCA) monitoringservice.yaml
 	$(RUN_TOSCA) monitoringtenant.yaml
 
+deploy-monitoringpublishers:
+	$(RUN_TOSCA) monitoringpublishers.yaml
+
 onboard-monitoringservice: download-monitoringservice
 	sudo cp id_rsa key_import/monitoringservice_rsa
 	sudo cp id_rsa.pub key_import/monitoringservice_rsa.pub
@@ -147,6 +150,10 @@ onboard-monitoringservice: download-monitoringservice
 
 download-monitoringservice:
 	make -f ../common/Makefile.services monitoring_services
+
+rebuild-monitoringservice:
+	bash ../common/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
+	bash ../common/wait_for_onboarding_ready.sh 81 xos
 
 nodes.yaml:
 	export SETUPDIR=.; bash ../common/make-nodes-yaml.sh
@@ -186,8 +193,10 @@ cleanup: stop rm
 	bash -c "source ./admin-openrc.sh; nova list --all-tenants; neutron net-list"
 
 ceilometer_custom_images: images/ceilometer-service-trusty-server-multi-nic.img images/ceilometer-trusty-server-multi-nic.img
-	#TODO: Add logic for service VM custom image (ceilometer-service-trusty-server-multi-nic)
 	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-trusty-server-multi-nic || glance image-create --name ceilometer-trusty-server-multi-nic --disk-format qcow2 --file ./images/ceilometer-trusty-server-multi-nic.compressed.qcow2 --container-format bare"
+	#TODO: Add logic for service VM custom image (ceilometer-service-trusty-server-multi-nic)
+	#Assuming that monitoring service custom image is copied to home folder of the XOS virtual machine
+	bash -c "source ./admin-openrc.sh; glance image-show ceilometer-service-trusty-server-multi-nic || glance image-create --name ceilometer-service-trusty-server-multi-nic --disk-format qcow2 --file ~/ceiloservice-sep13-2016-v2 --container-format bare"
 
 vsg_custom_images: images/vsg-1.1.img
 	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.1 || glance image-create --name vsg-1.1 --disk-format qcow2 --file ./images/vsg-1.1.img --container-format bare"
