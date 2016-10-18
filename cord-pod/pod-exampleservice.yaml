@@ -29,13 +29,20 @@ topology_template:
           no-delete: true
           no-update: true
 
+    template#private_wan:
+      type: tosca.nodes.NetworkTemplate
+      properties:
+          visibility: private
+          translation: none
+          vtn_kind: public
+
     exampleservice-public:
       type: tosca.nodes.network.Network
       properties:
           ip_version: 4
       requirements:
           - network_template:
-              node: Private
+              node: template#private_wan
               relationship: tosca.relationships.UsesNetworkTemplate
           - owner:
               node: mysite_exampleservice
