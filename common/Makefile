@@ -1,3 +1,5 @@
+# common/Makefile
+
 include $(COMMON_DIR)/Makedefs
 
 # prerequisite software

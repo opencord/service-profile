@@ -1,4 +1,4 @@
-# frontend/Makefile
+# metronetwork/Makefile
 
 CONFIG_DIR         := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 COMMON_DIR         := $(abspath ../common )

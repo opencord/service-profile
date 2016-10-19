@@ -1,4 +1,5 @@
-# service-profile/common/Makedefs
+# common/Makedefs
+# Defines commonly used Makefile variables
 
 COMMON_DIR           ?= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 CONFIG_DIR           ?= $(COMMON_DIR)
