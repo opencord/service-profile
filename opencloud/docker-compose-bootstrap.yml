@@ -11,7 +11,7 @@ xos_redis:
             max-file: "5"
 
 xos_synchronizer_onboarding:
-    image: xosproject/xos-synchronizer-onboarding
+    image: xosproject/xos
     command: bash -c "cd /opt/xos/synchronizers/onboarding; ./run.sh"
     #command: sleep 86400
     labels:

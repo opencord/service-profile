@@ -17,7 +17,7 @@ xos_bootstrap_ui:
       - ../../xos/xos/core/tests:/opt/xos/core/tests
 
 xos_synchronizer_onboarding:
-    image: xosproject/xos-synchronizer-onboarding
+    image: xosproject/xos
     command: bash -c "cd /opt/xos/synchronizers/onboarding; ./run.sh"
 #    command: sleep 86400
     labels:

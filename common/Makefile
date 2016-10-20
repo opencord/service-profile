@@ -139,7 +139,7 @@ bootstrap: $(BOOTSTRAP_YML) $(CONFIG_DIR)/xos.yaml
 
 # container creation targets
 
-local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c synchronizer_c onboarding_synchronizer_c
+local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c
 
 update_certs:
 	echo "" > $(XOS_DIR)/containers/xos/local_certs.crt
@@ -157,13 +157,6 @@ xos_devel_c:
 
 xos_test_c:
 	cd $(XOS_DIR)/containers/xos; make test
-
-synchronizer_c:
-	cd $(XOS_DIR)/containers/synchronizer; make
-
-onboarding_synchronizer_c:
-	cd $(XOS_DIR)/containers/onboarding_synchronizer; make
-
 
 # utilties/convenience targets
 cleanup: stop rm

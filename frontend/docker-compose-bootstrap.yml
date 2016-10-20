@@ -32,7 +32,7 @@ xos_bootstrap_ui:
       # - ../../xos/xos/xos:/opt/xos/xos
 
 xos_synchronizer_onboarding:
-    image: xosproject/xos-synchronizer-onboarding
+    image: xosproject/xos
     command: bash -c "cd /opt/xos/synchronizers/onboarding; ./run.sh"
     labels:
         org.xosproject.kind: synchronizer
