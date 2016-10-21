@@ -12,7 +12,7 @@ Most frequently, this `service-profile` repo is checked out by
 conventional build of a CORD pod.  The `cord-pod` style repos work in this way.
 
 When using the testing configurations like `test-standalone` and `frontend`,
-this repo can be checked out on it's own on a
+this repo can be checked out and run on it's own on a Ubuntu 14.04 machine.
 
 The directory `common` is not a service profile, but contains various common
 files and tools that are used by the other service profiles.  The
@@ -84,7 +84,7 @@ which are defined in `common/Makefile`. Run these within the service directories
  - Update Services source trees: `make update_services`
  - View logs: `make showlogs_bootstrap` and `make showlogs`
  - See what containers are running: `make ps`
- - Open a shell on the XOS Bootstrap UI container: `make enter-bootstra-ui`
+ - Open a shell on the XOS Bootstrap UI container: `make enter-bootstrap-ui`
  - Open a shell on the XOS UI container: `make enter-ui`
  - Open a shell on the Database container: `make enter-db`
 
