@@ -14,7 +14,7 @@ XOS_UI_PORT        ?= 9999
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-metronetwork: prereqs config_dirs xos_download cord_services bootstrap dashboard onboarding ecord_services
+metronetwork: prereqs config_dirs xos_download cord_services cord_libraries bootstrap dashboard onboarding ecord_services
 
 dashboard:
 	$(RUN_TOSCA_BOOTSTRAP) dashboard.yaml

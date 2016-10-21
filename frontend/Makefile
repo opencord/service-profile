@@ -14,7 +14,7 @@ XOS_UI_PORT        ?= 9999
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-frontend: prereqs config_dirs xos_download cord_services bootstrap onboarding frontendconfig
+frontend: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding frontendconfig
 
 onboarding:
 	@echo "[ONBOARDING]"

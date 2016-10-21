@@ -35,7 +35,7 @@ prepare: xos
 	sudo docker exec -i $(DOCKER_PROJECT)_xos_ui_1 bash -c "cd /opt/xos/tests/api; npm install --production"
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 pip install dredd_hooks
 
-xos: prereqs config_dirs xos_download cord_services test_bootstrap onboarding
+xos: prereqs config_dirs xos_download cord_services cord_libraries test_bootstrap onboarding
 
 test_bootstrap:
 	@echo "[TEST_BOOTSTRAP]"
