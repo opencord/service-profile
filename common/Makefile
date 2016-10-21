@@ -141,6 +141,8 @@ bootstrap: $(BOOTSTRAP_YML) $(CONFIG_DIR)/xos.yaml
 
 local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c
 
+test_containers: local_containers xos_test_c
+
 update_certs:
 	echo "" > $(XOS_DIR)/containers/xos/local_certs.crt
 	for CRT in $$(ls /usr/local/share/ca-certificates/*) ; do \
@@ -157,6 +159,7 @@ xos_devel_c:
 
 xos_test_c:
 	cd $(XOS_DIR)/containers/xos; make test
+
 
 # utilties/convenience targets
 cleanup: stop rm
