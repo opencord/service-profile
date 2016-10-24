@@ -119,6 +119,15 @@ update_services:
 	git -C $(SERVICE_DIR)/metro-net pull
 	git -C $(SERVICE_DIR)/openstack pull
 
+cord_libraries: $(LIBRARY_DIR) \
+        $(LIBRARY_DIR)/ng-xos-lib
+
+$(LIBRARY_DIR):
+	mkdir -p $(LIBRARY_DIR)
+
+$(LIBRARY_DIR)/ng-xos-lib:
+	git -C $(LIBRARY_DIR) $(GITOPTS) clone -b $(NG_XOS_LIB_BRANCH) $(NG_XOS_LIB_URL)
+
 # bootstrap the containers
 
 RUN_TOSCA_BOOTSTRAP ?= python $(COMMON_DIR)/run_tosca.py $(XOS_BOOTSTRAP_PORT) $(ADMIN_USERNAME) $(ADMIN_PASSWORD)

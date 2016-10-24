@@ -20,7 +20,7 @@ cloudlab: download_xos common_cloudlab local_containers xos
 
 devstack: download_xos upgrade_pkgs common_devstack local_containers xos devstack_net_fix
 
-xos: prereqs config_dirs xos_download cord_services bootstrap onboarding develconfig
+xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding develconfig
 
 onboarding:
 	echo "[ONBOARDING]"

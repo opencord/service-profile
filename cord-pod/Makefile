@@ -11,7 +11,7 @@ BOOTSTRAP_PROJECT  ?= cordpodbs
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-xos: prereqs config_dirs xos_download cord_services bootstrap onboarding podconfig
+xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
 
 onboarding: synchronizers.yaml id_rsa id_rsa.pub
 	@echo "[ONBOARDING]"

@@ -8,7 +8,7 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= mcord
 BOOTSTRAP_PROJECT  ?= mcordbs
 
-xos: prereqs config_dirs xos_download cord_services bootstrap onboarding podconfig
+xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
 
 onboarding:
 	@echo "[ONBOARDING]"
