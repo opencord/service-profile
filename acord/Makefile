@@ -38,7 +38,9 @@ cord-monitoringservice: devstack_ceilometer_custom_images onboard-monitoringserv
 onboard-monitoringservice: $(SERVICE_DIR)/monitoring
 	sudo cp ~/.ssh/id_rsa key_import/monitoringservice_rsa
 	sudo cp ~/.ssh/id_rsa.pub key_import/monitoringservice_rsa.pub
+	$(RUN_TOSCA_BOOTSTRAP) $(LIBRARY_DIR)/ng-xos-lib/ng-xos-lib-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/monitoring/xos/monitoring-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(LIBRARY_DIR)/ng-xos-lib/ng-xos-lib-onboard.yaml
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)

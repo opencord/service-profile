@@ -17,6 +17,7 @@ xos_bootstrap_ui:
       - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config
       - ./xos_cord_config:/opt/xos/xos_configuration/xos_cord_config:ro
       - ../../xos_services:/opt/xos_services
+      - ../../xos_libraries:/opt/xos_libraries
 
 xos_synchronizer_onboarding:
     image: xosproject/xos
