@@ -17,6 +17,7 @@ xos_synchronizer_onboarding:
         - ./key_import:/opt/xos/key_import:ro
         - ./onboarding-docker-compose:/opt/xos/synchronizers/onboarding/docker-compose
         - ../../xos_services:/opt/xos_services
+        - ../../xos_libraries:/opt/xos_libraries
     log_driver: "json-file"
     log_opt:
             max-size: "100k"
