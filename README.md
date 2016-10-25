@@ -68,7 +68,8 @@ containers are created by the onboarding synchronizer.
 You'll also need to create a `xos.yaml` which specifies the configuration of
 the onboarded XOS container, and `docker-compose-bootstrap.yml` which
 configures the bootstrap containers.  Optionally, create a `cleanup.sh` to
-clean up between run, if your service profile requires it.
+clean up between run, if your service profile requires it - this enables the
+`make cleanup` target.
 
 ## Utility/Convenience targets
 
@@ -87,6 +88,5 @@ which are defined in `common/Makefile`. Run these within the service directories
  - Open a shell on the XOS Bootstrap UI container: `make enter-bootstrap-ui`
  - Open a shell on the XOS UI container: `make enter-ui`
  - Open a shell on the Database container: `make enter-db`
-
 
 

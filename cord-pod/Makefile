@@ -55,6 +55,9 @@ podconfig: nodes.yaml images.yaml
 vtn: vtn-external.yaml
 	$(RUN_TOSCA) vtn-external.yaml
 
+vtn-external.yaml:
+	export SETUPDIR=$(CONFIG_DIR); bash ./make-vtn-external-yaml.sh
+
 delete_fabric_config:
 	http -a karaf:karaf DELETE http://onos-fabric:8181/onos/v1/network/configuration/
 
@@ -63,16 +66,16 @@ reactivate_fabric_apps:
 	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
 
 fabric: fabric.yaml
-	cp ../../xos_services/fabric/config/network-cfg-quickstart.json .
+	cp $(SERVICE_DIR)/fabric/config/network-cfg-quickstart.json .
 	$(RUN_TOSCA) fabric.yaml
 
-cord: vsg_custom_images
+fabric.yaml:
+	export SETUPDIR=$(CONFIG_DIR); bash ./make-fabric-yaml.sh
+
+cord: $(CONFIG_DIR)/images/vsg-1.1.img
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/mgmt-net.yaml
 	$(RUN_TOSCA) cord-services.yaml
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/cord-volt-devices.yaml
-
-vsg_custom_images: images/vsg-1.1.img
-	bash -c "source ./admin-openrc.sh; glance image-show vsg-1.1 || glance image-create --name vsg-1.1 --disk-format qcow2 --file ./images/vsg-1.1.img --container-format bare"
 
 cord-subscriber:
 	$(RUN_TOSCA) cord-test-subscriber.yaml
@@ -96,7 +99,7 @@ onboard-exampleservice: $(SERVICE_DIR)/exampleservice
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
-cord-monitoringservice: ceilometer_custom_images onboard-monitoringservice
+cord-monitoringservice: onboard-monitoringservice
 	$(RUN_TOSCA) monitoringservice.yaml
 	$(RUN_TOSCA) monitoringtenant.yaml
 
@@ -108,12 +111,6 @@ onboard-monitoringservice: $(SERVICE_DIR)/monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
-
-vtn-external.yaml:
-	export SETUPDIR=$(CONFIG_DIR); bash ./make-vtn-external-yaml.sh
-
-fabric.yaml:
-	export SETUPDIR=$(CONFIG_DIR); bash ./make-fabric-yaml.sh
 
 virtualbng_json:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-virtualbng-json.sh
