@@ -3,16 +3,16 @@
 include $(COMMON_DIR)/Makedefs
 
 # prerequisite software
-prereqs: apt-prereqs /usr/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
+prereqs: /usr/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
 
 apt-prereqs:
 	sudo apt-get update
 	sudo apt-get -y install apt-transport-https ca-certificates python-pip
 
-/usr/bin/http:
+/usr/bin/http: apt-prereqs
 	sudo apt-get -y install httpie
 
-/usr/bin/curl:
+/usr/bin/curl: apt-prereqs
 	sudo apt-get -y install curl
 
 /usr/bin/docker:
@@ -23,7 +23,7 @@ apt-prereqs:
 	sudo apt-get -y install docker-engine
 	sudo usermod -aG docker $(shell whoami)
 
-/usr/local/bin/docker-compose:
+/usr/local/bin/docker-compose: apt-prereqs
 	sudo pip install docker-compose
 
 
