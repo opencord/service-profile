@@ -3,27 +3,28 @@
 include $(COMMON_DIR)/Makedefs
 
 # prerequisite software
-prereqs: apt-prereqs /usr/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
+.PHONY: prereqs
+prereqs: /usr/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
 
 apt-prereqs:
 	sudo apt-get update
 	sudo apt-get -y install apt-transport-https ca-certificates python-pip
+	touch $@
 
-/usr/bin/http:
+/usr/bin/http: | apt-prereqs
 	sudo apt-get -y install httpie
 
-/usr/bin/curl:
+/usr/bin/curl: | apt-prereqs
 	sudo apt-get -y install curl
 
-/usr/bin/docker:
+/usr/bin/docker: | apt-prereqs
 	sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-	echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /tmp/docker.list
-	sudo mv /tmp/docker.list /etc/apt/sources.list.d/docker.list
+	echo "deb https://apt.dockerproject.org/repo ubuntu-`lsb_release -c | awk '{print $$2}'` main" | sudo tee /etc/apt/sources.list.d/docker.list
 	sudo apt-get update
 	sudo apt-get -y install docker-engine
 	sudo usermod -aG docker $(shell whoami)
 
-/usr/local/bin/docker-compose:
+/usr/local/bin/docker-compose: | apt-prereqs
 	sudo pip install docker-compose
 
 
