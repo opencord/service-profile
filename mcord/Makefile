@@ -8,6 +8,8 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= mcord
 BOOTSTRAP_PROJECT  ?= mcordbs
 
+include $(COMMON_DIR)/Makefile
+
 xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
 
 onboarding:
