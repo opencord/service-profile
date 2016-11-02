@@ -75,6 +75,7 @@ fabric.yaml:
 cord: $(CONFIG_DIR)/images/vsg-1.1.img
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/mgmt-net.yaml
 	$(RUN_TOSCA) cord-services.yaml
+	$(RUN_TOSCA) public-net.yaml
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/cord-volt-devices.yaml
 
 cord-subscriber:
