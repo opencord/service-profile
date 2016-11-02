@@ -107,6 +107,9 @@ $(SERVICE_DIR)/metro-net:
 $(SERVICE_DIR)/openstack:
 	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(OPENSTACK_BRANCH) $(OPENSTACK_GIT_URL)
 
+$(SERVICE_DIR)/globalxos:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(GLOBALXOS_BRANCH) $(GLOBALXOS_GIT_URL)
+
 update_services:
 	git -C $(SERVICE_DIR)/exampleservice pull
 	git -C $(SERVICE_DIR)/olt pull

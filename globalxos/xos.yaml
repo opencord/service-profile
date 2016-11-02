@@ -1,0 +1,130 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Onboard the exampleservice
+
+imports:
+   - custom_types/xos.yaml
+
+topology_template:
+  node_templates:
+    xos:
+      type: tosca.nodes.XOS
+      properties:
+        ui_port: 9999
+        bootstrap_ui_port: 9998
+        docker_project_name: globalxos
+        db_container_name: globalxosbs_xos_db_1
+        frontend_only: false
+
+    /opt/xos/xos_configuration/xos_common_config:
+      type: tosca.nodes.XOSVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, ../common/xos_common_config, ENV_VAR ] }
+          read_only: false
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/templatetags:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/templatetags/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/dashboards:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/dashboards/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/static/css:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/static/css/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/static/images:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/static/images/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/core/xoslib/static/js:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/xoslib/static/js/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    /opt/xos/templates:
+          type: tosca.nodes.XOSVolume
+          properties:
+              host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/templates/, ENV_VAR ] }
+              read_only: false
+          requirements:
+              - xos:
+                  node: xos
+                  relationship: tosca.relationships.UsedByXOS
+
+    # The following volumes are sometimes used in development,
+    # but they are not tested and they can break part of the system, handle with care.
+
+    # /opt/xos/tosca:
+    #       type: tosca.nodes.XOSVolume
+    #       properties:
+    #           host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/tosca/, ENV_VAR ] }
+    #           read_only: false
+    #       requirements:
+    #           - xos:
+    #               node: xos
+    #               relationship: tosca.relationships.UsedByXOS
+
+    # /opt/xos/xos:
+    #       type: tosca.nodes.XOSVolume
+    #       properties:
+    #           host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/xos/, ENV_VAR ] }
+    #           read_only: false
+    #       requirements:
+    #           - xos:
+    #               node: xos
+    #               relationship: tosca.relationships.UsedByXOS
+
+    # /opt/xos/core/models:
+    #       type: tosca.nodes.XOSVolume
+    #       properties:
+    #           host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/core/models/, ENV_VAR ] }
+    #           read_only: false
+    #       requirements:
+    #           - xos:
+    #               node: xos
+    #               relationship: tosca.relationships.UsedByXOS
+
+    # /opt/xos/api/utility:
+    #       type: tosca.nodes.XOSVolume
+    #       properties:
+    #           host_path: { path_join: [ SELF, CONFIG_DIR, ../../xos/xos/api/utility/, ENV_VAR ] }
+    #           read_only: false
+    #       requirements:
+    #           - xos:
+    #               node: xos
+    #               relationship: tosca.relationships.UsedByXOS
