@@ -37,7 +37,7 @@ topology_template:
           gateway_ip: 10.6.1.129
           gateway_mac: 02:42:0a:06:01:01
 
-    addresses_exampleservice-public:
+    addresses_public:
       type: tosca.nodes.AddressPool
       properties:
           addresses: 10.6.1.192/26
@@ -69,8 +69,8 @@ topology_template:
           - addresses_vsg:
               node: addresses_vsg
               relationship: tosca.relationships.ProvidesAddresses
-          - addresses_service1:
-              node: addresses_exampleservice-public
+          - addresses_public:
+              node: addresses_public
               relationship: tosca.relationships.ProvidesAddresses
 
 
