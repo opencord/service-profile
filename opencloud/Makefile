@@ -43,3 +43,24 @@ podconfig: nodes.yaml images.yaml
 	$(RUN_TOSCA) nodes.yaml
 	$(RUN_TOSCA) images.yaml
 
+opencloud: opencloud.yaml
+	@echo "[OPENCLOUD]"
+	$(RUN_TOSCA) opencloud.yaml
+
+vtn: vtn.yaml
+	@echo "[VTN]"
+	$(RUN_TOSCA) vtn.yaml
+
+exampleservice: $(SERVICE_DIR)/exampleservice opencloud-exampleservice.yaml
+	@echo "[EXAMPLESERVICE]"
+	sudo cp id_rsa key_import/exampleservice_rsa
+	sudo cp id_rsa.pub key_import/exampleservice_rsa.pub
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/exampleservice/xos/exampleservice-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) exampleservice-synchronizer.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/exampleservice
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+	$(RUN_TOSCA) opencloud-exampleservice.yaml
+
