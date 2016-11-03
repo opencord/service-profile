@@ -61,8 +61,9 @@ mock-cord-pod: onboard-cord-pod
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/mgmt-net.yaml
 	$(RUN_TOSCA) mocks/onos.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-services.yaml
+	$(RUN_TOSCA) $(COMMON_DIR)/tosca/public-net.yaml
 	$(RUN_TOSCA) ../cord-pod/cord-test-subscriber.yaml
-	$(RUN_TOSCA) ../cord-pod/cord-volt-devices.yaml
+	$(RUN_TOSCA) $(COMMON_DIR)/tosca/cord-volt-devices.yaml
 
 mock-mcord:
 	# check this
