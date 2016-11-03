@@ -75,6 +75,9 @@ topology_template:
     m1.large:
       type: tosca.nodes.Flavor
 
+    m1.xlarge:
+      type: tosca.nodes.Flavor
+
 # -----------------------------------------------------------------------------
 # Dashboard Views
 # -----------------------------------------------------------------------------

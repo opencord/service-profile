@@ -7,13 +7,14 @@ imports:
 
 topology_template:
   node_templates:
-    m1.large:
+
+    m1.small:
       type: tosca.nodes.Flavor
 
     m1.medium:
       type: tosca.nodes.Flavor
 
-    m1.small:
+    m1.large:
       type: tosca.nodes.Flavor
 
     m1.xlarge:
@@ -22,17 +23,17 @@ topology_template:
     MyDeployment:
       type: tosca.nodes.Deployment
       requirements:
-          - m1.xlarge:
-             node: m1.large
-             relationship: tosca.relationships.SupportsFlavor
-          - m1.large:
-             node: m1.large
+          - m1.small:
+             node: m1.small
              relationship: tosca.relationships.SupportsFlavor
           - m1.medium:
              node: m1.medium
              relationship: tosca.relationships.SupportsFlavor
-          - m1.small:
-             node: m1.small
+          - m1.large:
+             node: m1.large
+             relationship: tosca.relationships.SupportsFlavor
+          - m1.xlarge:
+             node: m1.xlarge
              relationship: tosca.relationships.SupportsFlavor
 
     mysite:
