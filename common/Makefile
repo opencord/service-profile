@@ -194,10 +194,13 @@ $(CONFIG_DIR)images/vsg-1.1.img: config_dirs
 	curl -fLsS http://www.vicci.org/cord/vsg-1.1.img -o $@
 	echo "16b0beb6778aed0f5feecb05f8d5750e6c262f98e6011e99ddadf7d46a177b6f  $@" | sha256sum -c -
 
-$(CONFIG_DIR)images/ceilometer-trusty-server-multi-nic.img: config_dirs
+$(CONFIG_DIR)images/ceilometer-trusty-server-multi-nic.img: | config_dirs
 	curl -fLsS http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -o $@
 	echo "afde3f0448483902693be4d52ae76bb683fd74b1c7728019094bf81b37d86105  $@" | sha256sum -c -
 
+$(CONFIG_DIR)images/ceilometer-service-trusty-server-multi-nic.img: | config_dirs
+	curl -fLsS http://www.vicci.org/cord/ceilometer-service-trusty-server-multi-nic.compressed.qcow2 -o $@
+	echo "9c346ff15727e9a98942835d6bd34b3d033f868234425f517e53d64b5a124a13  $@" | sha256sum -c -
 
 # utilties/convenience targets
 cleanup: stop rm $(CONFIG_DIR)/cleanup.sh
