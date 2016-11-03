@@ -100,11 +100,15 @@ onboard-exampleservice: $(SERVICE_DIR)/exampleservice
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
-cord-monitoringservice: onboard-monitoringservice
+cord-monitoringservice: ceilometer_custom_images onboard-monitoringservice
 	$(RUN_TOSCA) monitoringservice.yaml
 	$(RUN_TOSCA) monitoringtenant.yaml
 
-onboard-monitoringservice: $(SERVICE_DIR)/monitoring
+rebuild-monitoringservice:
+	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+
+onboard-monitoringservice: ceilometer_custom_images $(SERVICE_DIR)/monitoring
 	sudo cp id_rsa key_import/monitoringservice_rsa
 	sudo cp id_rsa.pub key_import/monitoringservice_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/monitoring/xos/monitoring-onboard.yaml
@@ -112,6 +116,8 @@ onboard-monitoringservice: $(SERVICE_DIR)/monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+
+ceilometer_custom_images: $(CONFIG_DIR)images/ceilometer-trusty-server-multi-nic.img $(CONFIG_DIR)images/ceilometer-service-trusty-server-multi-nic.img
 
 virtualbng_json:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-virtualbng-json.sh
