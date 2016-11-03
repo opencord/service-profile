@@ -11,13 +11,26 @@ BOOTSTRAP_PROJECT  ?= ocb
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-xos: prereqs config_dirs xos_download opencloud_services bootstrap onboarding podconfig
+xos: prereqs config_dirs xos_download opencloud_services oc_bootstrap onboarding
 
 opencloud_services: $(SERVICE_DIR) \
 	$(SERVICE_DIR)/onos-service \
 	$(SERVICE_DIR)/openstack \
 	$(SERVICE_DIR)/vrouter \
 	$(SERVICE_DIR)/vtn
+
+opencloud_bootstrap: deployment.yaml
+	@echo "[OC BOOTSTRAP]"
+	@echo "XOS Image Build Date: `sudo docker inspect -f '{{ .Created }}' xosproject/xos`"
+	@echo "XOS Image Commit Hash: `sudo docker inspect -f '{{ .Config.Labels.XOS_GIT_COMMIT_HASH }}' xosproject/xos`"
+	@echo "XOS Image Commit Date: `sudo docker inspect -f '{{ .Config.Labels.XOS_GIT_COMMIT_DATE }}' xosproject/xos`"
+	sudo rm -f $(DOCKER_COMPOSE_YML)
+	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < $(COMMON_DIR)/tosca/fixtures.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < deployment.yaml
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
+	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos.yaml
 
 onboarding: synchronizers.yaml id_rsa id_rsa.pub
 	@echo "[ONBOARDING]"
@@ -36,12 +49,6 @@ onboarding: synchronizers.yaml id_rsa id_rsa.pub
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/onos
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
-
-podconfig: nodes.yaml images.yaml
-	@echo "[PODCONFIG]"
-	$(RUN_TOSCA) $(COMMON_DIR)/tosca/setup.yaml
-	$(RUN_TOSCA) nodes.yaml
-	$(RUN_TOSCA) images.yaml
 
 opencloud: opencloud.yaml
 	@echo "[OPENCLOUD]"

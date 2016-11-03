@@ -42,6 +42,7 @@ xos_bootstrap_ui:
         - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config:ro
         - ./files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
         - ../../xos_services:/opt/xos_services
+        - ./admin-openrc.sh:/root/setup/admin-openrc.sh
     log_driver: "json-file"
     log_opt:
             max-size: "100k"
