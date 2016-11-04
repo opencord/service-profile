@@ -2,6 +2,8 @@
 
 include $(COMMON_DIR)/Makedefs
 
+HAS_BASE=$(shell docker images | grep xos-base )
+
 # prerequisite software
 .PHONY: prereqs
 prereqs: /usr/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
@@ -165,7 +167,9 @@ update_certs:
 	done
 
 xos_base_c:
-	cd $(XOS_DIR)/containers/xos; make base
+	@[ -z "$(HAS_BASE)" ] || echo "skipping base container build"
+	@[ -n "$(HAS_BASE)" ] || ( cd $(XOS_DIR)/containers/xos; make base )   
+#	cd $(XOS_DIR)/containers/xos; make base
 
 xos_devel_c:
 	cd $(XOS_DIR)/containers/xos; make devel
