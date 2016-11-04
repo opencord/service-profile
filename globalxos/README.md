@@ -3,14 +3,11 @@
 This configuration launches an XOS that can control multiple CORD PODs.
 Each POD is configured as a separate Site in Global XOS.
 
-*** FIX FROM HERE ***
-
 ## Getting Started
 
-- Navigate to `/service-profile/globalxos` folder
+- Navigate to `service-profile/globalxos` folder
+- Edit `opencloud.yaml` to declare sites and admin login credentials for each site
 - Run `make` command
-
-You'll be able to visit XOS at `0.0.0.0:9999`.
 
 ### Using Vagrant
 
