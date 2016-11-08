@@ -1,7 +1,7 @@
 # mcord/Makefile
 
 CONFIG_DIR         := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-COMMON_DIR         := $(abspath ../common )
+COMMON_DIR         := $(CONFIG_DIR)/../common
 
 .DEFAULT_GOAL      := xos
 
