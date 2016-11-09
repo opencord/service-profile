@@ -10,7 +10,7 @@ topology_template:
     xos:
       type: tosca.nodes.XOS
       properties:
-        ui_port: 80
+        ui_port: 8888
         bootstrap_ui_port: 81
         docker_project_name: cordpod
         db_container_name: cordpodbs_xos_db_1

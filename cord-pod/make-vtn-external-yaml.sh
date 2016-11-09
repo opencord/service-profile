@@ -33,7 +33,7 @@ topology_template:
           sshUser: root
           sshKeyFile: /root/node_key
           sshPort: 22
-          xosEndpoint: http://xos/
+          xosEndpoint: http://xos:8888/
           xosUser: padmin@vicci.org
           xosPassword: letmein
           replaces: service_vtn
