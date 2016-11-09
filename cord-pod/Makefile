@@ -13,7 +13,7 @@ XOS_UI_PORT        := 8888
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
+xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding
 
 onboarding: synchronizers.yaml id_rsa id_rsa.pub
 	@echo "[ONBOARDING]"
@@ -47,18 +47,17 @@ onboarding: synchronizers.yaml id_rsa id_rsa.pub
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vtr
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+	sleep 120
 
-podconfig: nodes.yaml images.yaml
-	@echo "[PODCONFIG]"
-	$(RUN_TOSCA) $(COMMON_DIR)/tosca/setup.yaml
+nodes: nodes.yaml
+	@echo "[NODES]"
+	$(RUN_TOSCA) openstack.yaml
 	$(RUN_TOSCA) nodes.yaml
-	$(RUN_TOSCA) images.yaml
+	sleep 10
 
-vtn: vtn-external.yaml
-	$(RUN_TOSCA) vtn-external.yaml
-
-vtn-external.yaml:
-	export SETUPDIR=$(CONFIG_DIR); bash ./make-vtn-external-yaml.sh
+vtn: nodes vtn.yaml
+	@echo "[VTN]"
+	$(RUN_TOSCA) vtn.yaml
 
 delete_fabric_config:
 	http -a karaf:karaf DELETE http://onos-fabric:8181/onos/v1/network/configuration/
@@ -67,31 +66,26 @@ reactivate_fabric_apps:
 	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
 	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
 
-fabric: fabric.yaml
+fabric:
+	@echo "[FABRIC]"
 	cp $(SERVICE_DIR)/fabric/config/network-cfg-quickstart.json .
 	$(RUN_TOSCA) fabric.yaml
+	sleep 20
 
-fabric.yaml:
-	export SETUPDIR=$(CONFIG_DIR); bash ./make-fabric-yaml.sh
-
-cord: $(CONFIG_DIR)/images/vsg-1.1.img
-	$(RUN_TOSCA) $(COMMON_DIR)/tosca/mgmt-net.yaml
+cord:
+	@echo "[CORD]"
+	$(RUN_TOSCA) management-net.yaml
 	$(RUN_TOSCA) cord-services.yaml
-	$(RUN_TOSCA) $(COMMON_DIR)/tosca/public-net.yaml
+	$(RUN_TOSCA) public-net.yaml
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/cord-volt-devices.yaml
 
 cord-subscriber:
+	@echo "[CORD-SUBSCRIBER]"
 	$(RUN_TOSCA) cord-test-subscriber.yaml
+	sleep 60
 
-update_nodes: nodes.yaml
-	$(RUN_TOSCA) nodes.yaml
-
-new-nodes: clean_nodes update_nodes vtn
-
-exampleservice: onboard-exampleservice
-	$(RUN_TOSCA) pod-exampleservice.yaml
-
-onboard-exampleservice: $(SERVICE_DIR)/exampleservice
+exampleservice: $(SERVICE_DIR)/exampleservice
+	@echo "[EXAMPLESERVICE]"
 	sudo cp id_rsa key_import/exampleservice_rsa
 	sudo cp id_rsa.pub key_import/exampleservice_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
@@ -101,16 +95,11 @@ onboard-exampleservice: $(SERVICE_DIR)/exampleservice
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/exampleservice
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+	$(RUN_TOSCA) exampleservice.yaml
+	sleep 60
 
-cord-monitoringservice: ceilometer_custom_images onboard-monitoringservice
-	$(RUN_TOSCA) monitoringservice.yaml
-	$(RUN_TOSCA) monitoringtenant.yaml
-
-rebuild-monitoringservice:
-	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
-	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
-
-onboard-monitoringservice: ceilometer_custom_images $(SERVICE_DIR)/monitoring
+cord-monitoringservice: $(SERVICE_DIR)/monitoring
+	@echo "[CORD-MONITORINGSERVICE]"
 	sudo cp id_rsa key_import/monitoringservice_rsa
 	sudo cp id_rsa.pub key_import/monitoringservice_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/monitoring/xos/monitoring-onboard.yaml
@@ -118,8 +107,12 @@ onboard-monitoringservice: ceilometer_custom_images $(SERVICE_DIR)/monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+	$(RUN_TOSCA) monitoringservice.yaml
+	$(RUN_TOSCA) monitoringtenant.yaml
 
-ceilometer_custom_images: $(CONFIG_DIR)images/ceilometer-trusty-server-multi-nic.img $(CONFIG_DIR)images/ceilometer-service-trusty-server-multi-nic.img
+rebuild-monitoringservice:
+	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 
 virtualbng_json:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-virtualbng-json.sh
