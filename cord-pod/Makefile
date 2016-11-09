@@ -72,7 +72,7 @@ fabric: fabric.yaml
 fabric.yaml:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-fabric-yaml.sh
 
-cord: $(CONFIG_DIR)/images/vsg-1.1.img
+cord:
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/mgmt-net.yaml
 	$(RUN_TOSCA) cord-services.yaml
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/public-net.yaml
