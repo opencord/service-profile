@@ -36,15 +36,6 @@ config_dirs:
 	mkdir -p $(CONFIG_DIR)/onboarding-docker-compose
 	mkdir -p $(CONFIG_DIR)/images
 
-nodes.yaml:
-	export SETUPDIR=$(CONFIG_DIR); bash $(COMMON_DIR)/make-nodes-yaml.sh
-
-clean_nodes:
-	rm -f $(CONFIG_DIR)/nodes.yaml
-
-images.yaml:
-	export SETUPDIR=$(CONFIG_DIR); bash $(COMMON_DIR)/make-images-yaml.sh
-
 
 # download/clone xos and service repos
 GITOPTS ?= -c advice.detachedHead=false
@@ -154,12 +145,11 @@ bootstrap: $(BOOTSTRAP_YML) $(CONFIG_DIR)/xos.yaml
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < $(COMMON_DIR)/tosca/fixtures.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < $(COMMON_DIR)/tosca/mydeployment.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < $(CONFIG_DIR)/deployment.yaml
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
 	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos.yaml
 
-
 # container creation targets
-
 local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c
 
 test_containers: local_containers xos_test_c
@@ -174,7 +164,7 @@ update_certs:
 
 xos_base_c:
 	@[ -z "$(HAS_BASE)" ] || echo "skipping base container build"
-	@[ -n "$(HAS_BASE)" ] || ( cd $(XOS_DIR)/containers/xos; make base )   
+	@[ -n "$(HAS_BASE)" ] || ( cd $(XOS_DIR)/containers/xos; make base )
 #	cd $(XOS_DIR)/containers/xos; make base
 
 xos_devel_c:
@@ -183,24 +173,6 @@ xos_devel_c:
 xos_test_c:
 	cd $(XOS_DIR)/containers/xos; make test
 
-
-# image downloads
-
-$(CONFIG_DIR)images/trusty-server-multi-nic.img: config_dirs
-	curl -fLsS http://www.vicci.org/opencloud/trusty-server-cloudimg-amd64-disk1.img -o $@
-	echo "c2d0ffc937aeb96016164881052a496658efeb98959dc68e73d9895c5d9920f7  $@" | sha256sum -c -
-
-$(CONFIG_DIR)images/vsg-1.1.img: config_dirs
-	curl -fLsS http://www.vicci.org/cord/vsg-1.1.img -o $@
-	echo "16b0beb6778aed0f5feecb05f8d5750e6c262f98e6011e99ddadf7d46a177b6f  $@" | sha256sum -c -
-
-$(CONFIG_DIR)images/ceilometer-trusty-server-multi-nic.img: | config_dirs
-	curl -fLsS http://www.vicci.org/cord/ceilometer-trusty-server-multi-nic.compressed.qcow2 -o $@
-	echo "afde3f0448483902693be4d52ae76bb683fd74b1c7728019094bf81b37d86105  $@" | sha256sum -c -
-
-$(CONFIG_DIR)images/ceilometer-service-trusty-server-multi-nic.img: | config_dirs
-	curl -fLsS http://www.vicci.org/cord/ceilometer-service-trusty-server-multi-nic.compressed.qcow2 -o $@
-	echo "9c346ff15727e9a98942835d6bd34b3d033f868234425f517e53d64b5a124a13  $@" | sha256sum -c -
 
 # utilties/convenience targets
 cleanup: stop rm $(CONFIG_DIR)/cleanup.sh
