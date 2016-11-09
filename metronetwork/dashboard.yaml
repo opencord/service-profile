@@ -12,7 +12,7 @@ topology_template:
     Ecord:
       type: tosca.nodes.DashboardView
       properties:
-        url: template:xosEcordTopology
+        url: template:xosMetronet
 
     # Activate the Custom view for the user padmin@vicci.org
     padmin@vicci.org:
