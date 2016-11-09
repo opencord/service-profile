@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a014df3_2748a82c",
+        "filename": "mcord/nodes.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000017
+      },
+      "writtenOn": "2016-11-09T23:14:15Z",
+      "side": 1,
+      "message": "why we delete this file?",
+      "revId": "004d55c0030f3a78f9d4801cd70a0e63f83d9e40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a014df3_675d90e9",
+        "filename": "mcord/vtn-external.yaml.cloudlab",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000017
+      },
+      "writtenOn": "2016-11-09T23:14:15Z",
+      "side": 1,
+      "message": "also why you delete this file?",
+      "revId": "004d55c0030f3a78f9d4801cd70a0e63f83d9e40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
