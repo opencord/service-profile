@@ -14,7 +14,7 @@ XOS_UI_PORT        ?= 9999
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-opencloud: prereqs config_dirs xos_download bootstrap onboarding opencloudconfig globalxos
+opencloud: prereqs config_dirs xos_download cord_libraries bootstrap onboarding opencloudconfig globalxos
 
 onboarding:
 	@echo "[ONBOARDING]"
@@ -29,6 +29,8 @@ opencloudconfig:
 
 globalxos: $(SERVICE_DIR) $(SERVICE_DIR)/globalxos
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/globalxos/xos/globalxos-onboard.yaml
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/globalxos
-	bash ../common/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
-	bash ../common/wait_for_xos_port.sh $(XOS_UI_PORT)
+	$(RUN_TOSCA_BOOTSTRAP) $(LIBRARY_DIR)/ng-xos-lib/ng-xos-lib-onboard.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/ng-xos-lib
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/globalxos
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
