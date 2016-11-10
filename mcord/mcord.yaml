@@ -318,18 +318,18 @@ topology_template:
       properties:
           network: noauto
 #default_node: compute10
-    
-    mysite_VPGWC_Component:
-      description: MCORD Service default Component
-      type: tosca.nodes.VPGWCComponent
-      requirements:
-          - provider_service:
-              node: vPGWC
-              relationship: tosca.relationships.MemberOfService
-          - vpgwc_slice:
-              node: mysite_vpgwc_slice1
-              relationship: tosca.relationships.MemberOfSlice
-      properties:
-          display_message: vPGWC looks good!
-          s5s8_pgw_tag: 300
+
+#    mysite_VPGWC_Component:
+#      description: MCORD Service default Component
+#      type: tosca.nodes.VPGWCComponent
+#      requirements:
+#          - provider_service:
+#              node: vPGWC
+#              relationship: tosca.relationships.MemberOfService
+#          - vpgwc_slice:
+#              node: mysite_vpgwc_slice1
+#              relationship: tosca.relationships.MemberOfSlice
+#      properties:
+#          display_message: vPGWC looks good!
+#          s5s8_pgw_tag: 300
 
