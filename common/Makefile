@@ -68,7 +68,9 @@ cord_services: $(SERVICE_DIR) \
 	$(SERVICE_DIR)/vsg \
 	$(SERVICE_DIR)/vtn \
 	$(SERVICE_DIR)/vtr \
-	$(SERVICE_DIR)/metro-net
+	$(SERVICE_DIR)/metro-net \
+	$(SERVICE_DIR)/metronet-local
+
 
 $(SERVICE_DIR):
 	mkdir -p $(SERVICE_DIR)
@@ -109,6 +111,9 @@ $(SERVICE_DIR)/metro-net:
 $(SERVICE_DIR)/openstack:
 	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(OPENSTACK_BRANCH) $(OPENSTACK_GIT_URL)
 
+$(SERVICE_DIR)/metronet-local:
+	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(VNODLOCAL_BRANCH) $(VNODLOCAL_GIT_URL)
+
 $(SERVICE_DIR)/globalxos:
 	git -C $(SERVICE_DIR) $(GITOPTS) clone -b $(GLOBALXOS_BRANCH) $(GLOBALXOS_GIT_URL)
 
@@ -124,6 +129,7 @@ update_services:
 	git -C $(SERVICE_DIR)/hypercache pull
 	git -C $(SERVICE_DIR)/metro-net pull
 	git -C $(SERVICE_DIR)/openstack pull
+	git -C $(SERVICE_DIR)/metronet-local pull
 
 cord_libraries: $(LIBRARY_DIR) \
         $(LIBRARY_DIR)/ng-xos-lib

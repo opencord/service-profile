@@ -20,5 +20,5 @@ topology_template:
           restCtrlUrl:  http://10.10.10.10:8181/onos
           username: karaf
           password: karaf
-          administrativeState: syncrequested
+          administrativeState: disabled
           id: TestMetroNet
