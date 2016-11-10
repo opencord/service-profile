@@ -35,6 +35,8 @@ cleanup_network lan_rru_network
 cleanup_network lan_3gpp_s5s8_pgw_network
 cleanup_network lan_3gpp_s1u_network
 cleanup_network lan_3gpp_s1mme_network
+cleanup_network lan_taas_test_network1
+cleanup_network lan_taas_public_network
 
 echo "Deleting networks"
 # Delete all networks beginning with mysite_
@@ -52,3 +54,5 @@ neutron net-delete ceilometer_network || true
 neutron net-delete management || true
 neutron net-delete mysite_vsg-access || true
 neutron net-delete exampleservice-public || true
+neutron net-delete lan_taas_test_network1 || true
+neutron net-delete lan_taas_public_network || true
