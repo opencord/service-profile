@@ -17,6 +17,7 @@ while the `arizona` box runs a sample L-XOS site.
 
 The `global` XOS is available on `localhost:9999`.
 The `arizona` XOS is available on `localhost:9990`.
+The `utah` XOS is available on `localhost:9991`.
 
 It will also share the `service-profile` and `xos` folders with the Vagrant box.
 These two directories are intended to be side by side.
@@ -28,6 +29,9 @@ How to set it up:
 - Enter `arizona` Vagrant box: `vagrant ssh arizona`
 - Start a frontend XOS: `cd service-profile/frontend; make local_containers; make; make mock-cord-pod`
 - Exit `arizona` Vagrant box
+- Enter `utah` Vagrant box: `vagrant ssh utah`
+- Start a frontend XOS: `cd service-profile/frontend; make local_containers; make; make mock-cord-pod`
+- Exit `utah` Vagrant box
 - Enter `global` Vagrant box: `vagrant ssh global`
 - Start Global XOS: `cd service-profile/globalxos; make local_containers; make`
 

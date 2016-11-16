@@ -19,6 +19,14 @@ Vagrant.configure(2) do |config|
     end
   end
 
+  config.vm.define "utah" do |d|
+    d.vm.network "forwarded_port", guest: 9999, host: 9991
+    d.vm.network "private_network", ip: "192.168.33.11"
+    d.vm.provider "virtualbox" do |vb|
+       vb.memory = "1024"
+    end
+  end
+
   config.vm.define "global" do |d|
     d.vm.network "forwarded_port", guest: 9999, host: 9999
     d.vm.network "private_network", ip: "192.168.33.2"

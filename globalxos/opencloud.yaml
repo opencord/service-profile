@@ -40,6 +40,21 @@ topology_template:
           admin_tenant: admin
           domain: Default
 
+    campus-utah:
+      type: tosca.nodes.Controller
+      requirements:
+          - deployment:
+              node: campus
+              relationship: tosca.relationships.ControllerDeployment
+      properties:
+          backend_type: CORD
+          version: 1.1
+          auth_url: http://192.168.33.11:9999/
+          admin_user: padmin@vicci.org
+          admin_password: letmein
+          admin_tenant: admin
+          domain: Default
+
 # Sites
     arizona:
       type: tosca.nodes.Site
