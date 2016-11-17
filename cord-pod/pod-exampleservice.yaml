@@ -42,6 +42,22 @@ topology_template:
     trusty-server-multi-nic:
       type: tosca.nodes.Image
 
+    # Networks required by the CORD setup
+    mysite_example-private:
+      type: tosca.nodes.network.Network
+      properties:
+          ip_version: 4
+      requirements:
+          - network_template:
+              node: Private
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_exampleservice
+              relationship: tosca.relationships.MemberOfSlice
+          - connection:
+              node: mysite_exampleservice
+              relationship: tosca.relationships.ConnectsToSlice
+
     mysite_exampleservice:
       description: This slice holds the ExampleService
       type: tosca.nodes.Slice
