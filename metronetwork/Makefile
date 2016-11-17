@@ -16,7 +16,7 @@ BOOTSTRAP_DEVEL_YML        ?= $(CONFIG_DIR)/docker-compose-bootstrap-devel.yml
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-metronetwork: prereqs config_dirs xos_download cord_services cord_libraries bootstrap dashboard onboarding ecord_services
+metronetwork: prereqs config_dirs xos_download cord_services cord_libraries bootstrap dashboard onboarding 
 
 # Targets to accomodate users with HTTP proxies
 metronetworkconfig: prereqs config_dirs xos_download cord_services cord_libraries
