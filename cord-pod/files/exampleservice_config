@@ -23,6 +23,7 @@ save_ansible_output=True
 proxy_ssh=True
 proxy_ssh_key=/root/setup/node_key
 proxy_ssh_user=root
+enable_watchers=True
 
 [networking]
 use_vtn=True
