@@ -3,6 +3,11 @@ xos_db:
     expose:
         - "5432"
 
+xos_redis:
+    image: redis
+    ports:
+        - "6379:6379"
+
 xos_bootstrap_ui:
     image: xosproject/xos
     # command: sleep 86400
@@ -13,6 +18,7 @@ xos_bootstrap_ui:
         - "9998:9998"
     links:
         - xos_db
+        - xos_redis:redis
     volumes:
       - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config
       - ../cord-pod/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
