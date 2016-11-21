@@ -48,11 +48,12 @@ for NODE in $NODES; do
     echo $NODE
     BRIDGE_ID=$(printf "of:%016d" $BRIDGE_IDX )
     BRIDGE_IDX=$(expr $BRIDGE_IDX + 1)
-    FIP=$(ssh -i node_key -o StrictHostKeyChecking=no $NODE ip -4 addr show fabric 2> /dev/null | grep inet | awk '{print $2}')
+    # Get the static IP address that the provisioner has written to /etc/network/interfaces
+    FIP=$(ssh -i node_key -o StrictHostKeyChecking=no ubuntu@$NODE "awk '/iface fabric/,/address/' /etc/network/interfaces" |grep address|awk '{print $2}')
     if [ -z "$FIP" ]
     then
-      # Single-node POD case
-      FIP="10.168.0.253/24"
+      echo "[WARNING] IP address not found for $NODE, skipping..."
+      continue
     fi
 
     cat >> $FN <<EOF
