@@ -79,6 +79,9 @@ cord:
 	$(RUN_TOSCA) public-net.yaml
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/cord-volt-devices.yaml
 
+vrouter:
+	$(RUN_TOSCA) ./vrouter.yaml
+
 cord-subscriber:
 	@echo "[CORD-SUBSCRIBER]"
 	$(RUN_TOSCA) cord-test-subscriber.yaml
