@@ -13,7 +13,7 @@ XOS_UI_PORT        := 8888
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
+xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig vrouter
 
 onboarding: synchronizers.yaml id_rsa id_rsa.pub
 	@echo "[ONBOARDING]"
@@ -79,6 +79,9 @@ cord: $(CONFIG_DIR)/images/vsg-1.1.img
 	$(RUN_TOSCA) cord-services.yaml
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/public-net.yaml
 	$(RUN_TOSCA) $(COMMON_DIR)/tosca/cord-volt-devices.yaml
+
+vrouter:
+	$(RUN_TOSCA) ./vrouter.yaml
 
 cord-subscriber:
 	$(RUN_TOSCA) cord-test-subscriber.yaml
