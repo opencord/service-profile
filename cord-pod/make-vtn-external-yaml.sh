@@ -45,14 +45,16 @@ NODES=$( bash -c "source $SETUPDIR/admin-openrc.sh ; nova host-list" |grep compu
 I=0
 BRIDGE_IDX=1
 for NODE in $NODES; do
-    echo $NODE
+    echo "[INFO] processing $NODE"
     BRIDGE_ID=$(printf "of:%016d" $BRIDGE_IDX )
     BRIDGE_IDX=$(expr $BRIDGE_IDX + 1)
-    FIP=$(ssh -i node_key -o StrictHostKeyChecking=no $NODE ip -4 addr show fabric 2> /dev/null | grep inet | awk '{print $2}')
+    # Try fabric interface
+    FIP=$(ssh -i node_key -o StrictHostKeyChecking=no ubuntu@$NODE ip -4 addr show fabric 2> /dev/null | grep inet | awk '{print $2}')
     if [ -z "$FIP" ]
     then
-      # Single-node POD case
-      FIP="10.168.0.253/24"
+	# IP address has already moved to br-int, skip it
+	echo "[INFO] $NODE: No IP address on 'fabric' interface, skipping..."
+	continue
     fi
 
     cat >> $FN <<EOF
