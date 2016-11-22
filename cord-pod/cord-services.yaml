@@ -178,9 +178,9 @@ topology_template:
           - management:
               node: management
               relationship: tosca.relationships.ConnectsToNetwork
-#          - management_hosts:
-#              node: management_hosts
-#              relationship: tosca.relationships.ConnectsToNetwork
+          - management_hosts:
+              node: management_hosts
+              relationship: tosca.relationships.ConnectsToNetwork
           - image:
               node: image#vsg-1.1
               relationship: tosca.relationships.DefaultImage
