@@ -150,7 +150,7 @@ bootstrap: $(BOOTSTRAP_YML) $(CONFIG_DIR)/xos.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos.yaml
 
 # container creation targets
-local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c
+local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c xos_nb_rest_c
 
 test_containers: local_containers xos_test_c
 
@@ -172,6 +172,9 @@ xos_devel_c:
 
 xos_test_c:
 	cd $(XOS_DIR)/containers/xos; make test
+
+xos_nb_rest_c:
+	cd $(NB_REST_DIR); docker build -t xosproject/xos-nb-rest .
 
 
 # utilties/convenience targets

@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "../../xos", "/home/vagrant/xos", create: true
   config.vm.synced_folder "../../xos_services", "/home/vagrant/xos_services", create: true
   config.vm.synced_folder "../../xos_libraries", "/home/vagrant/xos_libraries", create: true
+  config.vm.synced_folder "../../xos_nb_rest", "/home/vagrant/xos_nb_rest", create: true
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # set the frontend vm
