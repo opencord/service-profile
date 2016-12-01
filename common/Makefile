@@ -173,6 +173,14 @@ xos_devel_c:
 xos_test_c:
 	cd $(XOS_DIR)/containers/xos; make test
 
+xos_rest_gw_c:
+	# this folder is cloned by repo
+	cd $(REST_GW_DIR); docker build -t xosproject/xos-rest-gw .
+
+xos_gui_c:
+	# this folder is cloned by repo
+	cd $(GUI_DIR); docker build -t xosproject/xos-gui .
+
 
 # utilties/convenience targets
 cleanup: stop rm $(CONFIG_DIR)/cleanup.sh
