@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a014df3_4cad1431",
+        "filename": "common/Makedefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2016-12-01T01:13:56Z",
+      "side": 1,
+      "message": "Can this be an appropriate location for this container?",
+      "range": {
+        "startLine": 13,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "14fbfb98c78dcb665bcd98fe0b263906ea5f5b18",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
