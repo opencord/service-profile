@@ -14,7 +14,7 @@ XOS_UI_PORT        ?= 9999
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-frontend: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding frontendconfig
+frontend: prereqs config_dirs xos_download cord_services cord_libraries bootstrap experimental-ui onboarding frontendconfig
 
 onboarding:
 	@echo "[ONBOARDING]"
@@ -110,4 +110,7 @@ slicing-ui:
 clean-config-folder:
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_mcord_config
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_cord_config
+
+experimental-ui:
+	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/ui_containers.yaml
 
