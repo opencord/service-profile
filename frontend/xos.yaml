@@ -15,6 +15,9 @@ topology_template:
         docker_project_name: frontend
         db_container_name: frontendbs_xos_db_1
         frontend_only: true
+        # bring up the experimental UI containers
+        # xos_rest_gw_name: xos_rest_gateway
+        # xos_gui_name: xos_spa_gui
 
     /opt/xos/xos_configuration/xos_common_config:
       type: tosca.nodes.XOSVolume
