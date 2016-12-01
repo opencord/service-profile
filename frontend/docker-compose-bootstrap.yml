@@ -3,6 +3,17 @@ xos_db:
     expose:
         - "5432"
 
+# xos_nb_ui:
+#     image: xosproject/xos-nb-rest
+#     command: npm start
+#     ports:
+#         - "3000:3000"
+#     links:
+#         - xos_redis:redis
+#         - xos_bootstrap_ui:xos
+#     volumes:
+#         - ./gateway-config.yml:/var/www/src/config/gateway-config.yml
+
 xos_redis:
     image: redis
     ports:

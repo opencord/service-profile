@@ -10,6 +10,8 @@ MYIP                 ?= $(shell hostname -i)
 XOS_DIR              ?= $(HOME_DIR)/xos
 SERVICE_DIR          ?= $(HOME_DIR)/xos_services
 LIBRARY_DIR          ?= $(HOME_DIR)/xos_libraries
+REST_GW_DIR          ?= $(HOME_DIR)/xos-rest-gw
+GUI_DIR              ?= $(HOME_DIR)/xos-gui
 
 XOS_BOOTSTRAP_PORT   ?= 81
 XOS_UI_PORT          ?= 80
