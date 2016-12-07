@@ -54,6 +54,10 @@ finally run `make vtn`.
 
 Configures the fabric service.
 
+#### `make vrouter`
+
+Configures the vrouter service.
+
 #### `make cord`
 
 Configures the cord stack.
