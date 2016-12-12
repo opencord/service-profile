@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_804ada81",
+        "filename": "frontend/xos.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2016-12-12T22:26:44Z",
+      "side": 1,
+      "message": "If we don\u0027t specify this value, the build broke",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "ae7e83e11600d5df9376afd75a2dcc3164fb8939",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
