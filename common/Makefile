@@ -144,8 +144,8 @@ bootstrap: $(BOOTSTRAP_YML) $(CONFIG_DIR)/xos.yaml
 	sudo rm -f $(DOCKER_COMPOSE_YML)
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < $(COMMON_DIR)/tosca/fixtures.yaml
-	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none - < $(CONFIG_DIR)/deployment.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none /opt/xos/bootstrap_tosca/fixtures.yaml
+	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none /opt/xos/bootstrap_tosca/deployment.yaml
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
 	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos.yaml
 
