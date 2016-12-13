@@ -112,6 +112,8 @@ cord-monitoringservice: $(SERVICE_DIR)/monitoring
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 	$(RUN_TOSCA) monitoringservice.yaml
 	$(RUN_TOSCA) monitoringtenant.yaml
+	@echo "waiting for monitoring service to be fully ready...."
+	ansible-playbook -i local $(SERVICE_DIR)/monitoring/xos/test/monitoring_test_initial.yaml
 
 rebuild-monitoringservice:
 	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
@@ -122,9 +124,13 @@ install-inframonitoring-agents:
 
 enable-inframonitoring: inframonitoring_yaml
 	$(RUN_TOSCA) inframonitoring.yaml
+	@echo "Validate if infra metrics are available...."
+	ansible-playbook -i local $(SERVICE_DIR)/monitoring/xos/test/monitoring_test_inframetrics.yaml
 
 enable-vsgmonitoring:
 	$(RUN_TOSCA) vsgmonitoring.yaml
+	@echo "Validate if vSG metrics are available...."
+	ansible-playbook -i local $(SERVICE_DIR)/monitoring/xos/test/monitoring_test_vsgmetrics.yaml
 
 enable-exampleservicemonitoring:
 	$(RUN_TOSCA) exampleservicemonitoring.yaml
