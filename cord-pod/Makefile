@@ -112,6 +112,8 @@ cord-monitoringservice: $(SERVICE_DIR)/monitoring
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 	$(RUN_TOSCA) monitoringservice.yaml
 	$(RUN_TOSCA) monitoringtenant.yaml
+	@echo "waiting for monitoring service to be fully ready...."
+	python monitoringservice_test.py --test=1
 
 rebuild-monitoringservice:
 	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
@@ -122,6 +124,9 @@ install-inframonitoring-agents:
 
 enable-inframonitoring: inframonitoring_yaml
 	$(RUN_TOSCA) inframonitoring.yaml
+	@echo "Validate if infra metrics are available...."
+	sleep 10
+	python monitoringservice_test.py --test=2
 
 enable-vsgmonitoring:
 	$(RUN_TOSCA) vsgmonitoring.yaml
