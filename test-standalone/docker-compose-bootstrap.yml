@@ -15,6 +15,8 @@ xos_bootstrap_ui:
       - ../cord-pod/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
       - ../../xos_services:/opt/xos_services
       - ../../xos/xos/core/tests:/opt/xos/core/tests
+      - ../common/tosca/fixtures.yaml:/opt/xos/bootstrap_tosca/fixtures.yaml
+      - ./deployment.yaml:/opt/xos/bootstrap_tosca/deployment.yaml
 
 xos_synchronizer_onboarding:
     image: xosproject/xos

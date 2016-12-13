@@ -45,6 +45,8 @@ xos_bootstrap_ui:
         - ./files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
         - ../../xos_services:/opt/xos_services
         - ./admin-openrc.sh:/root/setup/admin-openrc.sh
+        - ../common/tosca/fixtures.yaml:/opt/xos/bootstrap_tosca/fixtures.yaml
+        - ./deployment.yaml:/opt/xos/bootstrap_tosca/deployment.yaml
     log_driver: "json-file"
     log_opt:
             max-size: "1000k"

@@ -16,6 +16,8 @@ xos_bootstrap_ui:
     volumes:
       - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config
       - ../cord-pod/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
+      - ../common/tosca/fixtures.yaml:/opt/xos/bootstrap_tosca/fixtures.yaml
+      - ./deployment.yaml:/opt/xos/bootstrap_tosca/deployment.yaml
       - ../../xos_services:/opt/xos_services
       - ../../xos/xos/api/utility:/opt/xos/api/utility
       - ../../xos/xos/core/models:/opt/xos/core/models
