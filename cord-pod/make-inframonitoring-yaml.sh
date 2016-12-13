@@ -30,17 +30,6 @@ topology_template:
       artifacts:
           onos_monitoring_service_endpoints: /root/setup/onos_monitoring_service_endpoints.json
 
-    onos_monitoring_publisher_tenant:
-      description: ONOS Monitoring Publisher Tenant
-      type: tosca.nodes.ONOSMonitoringPublisher
-      requirements:
-          - provider_service:
-              node: service_ceilometer
-              relationship: tosca.relationships.TenantOfService
-          - monitoring_agent_1:
-              node: onos_monitoring_agent_head_node
-              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
-
     os_monitoring_agent_head_node:
       description: Openstack Monitoring agent info
       type: tosca.nodes.InfraMonitoringAgentInfo
@@ -87,11 +76,14 @@ cat >> $FN <<EOF
           - monitoring_agent_1:
               node: os_monitoring_agent_head_node
               relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
+          - monitoring_agent_2:
+              node: onos_monitoring_agent_head_node
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
 EOF
 I=0
 for NODE in $NODES; do
           I=$(( I+1 ))
-          J=$(( I+1 ))
+          J=$(( I+2 ))
           cat >> $FN <<EOF
           - monitoring_agent_${J}:
               node: os_monitoring_agent_cp_${I}
