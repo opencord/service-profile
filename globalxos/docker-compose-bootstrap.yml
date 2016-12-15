@@ -1,10 +1,22 @@
-xos_db:
+---
+version: '2'
+
+networks:
+  xos:
+    external: true
+
+services:
+  xos_db:
     image: xosproject/xos-postgres
+    networks:
+      - xos
     expose:
         - "5432"
 
-xos_bootstrap_ui:
+  xos_bootstrap_ui:
     image: xosproject/xos
+    networks:
+      - xos
     command: python /opt/xos/manage.py runserver 0.0.0.0:9998 --insecure --makemigrations
     environment:
         - CONFIG_DIR
@@ -30,8 +42,10 @@ xos_bootstrap_ui:
       # - ../../xos/xos/tosca:/opt/xos/tosca
       # - ../../xos/xos/xos:/opt/xos/xos
 
-xos_synchronizer_onboarding:
+  xos_synchronizer_onboarding:
     image: xosproject/xos
+    networks:
+      - xos
     command: bash -c "cd /opt/xos/synchronizers/onboarding; ./run.sh"
     labels:
         org.xosproject.kind: synchronizer
@@ -44,7 +58,9 @@ xos_synchronizer_onboarding:
         - ./onboarding-docker-compose:/opt/xos/synchronizers/onboarding/docker-compose
         - ../../xos_services:/opt/xos_services
         - ../../xos_libraries:/opt/xos_libraries
-    log_driver: "json-file"
-    log_opt:
-            max-size: "100k"
-            max-file: "5"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1000k"
+        max-file: "5"
+

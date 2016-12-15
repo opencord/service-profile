@@ -1,26 +1,40 @@
-xos_db:
+---
+version: '2'
+
+networks:
+  xos:
+    external: true
+
+services:
+  xos_db:
     image: xosproject/xos-postgres
+    networks:
+      - xos
     expose:
-        - "5432"
+      - "5432"
     ports:
-        - "5432:5432"
+      - "5432:5432"
 
-xos_redis:
+  xos_redis:
     image: redis
+    networks:
+      - xos
     ports:
-        - "6379:6379"
+      - "6379:6379"
 
-xos_bootstrap_ui:
+  xos_bootstrap_ui:
     image: xosproject/xos
+    networks:
+      - xos
     # command: sleep 86400
     command: python /opt/xos/manage.py runserver 0.0.0.0:9998 --insecure --makemigrations
     environment:
-        - CONFIG_DIR
+      - CONFIG_DIR
     ports:
-        - "9998:9998"
+      - "9998:9998"
     links:
-        - xos_db
-        - xos_redis:redis
+      - xos_db
+      - xos_redis:redis
     volumes:
       - ../common/xos_common_config:/opt/xos/xos_configuration/xos_common_config
       - ../cord-pod/files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
@@ -33,7 +47,7 @@ xos_bootstrap_ui:
       - ../../xos/xos/core/xoslib/static/css:/opt/xos/core/xoslib/static/css
       - ../../xos/xos/core/xoslib/static/images:/opt/xos/core/xoslib/static/images
       - ../../xos/xos/core/xoslib/static/js:/opt/xos/core/xoslib/static/js
-      
+
       # The following volumes are sometimes used in development,
       # but they are not tested and they can break part of the system, handle with care.
       # - ../../xos_services:/opt/xos_services
@@ -41,21 +55,25 @@ xos_bootstrap_ui:
       # - ../../xos/xos/tosca:/opt/xos/tosca
       # - ../../xos/xos/xos:/opt/xos/xos
 
-xos_synchronizer_onboarding:
+  xos_synchronizer_onboarding:
     image: xosproject/xos
+    networks:
+      - xos
     command: bash -c "cd /opt/xos/synchronizers/onboarding; ./run.sh"
     labels:
-        org.xosproject.kind: synchronizer
-        org.xosproject.target: onboarding
+      org.xosproject.kind: synchronizer
+      org.xosproject.target: onboarding
     links:
-        - xos_db
+      - xos_db
     volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - ./key_import:/opt/xos/key_import:ro
-        - ./onboarding-docker-compose:/opt/xos/synchronizers/onboarding/docker-compose
-        - ../../xos_services:/opt/xos_services
-        - ../../xos_libraries:/opt/xos_libraries
-    log_driver: "json-file"
-    log_opt:
-            max-size: "100k"
-            max-file: "5"
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./key_import:/opt/xos/key_import:ro
+      - ./onboarding-docker-compose:/opt/xos/synchronizers/onboarding/docker-compose
+      - ../../xos_services:/opt/xos_services
+      - ../../xos_libraries:/opt/xos_libraries
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1000k"
+        max-file: "5"
+

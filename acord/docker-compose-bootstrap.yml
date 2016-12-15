@@ -1,10 +1,23 @@
-xos_db:
-    image: xosproject/xos-postgres
-    expose:
-        - "5432"
+---
+version: '2'
 
-xos_bootstrap_ui:
+networks:
+  xos:
+    external: true
+
+services:
+
+  xos_db:
+    image: xosproject/xos-postgres
+    networks:
+      - xos
+    expose:
+      - "5432"
+
+  xos_bootstrap_ui:
     image: xosproject/xos
+    networks:
+      - xos
     command: python /opt/xos/manage.py runserver 0.0.0.0:9998 --insecure --makemigrations
     environment:
         - CONFIG_DIR
@@ -19,8 +32,10 @@ xos_bootstrap_ui:
       - ../../xos_services:/opt/xos_services
       - ../../xos_libraries:/opt/xos_libraries
 
-xos_synchronizer_onboarding:
+  xos_synchronizer_onboarding:
     image: xosproject/xos
+    networks:
+      - xos
     command: bash -c "cd /opt/xos/synchronizers/onboarding; ./run.sh"
 #    command: sleep 86400
     labels:
@@ -33,14 +48,17 @@ xos_synchronizer_onboarding:
         - ./key_import:/opt/xos/key_import:ro
         - ./onboarding-docker-compose:/opt/xos/synchronizers/onboarding/docker-compose
         - ../../xos_services:/opt/xos_services
-    log_driver: "json-file"
-    log_opt:
-            max-size: "100k"
-            max-file: "5"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1000k"
+        max-file: "5"
 
-xos_synchronizer_openstack:
+  xos_synchronizer_openstack:
     command: bash -c "sleep 120; python /opt/xos/synchronizers/openstack/xos-synchronizer.py"
     image: xosproject/xos-synchronizer-openstack
+    networks:
+      - xos
     labels:
         org.xosproject.kind: synchronizer
         org.xosproject.target: openstack
@@ -53,7 +71,8 @@ xos_synchronizer_openstack:
         - ../setup:/root/setup:ro
         - ./xos_cord_config:/opt/xos/xos_configuration/xos_cord_config:ro
         - ./images:/opt/xos/images:ro
-    log_driver: "json-file"
-    log_opt:
-            max-size: "100k"
-            max-file: "5"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1000k"
+        max-file: "5"
