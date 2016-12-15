@@ -113,6 +113,18 @@ cord-monitoringservice: $(SERVICE_DIR)/monitoring
 	$(RUN_TOSCA) monitoringservice.yaml
 	$(RUN_TOSCA) monitoringtenant.yaml
 
+openvpnservice: onboard-openvpnservice
+	$(RUN_TOSCA) pod-openvpn.yaml
+
+onboard-openvpnservice:
+	sudo cp id_rsa key_import/openvpn_rsa
+	sudo cp id_rsa.pub key_import/openvpn_rsa.pub
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openvpn/xos/openvpn-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) openvpn-synchronizer.yaml
+	bash ../common/wait_for_onboarding_ready.sh 81 services/openvpn
+	bash ../common/wait_for_onboarding_ready.sh 81 xos
+	bash ../common/wait_for_xos_port.sh 80
+
 rebuild-monitoringservice:
 	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos

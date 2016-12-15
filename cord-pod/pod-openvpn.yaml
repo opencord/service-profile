@@ -1,0 +1,90 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Setup OpenVPN on the pod
+
+imports:
+   - custom_types/xos.yaml
+   - custom_types/openvpn.yaml
+
+topology_template:
+  node_templates:
+
+    m1.small:
+      type: tosca.nodes.Flavor
+
+    PrivateOpenVPN:
+      type: tosca.nodes.NetworkTemplate
+
+    management:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          no-create: true
+          no-delete: true
+          no-update: true
+
+    service#vrouter:
+      type: tosca.nodes.Service
+      properties:
+          no-create: true
+          no-delete: true
+          no-update: true
+
+    openvpnservice-public:
+      type: tosca.nodes.network.Network
+      properties:
+          ip_version: 4
+      requirements:
+          - network_template:
+              node: PrivateOpenVPN
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_openvpn
+              relationship: tosca.relationships.MemberOfSlice
+          - connection:
+              node: mysite_openvpn
+              relationship: tosca.relationships.ConnectsToSlice
+          - vrouter_tenant:
+              node: service#vrouter
+              relationship: tosca.relationships.TenantOfService
+
+    mysite:
+      type: tosca.nodes.Site
+
+    trusty-server-multi-nic:
+      type: tosca.nodes.Image
+
+    mysite_openvpn:
+      description: This slice holds the OpenVPN service
+      type: tosca.nodes.Slice
+      properties:
+          network: noauto
+      requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - openvpnserver:
+              node: service#openvpn
+              relationship: tosca.relationships.MemberOfService
+          - image:
+              node: trusty-server-multi-nic
+              relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+              node: m1.small
+              relationship: tosca.relationships.DefaultFlavor
+
+    service#openvpn:
+      type: tosca.nodes.OpenVPNService
+      requirements:
+          - management:
+              node: management
+              relationship: tosca.relationships.UsesNetwork
+      properties:
+          view_url: /admin/openvpn/openvpn/$id$/
+          kind: openvpn
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/openvpn/keys/openvpn_rsa
+      artifacts:
+          pubkey: /opt/xos/services/openvpn/keys/openvpn_rsa.pub
