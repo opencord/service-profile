@@ -3,6 +3,13 @@ xos_db:
     expose:
         - "5432"
 
+xos_redis:
+    image: redis
+    log_driver: "json-file"
+    log_opt:
+            max-size: "1000k"
+            max-file: "5"
+
 xos_synchronizer_onboarding:
     image: xosproject/xos
     command: bash -c "cd /opt/xos/synchronizers/onboarding; ./run.sh"

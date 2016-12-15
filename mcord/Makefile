@@ -8,6 +8,8 @@ COMMON_DIR         := $(CONFIG_DIR)/../common
 DOCKER_PROJECT     ?= mcord
 BOOTSTRAP_PROJECT  ?= mcordbs
 
+XOS_UI_PORT        := 8888
+
 include $(COMMON_DIR)/Makefile
 
 xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
@@ -47,6 +49,9 @@ podconfig: nodes.yaml images.yaml
 	$(RUN_TOSCA) nodes.yaml
 	$(RUN_TOSCA) images.yaml
 
+nodes.yaml:
+	cp $(CONFIG_DIR)/../cord-pod/nodes.yaml $(CONFIG_DIR)/
+
 vtn: vtn-external.yaml
 	$(RUN_TOSCA) vtn-external.yaml
 
@@ -69,3 +74,37 @@ onboard-slicing: slicing-ui
 
 slicing-ui:
 	$(RUN_TOSCA) ./mcord-slicing-ui.yaml
+
+cord-monitoringservice: $(SERVICE_DIR)/monitoring monitoring_files
+	@echo "[CORD-MONITORINGSERVICE]"
+	sudo cp id_rsa key_import/monitoringservice_rsa
+	sudo cp id_rsa.pub key_import/monitoringservice_rsa.pub
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/monitoring/xos/monitoring-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) monitoring_synchronizer.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/monitoring
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+	$(RUN_TOSCA) monitoringservice.yaml
+	$(RUN_TOSCA) monitoringtenant.yaml
+
+monitoring_files: monitoring_synchronizer.yaml monitoringservice.yaml monitoringtenant.yaml
+
+monitoring%.yaml:
+	cp $(CONFIG_DIR)/../cord-pod/$@ $(CONFIG_DIR)/
+
+inframonitoring.yaml:
+	export SETUPDIR=$(CONFIG_DIR); bash $(CONFIG_DIR)/../cord-pod/make-inframonitoring-yaml.sh
+
+rebuild-monitoringservice:
+	bash $(COMMON_DIR)/rebuild.sh $(XOS_BOOTSTRAP_PORT) monitoring
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+
+install-inframonitoring-agents:
+	bash $(SERVICE_DIR)/monitoring/xos/synchronizer/ceilometer/monitoring_agent/install_monitoring_ceilometer.sh
+
+enable-inframonitoring: inframonitoring.yaml onos_monitoring_service_endpoints.json
+	$(RUN_TOSCA) inframonitoring.yaml
+
+onos_monitoring_service_endpoints.json:
+	cp $(CONFIG_DIR)/../cord-pod/$@ $(CONFIG_DIR)/
+
