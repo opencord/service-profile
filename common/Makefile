@@ -142,7 +142,7 @@ bootstrap: $(BOOTSTRAP_YML) $(CONFIG_DIR)/xos.yaml
 	@echo "XOS Image Commit Hash: `sudo docker inspect -f '{{ .Config.Labels.XOS_GIT_COMMIT_HASH }}' xosproject/xos`"
 	@echo "XOS Image Commit Date: `sudo docker inspect -f '{{ .Config.Labels.XOS_GIT_COMMIT_DATE }}' xosproject/xos`"
 	sudo rm -f $(DOCKER_COMPOSE_YML)
-	sudo docker network create xos
+	sudo docker network inspect xos || sudo docker network create xos
 	sudo CONFIG_DIR=$(CONFIG_DIR) docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) up -d
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_BOOTSTRAP_PORT)
 	sudo docker-compose -p $(BOOTSTRAP_PROJECT) -f $(BOOTSTRAP_YML) run xos_bootstrap_ui python /opt/xos/tosca/run.py none /opt/xos/bootstrap_tosca/fixtures.yaml
