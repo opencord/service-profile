@@ -1,10 +1,7 @@
 node ('build') {
-    stage('Config') {
-        sh '$TARGET_MACHINE_SSH_COMMAND "\
-        cd ~/service-profile; \
-        echo $GERRIT_BRANCH; \
-        git checkout $GERRIT_BRANCH" '
-    }
+    stage 'Config'
+        checkout([$class: 'RepoScm', currentBranch: true, manifestRepositoryUrl: 'https://gerrit.opencord.org/manifest', quiet: true])
+    
     stage('Build') {
         sh '$TARGET_MACHINE_SSH_COMMAND "\
         cd ~/service-profile/frontend; \
