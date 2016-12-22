@@ -107,6 +107,9 @@ onboard-mcord-slicing: slicing-ui
 slicing-ui:
 	$(RUN_TOSCA) ./mocks/mcord-slicing-ui.yaml
 
+slices:
+	$(RUN_TOSCA) ./mocks/slices.yaml
+
 clean-config-folder:
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_mcord_config
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_cord_config

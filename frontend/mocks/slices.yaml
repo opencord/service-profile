@@ -1,0 +1,42 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Setup CORD-related services
+
+imports:
+   - custom_types/xos.yaml
+
+topology_template:
+  node_templates:
+
+    mysite:
+      type: tosca.nodes.Site
+      properties:
+          # Assume the mysite site exists, and don't touch it
+          no-create: true
+          no-update: true
+          no-delete: true
+
+    # Slices
+    mysite_test_4:
+      description: Slice that contains sample instances
+      type: tosca.nodes.Slice
+      requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+
+    mysite_test_5:
+      description: Slice that contains sample instances
+      type: tosca.nodes.Slice
+      requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+
+    mysite_test_6:
+      description: Slice that contains sample instances
+      type: tosca.nodes.Slice
+      requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
