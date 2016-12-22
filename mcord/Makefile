@@ -8,6 +8,8 @@ COMMON_DIR         := $(CONFIG_DIR)/../common
 DOCKER_PROJECT     ?= mcord
 BOOTSTRAP_PROJECT  ?= mcordbs
 
+XOS_UI_PORT        :=8888
+
 include $(COMMON_DIR)/Makefile
 
 xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
