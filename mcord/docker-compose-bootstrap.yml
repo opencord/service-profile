@@ -13,6 +13,16 @@ services:
     expose:
         - "5432"
 
+  xos_redis:
+    image: redis
+    networks:
+      - xos
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1000k"
+        max-file: "5"
+  
   xos_synchronizer_onboarding:
     image: xosproject/xos
     networks:
@@ -71,6 +81,7 @@ services:
         - ./xos_cord_config:/opt/xos/xos_configuration/xos_cord_config:ro
         - ./files/xos_vtn_config:/opt/xos/xos_configuration/xos_vtn_config:ro
         - ../../xos_services:/opt/xos_services
+        - ./admin-openrc.sh:/root/setup/admin-openrc.sh
         - ../common/tosca/fixtures.yaml:/opt/xos/bootstrap_tosca/fixtures.yaml
         - ./deployment.yaml:/opt/xos/bootstrap_tosca/deployment.yaml
     logging:
