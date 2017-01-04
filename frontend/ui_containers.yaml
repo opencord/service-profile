@@ -55,7 +55,7 @@ topology_template:
       properties:
         name: xos-spa-gui
         image: xosproject/xos-gui
-        ports: 80:80
+        ports: 81:81
 
     gui-to-gw:
       type: tosca.nodes.ComponentLink
