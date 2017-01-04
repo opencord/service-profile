@@ -17,7 +17,7 @@ topology_template:
           no-delete: true
 
     # Slices
-    mysite_test_4:
+    mysite_test_1:
       description: Slice that contains sample instances
       type: tosca.nodes.Slice
       requirements:
@@ -25,7 +25,7 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
 
-    mysite_test_5:
+    mysite_test_2:
       description: Slice that contains sample instances
       type: tosca.nodes.Slice
       requirements:
@@ -33,7 +33,7 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
 
-    mysite_test_6:
+    mysite_test_3:
       description: Slice that contains sample instances
       type: tosca.nodes.Slice
       requirements:
