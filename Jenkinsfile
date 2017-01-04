@@ -20,6 +20,11 @@ node ('build') {
         pybot -d ../Log -T ServiceTest.txt; \
         pybot -d ../Log -T Users.txt; \
         pybot -d ../Log -T UtilsSynchronizer.txt; \
+        pybot -d ../Log -T DeploymentTest.txt; \
+        pybot -d ../Log -T SanityNode.txt; \
+        pybot -d ../Log -T SanitySlice.txt; \
+        pybot -d ../Log -T SanityInstance.txt; \
+        pybot -d ../Log -T SanityFlavors.txt; \
         cd ~/cord-tester/src/test/cord-api/Properties/; \
         mv RestApiProperties.py.copy RestApiProperties.py; \" '
     }
