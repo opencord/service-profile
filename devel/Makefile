@@ -8,8 +8,8 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= devel
 BOOTSTRAP_PROJECT  ?= develbs
 
-XOS_BOOTSTRAP_PORT ?= 9998
-XOS_UI_PORT        ?= 9999
+XOS_BOOTSTRAP_PORT ?= 9001
+XOS_UI_PORT        ?= 9000
 
 # Include common functions
 include $(COMMON_DIR)/Makefile

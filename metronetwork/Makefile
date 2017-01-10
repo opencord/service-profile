@@ -8,8 +8,8 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= metronetwork
 BOOTSTRAP_PROJECT  ?= metronetworkbs
 
-XOS_BOOTSTRAP_PORT ?= 9998
-XOS_UI_PORT        ?= 9999
+XOS_BOOTSTRAP_PORT ?= 9001
+XOS_UI_PORT        ?= 9000
 
 BOOTSTRAP_DEVEL_YML        ?= $(CONFIG_DIR)/docker-compose-bootstrap-devel.yml
 
