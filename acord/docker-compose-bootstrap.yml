@@ -18,11 +18,11 @@ services:
     image: xosproject/xos
     networks:
       - xos
-    command: python /opt/xos/manage.py runserver 0.0.0.0:9998 --insecure --makemigrations
+    command: python /opt/xos/manage.py runserver 0.0.0.0:9001 --insecure --makemigrations
     environment:
         - CONFIG_DIR
     ports:
-        - "9998:9998"
+        - "9001:9001"
     links:
         - xos_db
     volumes:

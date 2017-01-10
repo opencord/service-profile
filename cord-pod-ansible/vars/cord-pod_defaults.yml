@@ -15,8 +15,8 @@ xos_services_dir: "{{ base_dir }}/xos_services"
 bootstrap_project: "cordpodbs"
 docker_project: "cordpod"
 
-bootstrap_port: 81
-ui_port: 80
+bootstrap_port: 9001
+ui_port:  9000
 
 bootstrap_user: "padmin@vicci.org"
 bootstrap_password: "letmein"

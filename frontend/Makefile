@@ -8,13 +8,13 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= frontend
 BOOTSTRAP_PROJECT  ?= frontendbs
 
-XOS_BOOTSTRAP_PORT ?= 9998
-XOS_UI_PORT        ?= 9999
+XOS_BOOTSTRAP_PORT ?= 9001
+XOS_UI_PORT        ?= 9000
 
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-frontend: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding frontendconfig
+frontend: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding frontendconfig rest-gw ui
 
 onboarding:
 	@echo "[ONBOARDING]"
@@ -113,11 +113,3 @@ slices:
 clean-config-folder:
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_mcord_config
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_cord_config
-
-experimental-ui: xos_rest_gw_c xos_gui_c
-	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/ui_containers.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
-	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
-	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
-

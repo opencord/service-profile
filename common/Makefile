@@ -123,13 +123,21 @@ update_services:
 	git -C $(SERVICE_DIR)/metronet-local pull
 
 cord_libraries: $(LIBRARY_DIR) \
-        $(LIBRARY_DIR)/ng-xos-lib
+        $(LIBRARY_DIR)/ng-xos-lib \
+        $(LIBRARY_DIR)/xos-rest-gw \
+        $(LIBRARY_DIR)/xos-gui
 
 $(LIBRARY_DIR):
 	mkdir -p $(LIBRARY_DIR)
 
 $(LIBRARY_DIR)/ng-xos-lib:
 	git -C $(LIBRARY_DIR) $(GITOPTS) clone -b $(NG_XOS_LIB_BRANCH) $(NG_XOS_LIB_URL)
+
+$(LIBRARY_DIR)/xos-rest-gw:
+	git -C $(LIBRARY_DIR) $(GITOPTS) clone -b $(XOS_REST_GW_BRANCH) $(XOS_REST_GW_URL)
+
+$(LIBRARY_DIR)/xos-gui:
+	git -C $(LIBRARY_DIR) $(GITOPTS) clone -b $(XOS_GUI_BRANCH) $(XOS_GUI_URL)
 
 # bootstrap the containers
 
@@ -176,11 +184,11 @@ xos_test_c:
 
 xos_rest_gw_c:
 	# this folder is cloned by repo
-	cd $(REST_GW_DIR); docker build -t xosproject/xos-rest-gw .
+	cd $(LIBRARY_DIR)/xos-rest-gw; sudo docker build -t xosproject/xos-rest-gw .
 
 xos_gui_c:
 	# this folder is cloned by repo
-	cd $(GUI_DIR); docker build -t xosproject/xos-gui .
+	cd $(LIBRARY_DIR)/xos-gui; sudo docker build -t xosproject/xos-gui .
 
 
 # utilties/convenience targets
@@ -224,4 +232,18 @@ enter-db:
 
 django-restart:
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 touch /opt/xos/xos/settings.py
+
+rest-gw: xos_rest_gw_c
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/xos-rest-gw.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+
+ui: xos_gui_c
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos-gui.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
