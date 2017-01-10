@@ -17,10 +17,11 @@ topology_template:
         command: npm start -- --config gateway-config.yml
         ports: 3000:3000
 
+    # API Gateway config file
     /var/www/src/config/gateway-config.yml:
       type: tosca.nodes.ComponentVolume
       properties:
-          host_path: { path_join: [ SELF, CONFIG_DIR, ./gateway-config.yml, ENV_VAR ] }
+          host_path: { path_join: [ SELF, CONFIG_DIR, ./../common/gateway-config.yml, ENV_VAR ] }
           read_only: false
       requirements:
           - xos:
@@ -47,23 +48,4 @@ topology_template:
       requirements:
           - xos:
              node: xos-rest-gateway
-             relationship: tosca.relationships.LinkOfComponent
-
-    # UI Container
-    xos-spa-gui:
-      type: tosca.nodes.Component
-      properties:
-        name: xos-spa-gui
-        image: xosproject/xos-gui
-        ports: 81:81
-
-    gui-to-gw:
-      type: tosca.nodes.ComponentLink
-      properties:
-          container: xos-rest-gateway
-          alias: xos-rest-gw
-          kind: internal
-      requirements:
-          - xos:
-             node: xos-spa-gui
              relationship: tosca.relationships.LinkOfComponent

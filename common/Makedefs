@@ -10,11 +10,12 @@ MYIP                 ?= $(shell hostname -i)
 XOS_DIR              ?= $(HOME_DIR)/xos
 SERVICE_DIR          ?= $(HOME_DIR)/xos_services
 LIBRARY_DIR          ?= $(HOME_DIR)/xos_libraries
-REST_GW_DIR          ?= $(HOME_DIR)/xos-rest-gw
-GUI_DIR              ?= $(HOME_DIR)/xos-gui
+# NOTE should we move xos-gui and xos-rest-gw to these folder instead that in libraries? In case update repo manifest accordingly
+# REST_GW_DIR          ?= $(HOME_DIR)/xos-rest-gw
+# GUI_DIR              ?= $(HOME_DIR)/xos-gui
 
-XOS_BOOTSTRAP_PORT   ?= 81
-XOS_UI_PORT          ?= 80
+XOS_BOOTSTRAP_PORT   ?= 9001
+XOS_UI_PORT          ?= 9000
 
 DOCKER_PROJECT       ?= unknown
 BOOTSTRAP_PROJECT    ?= $(DOCKER_PROJECT)bs
@@ -76,3 +77,9 @@ VNODLOCAL_GIT_URL ?= $(CORD_BASE_GIT_URL)/metronet-local.git
 
 GLOBALXOS_BRANCH ?= $(DEFAULT_BRANCH)
 GLOBALXOS_GIT_URL ?= $(CORD_BASE_GIT_URL)/globalxos.git
+
+XOS_REST_GW_BRANCH ?= $(DEFAULT_BRANCH)
+XOS_REST_GW_URL ?= $(CORD_BASE_GIT_URL)/xos-rest-gw.git
+
+XOS_GUI_BRANCH ?= $(DEFAULT_BRANCH)
+XOS_GUI_URL ?= $(CORD_BASE_GIT_URL)/xos-gui.git
