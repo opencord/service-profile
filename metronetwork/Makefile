@@ -8,15 +8,15 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= metronetwork
 BOOTSTRAP_PROJECT  ?= metronetworkbs
 
-XOS_BOOTSTRAP_PORT ?= 9998
-XOS_UI_PORT        ?= 9999
+XOS_BOOTSTRAP_PORT ?= 9001
+XOS_UI_PORT        ?= 9000
 
 BOOTSTRAP_DEVEL_YML        ?= $(CONFIG_DIR)/docker-compose-bootstrap-devel.yml
 
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-metronetwork: prereqs config_dirs xos_download cord_services cord_libraries bootstrap dashboard onboarding ecord_services
+metronetwork: prereqs config_dirs xos_download cord_services cord_libraries bootstrap dashboard onboarding ecord_services rest-gw ui
 
 # Targets to accomodate users with HTTP proxies
 metronetworkconfig: prereqs config_dirs xos_download cord_services cord_libraries

@@ -8,12 +8,12 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= cordpod
 BOOTSTRAP_PROJECT  ?= cordpodbs
 
-XOS_UI_PORT        := 8888
+XOS_UI_PORT        := 9000
 
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding
+xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding rest-gw ui
 
 onboarding: synchronizers.yaml id_rsa id_rsa.pub
 	@echo "[ONBOARDING]"

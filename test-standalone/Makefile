@@ -8,8 +8,8 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= teststandalone
 BOOTSTRAP_PROJECT  ?= teststandalonebs
 
-XOS_BOOTSTRAP_PORT ?= 9998
-XOS_UI_PORT        ?= 9999
+XOS_BOOTSTRAP_PORT ?= 9001
+XOS_UI_PORT        ?= 9000
 
 DB_NAME            ?= $(BOOTSTRAP_PROJECT)_xos_db_1
 
