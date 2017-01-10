@@ -13,8 +13,8 @@ LIBRARY_DIR          ?= $(HOME_DIR)/xos_libraries
 REST_GW_DIR          ?= $(HOME_DIR)/xos-rest-gw
 GUI_DIR              ?= $(HOME_DIR)/xos-gui
 
-XOS_BOOTSTRAP_PORT   ?= 81
-XOS_UI_PORT          ?= 80
+XOS_BOOTSTRAP_PORT   ?= 8001
+XOS_UI_PORT          ?= 8000
 
 DOCKER_PROJECT       ?= unknown
 BOOTSTRAP_PROJECT    ?= $(DOCKER_PROJECT)bs
