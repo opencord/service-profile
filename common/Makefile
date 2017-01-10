@@ -176,11 +176,11 @@ xos_test_c:
 
 xos_rest_gw_c:
 	# this folder is cloned by repo
-	cd $(REST_GW_DIR); docker build -t xosproject/xos-rest-gw .
+	cd $(REST_GW_DIR); sudo docker build -t xosproject/xos-rest-gw .
 
 xos_gui_c:
 	# this folder is cloned by repo
-	cd $(GUI_DIR); docker build -t xosproject/xos-gui .
+	cd $(GUI_DIR); sudo docker build -t xosproject/xos-gui .
 
 
 # utilties/convenience targets
@@ -224,4 +224,11 @@ enter-db:
 
 django-restart:
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 touch /opt/xos/xos/settings.py
+
+rest-gw: xos_rest_gw_c xos_gui_c
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/xos-rest-gw.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 

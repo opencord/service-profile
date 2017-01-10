@@ -8,7 +8,7 @@ COMMON_DIR         := $(abspath ../common )
 DOCKER_PROJECT     ?= cordpod
 BOOTSTRAP_PROJECT  ?= cordpodbs
 
-XOS_UI_PORT        := 8888
+XOS_UI_PORT        := 9000
 
 # Include common functions
 include $(COMMON_DIR)/Makefile
