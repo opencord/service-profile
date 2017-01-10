@@ -10,8 +10,8 @@ topology_template:
     xos:
       type: tosca.nodes.XOS
       properties:
-        ui_port: 9999
-        bootstrap_ui_port: 9998
+        ui_port:  9000
+        bootstrap_ui_port:  9001
         docker_project_name: metronetwork 
         db_container_name: metronetworkbs_xos_db_1
 
