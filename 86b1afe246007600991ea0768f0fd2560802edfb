@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_f7acb737",
+        "filename": "mcord/make-vtn-external-yaml.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000017
+      },
+      "writtenOn": "2017-01-12T19:12:39Z",
+      "side": 1,
+      "message": "I think the CORD-Platform is more correct, because we want to put all the cord relative service as one category.",
+      "range": {
+        "startLine": 20,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "86b1afe246007600991ea0768f0fd2560802edfb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
