@@ -15,7 +15,7 @@ topology_template:
         docker_project_name: mcord
         db_container_name: mcordbs_xos_db_1
         redis_container_name: mcordbs_xos_redis_1
-        extra_hosts: controller:10.128.13.3, onos-cord:10.102.81.101, computeBBU1:10.102.81.6, computeBBU2:10.102.81.7, compute9:10.102.81.9
+        extra_hosts: controller:10.128.13.3, computeBBU1:10.102.81.6, computeBBU2:10.102.81.7, compute9:10.102.81.9
 
     /opt/xos/xos_configuration/xos_common_config:
       type: tosca.nodes.XOSVolume
