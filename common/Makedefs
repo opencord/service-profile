@@ -27,7 +27,7 @@ DOCKER_COMPOSE_YML   ?= $(CONFIG_DIR)/onboarding-docker-compose/docker-compose.y
 
 # git repos
 CORD_BASE_GIT_URL ?= https://gerrit.opencord.org/p
-DEFAULT_BRANCH ?= master
+DEFAULT_BRANCH ?= cord-2.0
 
 XOS_BRANCH ?= $(DEFAULT_BRANCH)
 XOS_GIT_URL ?= $(CORD_BASE_GIT_URL)/xos.git
