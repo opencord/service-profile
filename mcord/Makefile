@@ -8,7 +8,7 @@ COMMON_DIR         := $(CONFIG_DIR)/../common
 DOCKER_PROJECT     ?= mcord
 BOOTSTRAP_PROJECT  ?= mcordbs
 
-XOS_UI_PORT        := 8000
+XOS_UI_PORT        := 9000
 
 include $(COMMON_DIR)/Makefile
 

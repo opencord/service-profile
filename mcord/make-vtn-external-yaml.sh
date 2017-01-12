@@ -17,16 +17,16 @@ topology_template:
       type: tosca.nodes.ONOSService
       requirements:
       properties:
-          kind: CORD-Platform
+          kind: onos
           view_url: /admin/onos/onosservice/\$id$/
           no_container: true
           rest_hostname: onos-cord
+          rest_port: 8182
           replaces: service_ONOS_CORD
 
     service#vtn:
       type: tosca.nodes.VTNService
       properties:
-          kind: CORD-Platform
           view_url: /admin/vtn/vtnservice/\$id$/
           privateGatewayMac: 00:00:00:00:00:01
           localManagementIp: 172.27.0.1/24
@@ -34,10 +34,12 @@ topology_template:
           sshUser: root
           sshKeyFile: /root/node_key
           sshPort: 22
-          xosEndpoint: http://xos/
+          xosEndpoint: http://xos:8888/
           xosUser: padmin@vicci.org
           xosPassword: letmein
           replaces: service_vtn
+          vtnAPIVersion: 2
+          controllerPort: onos-cord:6654
 
 EOF
 
