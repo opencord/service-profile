@@ -1,6 +1,8 @@
 # common/Makedefs
 # Defines commonly used Makefile variables
 
+NO_DOCKER_CACHE      ?= false
+
 COMMON_DIR           ?= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 CONFIG_DIR           ?= $(COMMON_DIR)
 

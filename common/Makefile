@@ -184,11 +184,11 @@ xos_test_c:
 
 xos_rest_gw_c:
 	# this folder is cloned by repo
-	cd $(LIBRARY_DIR)/xos-rest-gw; sudo docker build -t xosproject/xos-rest-gw .
+	cd $(LIBRARY_DIR)/xos-rest-gw; sudo docker build --no-cache=${NO_DOCKER_CACHE} -t xosproject/xos-rest-gw .
 
 xos_gui_c:
 	# this folder is cloned by repo
-	cd $(LIBRARY_DIR)/xos-gui; sudo docker build -t xosproject/xos-gui .
+	cd $(LIBRARY_DIR)/xos-gui; sudo docker build --no-cache=${NO_DOCKER_CACHE} -t xosproject/xos-gui .
 
 
 # utilties/convenience targets
