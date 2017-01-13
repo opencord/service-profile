@@ -240,7 +240,7 @@ rest-gw: xos_rest_gw_c
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
-ui: xos_gui_c
+ui: xos_gui_c rest-gw
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos-gui.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
