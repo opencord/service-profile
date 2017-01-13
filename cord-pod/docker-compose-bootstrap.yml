@@ -17,6 +17,8 @@ services:
     image: redis
     networks:
       - xos
+    ports:
+      - "6379:6379"
     logging:
       driver: "json-file"
       options:

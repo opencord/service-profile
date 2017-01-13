@@ -235,7 +235,7 @@ django-restart:
 
 rest-gw: xos_rest_gw_c
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
-	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/xos-rest-gw.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos-rest-gw.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
