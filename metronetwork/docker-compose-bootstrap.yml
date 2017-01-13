@@ -13,6 +13,18 @@ services:
     expose:
         - "5432"
 
+  xos_redis:
+    image: redis
+    networks:
+      - xos
+    ports:
+      - "6379:6379"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1000k"
+        max-file: "5"
+
   xos_bootstrap_ui:
     image: xosproject/xos
     networks:
