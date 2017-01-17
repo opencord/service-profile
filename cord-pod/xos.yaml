@@ -46,6 +46,16 @@ topology_template:
               node: xos
               relationship: tosca.relationships.UsedByXOS
 
+    /opt/cord:
+      type: tosca.nodes.XOSVolume
+      properties:
+          host_path: "/opt/cord"
+          read_only: true
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS
+
     /root/setup:
       type: tosca.nodes.XOSVolume
       properties:

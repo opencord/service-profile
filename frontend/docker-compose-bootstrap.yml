@@ -12,8 +12,6 @@ services:
       - xos
     expose:
       - "5432"
-    ports:
-      - "5432:5432"
 
   xos_redis:
     image: redis

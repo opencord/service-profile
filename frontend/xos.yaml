@@ -37,6 +37,18 @@ topology_template:
               node: xos
               relationship: tosca.relationships.UsedByXOS
 
+    /opt/cord:
+      type: tosca.nodes.XOSVolume
+      properties:
+          # note: The following path should be set to the place where `repo init`
+          # was run to checkout your CORD hierarchy.
+          host_path: "/opt/cord"
+          read_only: true
+      requirements:
+          - xos:
+             node: xos
+             relationship: tosca.relationships.UsedByXOS
+
     /opt/xos/core/templatetags:
           type: tosca.nodes.XOSVolume
           properties:
