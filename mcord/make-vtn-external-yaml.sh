@@ -21,6 +21,7 @@ topology_template:
           view_url: /admin/onos/onosservice/\$id$/
           no_container: true
           rest_hostname: onos-cord
+          rest_port: 8182
           replaces: service_ONOS_CORD
 
     service#vtn:
@@ -38,6 +39,8 @@ topology_template:
           xosUser: padmin@vicci.org
           xosPassword: letmein
           replaces: service_vtn
+          vtnAPIVersion: 2
+          controllerPort: onos-cord:6654
 
 EOF
 
