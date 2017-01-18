@@ -112,6 +112,25 @@ node_types:
                 default: New vPGWc Component 
                 description: Just a message 
 
+    tosca.nodes.VSGWTenant:
+        derived_from: tosca.nodes.Root
+        description: >
+            A Tenant of the VSGW Service
+        properties:
+            kind:
+                type: string
+                default: generic
+                description: Kind of tenant
+            service_specific_id:
+                type: string
+                required: false
+                description: Service specific ID opaque to XOS but meaningful to service
+            tenant_message:
+                type: string
+                required: false
+                default: New vSGW Tenant
+                description: Just a message
+
 topology_template:
   node_templates:
     vBBU:
@@ -137,6 +156,18 @@ topology_template:
           private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
       artifacts:
           pubkey: /opt/xos/services/vpgwc/keys/vPGWC_rsa.pub
+
+    vSGW:
+      type: tosca.nodes.MCORDService
+      requirements:
+      properties:
+          kind: vEPC
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/vsgw/vsgwtenant
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/vsgw/keys/vSGW_rsa
+      artifacts:
+          pubkey: /opt/xos/services/vsgw/keys/vSGW_rsa.pub
 
     m1.xlarge:
       type: tosca.nodes.Flavor
@@ -317,6 +348,29 @@ topology_template:
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
+
+    mysite_vsgw_slice1:
+      description: vSGW Service Slice 1
+      type: tosca.nodes.Slice
+      requirements:
+          - vSGW:
+              node: vSGW
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - default_image:
+                node: trusty-server-multi-nic
+                relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+                node: m1.xlarge
+                relationship: tosca.relationships.DefaultFlavor
+          - management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+      properties:
+          network: noauto
+
 #default_node: compute10
 
 #    mysite_VPGWC_Component:
