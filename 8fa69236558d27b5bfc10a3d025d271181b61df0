@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_f5926ff5",
+        "filename": "mcord/mcord.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000048
+      },
+      "writtenOn": "2017-01-18T15:36:44Z",
+      "side": 1,
+      "message": "Is this really the image it uses?",
+      "revId": "8fa69236558d27b5bfc10a3d025d271181b61df0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
