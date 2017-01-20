@@ -68,7 +68,7 @@ reactivate_fabric_apps:
 
 fabric:
 	@echo "[FABRIC]"
-	cp $(SERVICE_DIR)/fabric/config/network-cfg-quickstart.json .
+	cord generate > network-cfg-quickstart.json
 	$(RUN_TOSCA) fabric.yaml
 	sleep 20
 
