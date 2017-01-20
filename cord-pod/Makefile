@@ -60,15 +60,27 @@ vtn: nodes vtn.yaml
 	$(RUN_TOSCA) vtn.yaml
 
 delete_fabric_config:
+	@echo "[removing fabric configuration]"
 	http -a karaf:karaf DELETE http://onos-fabric:8181/onos/v1/network/configuration/
 
 reactivate_fabric_apps:
+	@echo "[reactivating fabric apps]"
 	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
 	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
 
-fabric:
+fabric-xconnect.json:
+	cp $(SERVICE_DIR)/fabric/config/ciab-fabric-xconnect.json ./fabric-xconnect.json
+
+network-cfg-quickstart.json: fabric-xconnect.json
+	@echo "[generating fabric config]"
+	cord generate > cord-generate.json
+	@echo "[adding VLAN crossconnects]"
+	jq -s '.[0] + .[1]' cord-generate.json fabric-xconnect.json > temp1
+	@echo "[specifying ofdpa-cpqd driver]"
+	jq '.devices[].basic.driver = "ofdpa-cpqd"' temp1 > network-cfg-quickstart.json
+
+fabric: network-cfg-quickstart.json
 	@echo "[FABRIC]"
-	cp $(SERVICE_DIR)/fabric/config/network-cfg-quickstart.json .
 	$(RUN_TOSCA) fabric.yaml
 	sleep 20
 
