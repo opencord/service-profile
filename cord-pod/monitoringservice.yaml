@@ -97,9 +97,9 @@ topology_template:
         # Host container properties
         host:
          properties:
-           num_cpus: 1
-           disk_size: 20 GB
-           mem_size: 2 GB
+           num_cpus: 2
+           disk_size: 40 GB
+           mem_size: 4 GB
       requirements:
           - slice:
                 node: mysite_ceilometer
