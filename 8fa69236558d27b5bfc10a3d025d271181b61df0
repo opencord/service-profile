@@ -16,6 +16,24 @@
       "revId": "8fa69236558d27b5bfc10a3d025d271181b61df0",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa0f191f_50eda98a",
+        "filename": "mcord/mcord.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000017
+      },
+      "writtenOn": "2017-01-20T18:33:20Z",
+      "side": 1,
+      "message": "No. But we will finalized the all the image name today. \nOnce we set it down, will change all the image names.",
+      "parentUuid": "fa0f191f_f5926ff5",
+      "revId": "8fa69236558d27b5bfc10a3d025d271181b61df0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
