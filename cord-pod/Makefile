@@ -66,9 +66,11 @@ reactivate_fabric_apps:
 	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
 	http -a karaf:karaf POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
 
-fabric:
+network-cfg-quickstart.json:
+	cord generate > network-cfg-quickstart.json
+
+fabric: network-cfg-quickstart.json
 	@echo "[FABRIC]"
-	cp $(SERVICE_DIR)/fabric/config/network-cfg-quickstart.json .
 	$(RUN_TOSCA) fabric.yaml
 	sleep 20
 
