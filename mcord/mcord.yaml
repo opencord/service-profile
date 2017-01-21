@@ -271,6 +271,22 @@ topology_template:
               node: mysite_vpgwc_slice1
               relationship: tosca.relationships.ConnectsToSlice
 
+    shared_network:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          ip_version: 4
+          cidr: 172.17.8.0/24
+      requirements:
+          - network_template:
+              node: External
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.MemberOfSlice
+          - slice:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.ConnectsToSlice
+
     mysite:
       type: tosca.nodes.Site
 
@@ -322,6 +338,9 @@ topology_template:
           - management:
               node: management
               relationship: tosca.relationships.ConnectsToNetwork
+          - connection:
+              node: shared_network
+              relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
 #          default_flavor: m1.xlarge
@@ -345,6 +364,9 @@ topology_template:
                 relationship: tosca.relationships.DefaultFlavor
           - management:
               node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection:
+              node: shared_network
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
