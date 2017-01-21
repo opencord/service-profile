@@ -62,6 +62,87 @@ node_types:
                 required: false
                 description: Version number of Service.
 
+    #VMME service node type; should probably be switched with generic MCORDservice node
+    tosca.nodes.VMMEService:
+        derived_from: tosca.nodes.Root
+        description: >
+            An XOS Service object. Services may be listed in the Service
+            directory and may be linked together via Tenancy Relationships.
+        capabilities:
+            scalable:
+                type: tosca.capabilities.Scalable
+            service:
+                type: tosca.capabilities.xos.Service
+        properties:
+            no-delete:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to delete this object
+            no-create:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to create this object
+            no-update:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to update this object
+            kind:
+                type: string
+                default: RAN
+                description: Type of service.
+            view_url:
+                type: string
+                required: false
+                description: URL to follow when icon is clicked in the Service Directory.
+            icon_url:
+                type: string
+                required: false
+                description: ICON to display in the Service Directory.
+            enabled:
+                type: boolean
+                default: true
+            published:
+                type: boolean
+                default: true
+                description: If True then display this Service in the Service Directory.
+            public_key:
+                type: string
+                required: false
+                description: Public key to install into Instances to allows Services to SSH into them.
+            private_key_fn:
+                type: string
+                required: false
+                description: Location of private key file
+            versionNumber:
+                type: string
+                required: false
+                description: Version number of Service.
+    
+    #VMME tenant node type
+    tosca.nodes.VMMETenant:
+        derived_from: tosca.nodes.Root
+        description: >
+            A Tenant of the VMME Service
+        properties:
+            kind:
+                type: string
+                default: vEPC
+                description: Kind of tenant
+            service_specific_id:
+                type: string
+                required: false
+                description: Service specific ID opaque to XOS but meaningful to service
+            s1mme_tag:
+                type: string
+                required: false
+                default: 600   #chosen at random
+                description: VTN stag port-name
+            tenant_message:
+                type: string
+                required: false
+                default: New vMME Tenant
+                description: Just a message
+
     tosca.nodes.VBBUComponent:
         derived_from: tosca.nodes.Root
         description: >
@@ -393,6 +474,56 @@ topology_template:
       properties:
           network: noauto
 
+
+    mysite_vmme_slice1:
+      description: vMME Service Slice 1
+      type: tosca.nodes.Slice
+      requirements:
+          - vMME:
+              node: vMME
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - default_image:
+                node: trusty-server-multi-nic
+                relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+                node: m1.xlarge
+                relationship: tosca.relationships.DefaultFlavor
+          - management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+      properties:
+          network: noauto
+
+    #vMME node type
+    vMME:
+      type: tosca.nodes.VMMEService
+      requirements:
+          - management:
+              node: management
+              relationship: tosca.relationships.UsesNetwork
+      properties:
+          kind: vEPC
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/vmme/vmmetenant
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/vmme/keys/vMME_rsa
+      artifacts:
+          pubkey: /opt/xos/services/vmme/keys/vMME_rsa.pub
+
+    tenant#vmmetenant1:
+      type: tosca.nodes.VMMETenant
+      properties:
+          tenant_message: just a message
+      requirements:
+        - tenant:
+            node: vMME
+            relationship: tosca.relationships.MemberOfService
+        - dependency:
+            node: mysite_vmme_slice1
+            relationship: tosca.relationships.DependsOn
 #default_node: compute10
 
 #    mysite_VPGWC_Component:
