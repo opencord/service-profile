@@ -27,6 +27,8 @@ onboarding:
 	sudo cp id_rsa.pub key_import/vSGW_rsa.pub
 	sudo cp id_rsa key_import/onos_rsa
 	sudo cp id_rsa key_import/onos_rsa.pub
+	sudo cp id_rsa key_import/vMME_rsa
+	sudo cp id_rsa key_import/vMME_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(LIBRARY_DIR)/ng-xos-lib/ng-xos-lib-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vBBU/xos/vBBU-onboard.yaml
@@ -34,6 +36,7 @@ onboarding:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vSGW/xos/vSGW-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vMME/xos/vmme-onboard.yaml
 	# $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
@@ -43,6 +46,7 @@ onboarding:
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vsgw
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vtn
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/onos
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vmme
 	# bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
