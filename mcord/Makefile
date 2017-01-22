@@ -26,9 +26,9 @@ onboarding:
 	sudo cp id_rsa key_import/vSGW_rsa
 	sudo cp id_rsa.pub key_import/vSGW_rsa.pub
 	sudo cp id_rsa key_import/onos_rsa
-	sudo cp id_rsa key_import/onos_rsa.pub
+	sudo cp id_rsa.pub key_import/onos_rsa.pub
 	sudo cp id_rsa key_import/vMME_rsa
-	sudo cp id_rsa key_import/vMME_rsa.pub
+	sudo cp id_rsa.pub key_import/vMME_rsa.pub
 	$(RUN_TOSCA_BOOTSTRAP) $(LIBRARY_DIR)/ng-xos-lib/ng-xos-lib-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/openstack/xos/openstack-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vBBU/xos/vBBU-onboard.yaml
