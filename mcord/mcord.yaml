@@ -292,6 +292,28 @@ topology_template:
 #          no-delete: true
 #          no-update: true
 
+    management_hosts_template:
+      type: tosca.nodes.NetworkTemplate
+      properties:
+          visibility: private
+          translation: none
+          vtn_kind: MANAGEMENT_HOST
+
+    management_host:
+      type: tosca.nodes.network.Network
+      properties:
+          ip_version: 4
+          cidr: 10.1.0.0/24
+          start_ip: 10.1.0.128
+          end_ip: 10.1.0.254
+      requirements:
+          - network_template:
+              node: management_hosts_template
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_management
+              relationship: tosca.relationships.MemberOfSlice
+
     lan_3gpp_s1mme_network:
       type: tosca.nodes.network.Network.XOS
       properties:
@@ -436,10 +458,13 @@ topology_template:
           - default_flavor:
                 node: m1.xlarge
                 relationship: tosca.relationships.DefaultFlavor
-          - management:
+          - connection_to_management:
               node: management
               relationship: tosca.relationships.ConnectsToNetwork
-          - connection:
+          - connection_to_management_host:
+              node: management_host
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_shared_network:
               node: shared_network
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
@@ -463,10 +488,13 @@ topology_template:
           - default_flavor:
                 node: m1.xlarge
                 relationship: tosca.relationships.DefaultFlavor
-          - management:
+          - connection_to_management:
               node: management
               relationship: tosca.relationships.ConnectsToNetwork
-          - connection:
+          - connection_to_management_host:
+              node: management_host
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_shared_network:
               node: shared_network
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
