@@ -118,7 +118,6 @@ node_types:
                 required: false
                 description: Version number of Service.
     
-    #VMME tenant node type
     tosca.nodes.VMMETenant:
         derived_from: tosca.nodes.Root
         description: >
@@ -142,6 +141,11 @@ node_types:
                 required: false
                 default: New vMME Tenant
                 description: Just a message
+            image_name: 
+                type: string
+                required: true
+                default: default
+                description: Name of VM image
 
     tosca.nodes.VBBUComponent:
         derived_from: tosca.nodes.Root
@@ -249,6 +253,22 @@ topology_template:
           private_key_fn: /opt/xos/services/vsgw/keys/vSGW_rsa
       artifacts:
           pubkey: /opt/xos/services/vsgw/keys/vSGW_rsa.pub
+
+    vMME:
+      type: tosca.nodes.VMMEService
+      requirements:
+          - management:
+              node: management
+              relationship: tosca.relationships.UsesNetwork
+      properties:
+          kind: vEPC
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/vmme/vmmetenant
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/vmme/keys/vMME_rsa
+      artifacts:
+          pubkey: /opt/xos/services/vmme/keys/vMME_rsa.pub
+
 
     m1.xlarge:
       type: tosca.nodes.Flavor
@@ -497,26 +517,12 @@ topology_template:
       properties:
           network: noauto
 
-    #vMME node type
-    vMME:
-      type: tosca.nodes.VMMEService
-      requirements:
-          - management:
-              node: management
-              relationship: tosca.relationships.UsesNetwork
-      properties:
-          kind: vEPC
-          icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vmme/vmmetenant
-          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
-          private_key_fn: /opt/xos/services/vmme/keys/vMME_rsa
-      artifacts:
-          pubkey: /opt/xos/services/vmme/keys/vMME_rsa.pub
 
     tenant#vmmetenant1:
       type: tosca.nodes.VMMETenant
       properties:
           tenant_message: just a message
+          image_name: default
       requirements:
         - tenant:
             node: vMME
@@ -524,6 +530,22 @@ topology_template:
         - dependency:
             node: mysite_vmme_slice1
             relationship: tosca.relationships.DependsOn
+
+
+    tenant#vmmetenant2:
+      type: tosca.nodes.VMMETenant
+      properties:
+          tenant_message: just a message 2
+          image_name: mcord-vpgwc-onos-multi-nic
+      requirements:
+        - tenant:
+            node: vMME
+            relationship: tosca.relationships.MemberOfService
+        - dependency:
+            node: mysite_vmme_slice1
+            relationship: tosca.relationships.DependsOn
+
+
 #default_node: compute10
 
 #    mysite_VPGWC_Component:
