@@ -104,6 +104,20 @@ for NODE in $NODES; do
               node: service#ONOS_CORD
               relationship: tosca.relationships.MemberOfService
 
+    # VTN hostManagementIface field for node $NODE
+    ${NODE}_dataPlaneIp_tag:
+      type: tosca.nodes.Tag
+      properties:
+          name: hostManagementIface
+          value: veth3
+      requirements:
+          - target:
+              node: $NODE
+              relationship: tosca.relationships.TagsObject
+          - service:
+              node: service#ONOS_CORD
+              relationship: tosca.relationships.MemberOfService
+
 EOF
 done
 
