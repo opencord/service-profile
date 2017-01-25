@@ -314,85 +314,85 @@ topology_template:
               node: mysite_management
               relationship: tosca.relationships.MemberOfSlice
 
-    lan_3gpp_s1mme_network:
-      type: tosca.nodes.network.Network.XOS
-      properties:
-          ip_version: 4
-          labels: lan_3gpp_s1uc_net
-          cidr: 172.16.1.0/24
-          start_ip: 172.16.1.3
-          end_ip: 172.16.1.12
-          gateway_ip: 172.16.1.1
-      requirements:
-          - network_template:
-              node: External
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.MemberOfSlice
-          - connection:
-              node: mysite_vbbu_slice1
-              relationship: tosca.relationships.ConnectsToSlice
-
-    lan_3gpp_s1u_network:
-      type: tosca.nodes.network.Network.XOS
-      properties:
-          ip_version: 4
-          labels: lan_3gpp_s1u_net
-          cidr: 172.16.2.0/24
-          start_ip: 172.16.2.3
-          end_ip: 172.16.2.12
-          gateway_ip: 172.16.16.1
-      requirements:
-          - network_template:
-              node: External
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.MemberOfSlice
-          - connection:
-              node: mysite_vbbu_slice1
-              relationship: tosca.relationships.ConnectsToSlice
-
-    lan_rru_network:
-      type: tosca.nodes.network.Network.XOS
-      properties:
-          ip_version: 4
-          labels: lan_rru_net
-          cidr: 172.16.0.0/24
-          start_ip: 172.16.0.3
-          end_ip: 172.16.0.12
-          gateway_ip: 172.16.0.1
-      requirements:
-          - network_template:
-              node: External
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.MemberOfSlice
-          - connection:
-              node: mysite_vbbu_slice1
-              relationship: tosca.relationships.ConnectsToSlice
-
-    lan_3gpp_s5s8_pgw_network:
-      type: tosca.nodes.network.Network.XOS
-      properties:
-          ip_version: 4
-          labels: lan_3gpp_s5s8_pgw_net
-          cidr: 172.17.1.0/24
-          start_ip: 172.17.1.2
-          end_ip: 172.17.1.8
-          gateway_ip: 172.17.1.1
-      requirements:
-          - network_template:
-              node: External
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.MemberOfSlice
-          - connection:
-              node: mysite_vpgwc_slice1
-              relationship: tosca.relationships.ConnectsToSlice
+#    lan_3gpp_s1mme_network:
+#      type: tosca.nodes.network.Network.XOS
+#      properties:
+#          ip_version: 4
+#          labels: lan_3gpp_s1uc_net
+#          cidr: 172.16.1.0/24
+#          start_ip: 172.16.1.3
+#          end_ip: 172.16.1.12
+#          gateway_ip: 172.16.1.1
+#      requirements:
+#          - network_template:
+#              node: External
+#              relationship: tosca.relationships.UsesNetworkTemplate
+#          - owner:
+#              node: mysite_mobile_net
+#              relationship: tosca.relationships.MemberOfSlice
+#          - connection:
+#              node: mysite_vbbu_slice1
+#              relationship: tosca.relationships.ConnectsToSlice
+#
+#    lan_3gpp_s1u_network:
+#      type: tosca.nodes.network.Network.XOS
+#      properties:
+#          ip_version: 4
+#          labels: lan_3gpp_s1u_net
+#          cidr: 172.16.2.0/24
+#          start_ip: 172.16.2.3
+#          end_ip: 172.16.2.12
+#          gateway_ip: 172.16.16.1
+#      requirements:
+#          - network_template:
+#              node: External
+#              relationship: tosca.relationships.UsesNetworkTemplate
+#          - owner:
+#              node: mysite_mobile_net
+#              relationship: tosca.relationships.MemberOfSlice
+#          - connection:
+#              node: mysite_vbbu_slice1
+#              relationship: tosca.relationships.ConnectsToSlice
+#
+#    lan_rru_network:
+#      type: tosca.nodes.network.Network.XOS
+#      properties:
+#          ip_version: 4
+#          labels: lan_rru_net
+#          cidr: 172.16.0.0/24
+#          start_ip: 172.16.0.3
+#          end_ip: 172.16.0.12
+#          gateway_ip: 172.16.0.1
+#      requirements:
+#          - network_template:
+#              node: External
+#              relationship: tosca.relationships.UsesNetworkTemplate
+#          - owner:
+#              node: mysite_mobile_net
+#              relationship: tosca.relationships.MemberOfSlice
+#          - connection:
+#              node: mysite_vbbu_slice1
+#              relationship: tosca.relationships.ConnectsToSlice
+#
+#    lan_3gpp_s5s8_pgw_network:
+#      type: tosca.nodes.network.Network.XOS
+#      properties:
+#          ip_version: 4
+#          labels: lan_3gpp_s5s8_pgw_net
+#          cidr: 172.17.1.0/24
+#          start_ip: 172.17.1.2
+#          end_ip: 172.17.1.8
+#          gateway_ip: 172.17.1.1
+#      requirements:
+#          - network_template:
+#              node: External
+#              relationship: tosca.relationships.UsesNetworkTemplate
+#          - owner:
+#              node: mysite_mobile_net
+#              relationship: tosca.relationships.MemberOfSlice
+#          - connection:
+#              node: mysite_vpgwc_slice1
+#              relationship: tosca.relationships.ConnectsToSlice
 
     shared_network:
       type: tosca.nodes.network.Network.XOS
