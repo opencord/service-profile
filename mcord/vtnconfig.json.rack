@@ -1,0 +1,68 @@
+{
+  "layouts" : { },
+  "ports" : { },
+  "hosts" : { },
+  "devices" : { },
+  "apps" : {
+    "org.opencord.vtn" : {
+      "cordvtn" : {
+        "controllers" : [ "10.6.0.1:6654" ],
+        "localManagementIp" : "172.27.0.1/24",
+        "nodes" : [ {
+          "bridgeId" : "of:0000001E67D2EF17",
+          "dataPlaneIntf" : "fabric",
+          "dataPlaneIp" : "10.6.1.3/24",
+          "hostManagementIp" : "10.6.0.23/24",
+          "hostname" : "strange-touch"
+        }, {
+          "bridgeId" : "of:0000001E67D2C98A",
+          "dataPlaneIntf" : "fabric",
+          "dataPlaneIp" : "10.6.1.2/24",
+          "hostManagementIp" : "10.6.0.21/24",
+          "hostname" : "only-bucket"
+        }, {
+          "bridgeId" : "of:0000001E67D2CE52",
+          "dataPlaneIntf" : "fabric",
+          "dataPlaneIp" : "10.6.1.5/24",
+          "hostManagementIp" : "10.6.0.22/24",
+          "hostname" : "salty-interest"
+        }, {
+          "bridgeId" : "of:0000001E67D2AB52",
+          "dataPlaneIntf" : "fabric",
+          "dataPlaneIp" : "10.6.1.6/24",
+          "hostManagementIp" : "10.6.0.50/24",
+	  "hostManagementIface" : "veth3",
+          "hostname" : "compute1"
+        } ],
+        "openstack" : {
+          "endpoint" : "https://keystone.cord.lab:5000/v2.0",
+          "password" : "VeryLongKeystoneAdminPassword",
+          "tenant" : "admin",
+          "user" : "admin"
+        },
+        "ovsdbPort" : "6641",
+        "privateGatewayMac" : "00:00:00:00:00:01",
+        "publicGateways" : [ {
+          "gatewayIp" : "10.6.1.193",
+          "gatewayMac" : "02:42:0a:06:01:01"
+        }, {
+          "gatewayIp" : "10.6.1.129",
+          "gatewayMac" : "02:42:0a:06:01:01"
+        } ],
+        "ssh" : {
+          "sshKeyFile" : "/root/node_key",
+          "sshPort" : "22",
+          "sshUser" : "ubuntu"
+        },
+        "xos" : {
+          "endpoint" : "http://xos:8888/",
+          "password" : "letmein",
+          "user" : "padmin@vicci.org"
+        }
+      }
+    }
+  },
+  "regions" : { },
+  "links" : { }
+}
+
