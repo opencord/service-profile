@@ -6,15 +6,15 @@ HAS_BASE=$(shell docker images | grep xos-base )
 
 # prerequisite software
 .PHONY: prereqs
-prereqs: /usr/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
+prereqs: /usr/local/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
 
 apt-prereqs:
 	sudo apt-get update
 	sudo apt-get -y install apt-transport-https ca-certificates python-pip
 	touch $@
 
-/usr/bin/http: | apt-prereqs
-	sudo apt-get -y install httpie
+/usr/local/bin/http: | apt-prereqs
+	sudo pip install httpie
 
 /usr/bin/curl: | apt-prereqs
 	sudo apt-get -y install curl
