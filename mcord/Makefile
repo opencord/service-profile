@@ -53,7 +53,9 @@ onboarding:
 
 podconfig: nodes.yaml images.yaml
 	@echo "[PODCONFIG]"
-	$(RUN_TOSCA) setup.yaml
+	# TODO: the setup create the seconde nodes.Controller named MyOpenStack, this why we delete it for now
+	# we still need it because it create lots of other services like firewall on the service list
+	#$(RUN_TOSCA) setup.yaml
 	$(RUN_TOSCA) nodes.yaml
 	$(RUN_TOSCA) images.yaml
 
