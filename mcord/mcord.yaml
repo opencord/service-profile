@@ -272,6 +272,10 @@ topology_template:
 
     m1.xlarge:
       type: tosca.nodes.Flavor
+    m1.large:
+      type: tosca.nodes.Flavor
+    m1.small:
+      type: tosca.nodes.Flavor
 
     Private:
       type: tosca.nodes.NetworkTemplate
@@ -413,10 +417,23 @@ topology_template:
     mysite:
       type: tosca.nodes.Site
 
-    mcord-bbu-multi-nic:
+    licenseserver:
       type: tosca.nodes.Image
-
-    mcord-vpgwc-onos-multi-nic:
+    bbu:
+      type: tosca.nodes.Image
+    bbu_kernel:
+      type: tosca.nodes.Image
+    mme:
+      type: tosca.nodes.Image
+    hss:
+      type: tosca.nodes.Image
+    sgwc:
+      type: tosca.nodes.Image
+    sgwu:
+      type: tosca.nodes.Image
+    pgwc:
+      type: tosca.nodes.Image
+    pgwu:
       type: tosca.nodes.Image
 
     trusty-server-multi-nic:
@@ -453,7 +470,7 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: mcord-bbu-multi-nic 
+                node: bbu 
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
                 node: m1.xlarge
@@ -483,10 +500,10 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: mcord-vpgwc-onos-multi-nic 
+                node: pgwc 
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
-                node: m1.xlarge
+                node: m1.large
                 relationship: tosca.relationships.DefaultFlavor
           - connection_to_management:
               node: management
@@ -511,10 +528,10 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: trusty-server-multi-nic
+                node: sgwc
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
-                node: m1.xlarge
+                node: m1.large
                 relationship: tosca.relationships.DefaultFlavor
           - connection_to_management:
               node: management
@@ -540,10 +557,10 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: trusty-server-multi-nic
+                node: mme
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
-                node: m1.xlarge
+                node: m1.large
                 relationship: tosca.relationships.DefaultFlavor
           - connection_to_management:
               node: management
@@ -576,7 +593,7 @@ topology_template:
       type: tosca.nodes.VMMETenant
       properties:
           tenant_message: just a message 2
-          image_name: mcord-vpgwc-onos-multi-nic
+          image_name: trusty-server-multi-nic
       requirements:
         - tenant:
             node: vMME
