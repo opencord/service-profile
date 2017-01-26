@@ -37,7 +37,7 @@ onboarding:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vMME/xos/vmme-onboard.yaml
-	# $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/\fabric-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/fabric-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/ng-xos-lib
@@ -47,7 +47,7 @@ onboarding:
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vtn
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/onos
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vmme
-	# bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
@@ -79,3 +79,13 @@ onboard-slicing: slicing-ui
 
 slicing-ui:
 	$(RUN_TOSCA) ./mcord-slicing-ui.yaml
+fabric:
+	@echo "[FABRIC]"
+	$(RUN_TOSCA) fabric.yaml
+	sleep 20
+delete_fabric_config:
+	curl -sSL --user karaf:karaf -X DELETE http://onos-fabric:8181/onos/v1/network/configuration/
+
+reactivate_fabric_apps:
+	curl -sSL --user karaf:karaf -X POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
+	curl -sSL --user karaf:karaf -X POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
