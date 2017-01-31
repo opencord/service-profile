@@ -14,7 +14,7 @@ topology_template:
       properties:
           view_url: /admin/monitoring/ceilometerservice/$id$/
           kind: ceilometer
-          ceilometer_pub_sub_url: http://10.11.10.1:4455/
+          ceilometer_enable_pub_sub: true
           public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
           private_key_fn: /opt/xos/services/monitoring/keys/monitoringservice_rsa
       artifacts:
