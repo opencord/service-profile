@@ -66,6 +66,7 @@ vtn-external.yaml:
 	export SETUPDIR=$(CONFIG_DIR); bash ./make-vtn-external-yaml.sh
 
 mcord:
+        export SETUPDIR=$(CONFIG_DIR); bash ./make-mcord-yaml.sh
 	$(RUN_TOSCA) mgmt-net.yaml
 	$(RUN_TOSCA) mcord.yaml
 

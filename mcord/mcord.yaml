@@ -596,7 +596,7 @@ topology_template:
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
-
+          default_node: compute1
 
     tenant#vmmetenant1:
       type: tosca.nodes.VMMETenant
