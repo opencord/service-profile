@@ -1,0 +1,114 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Setup Slice for analytics applications.
+
+imports:
+   - custom_types/xos.yaml
+   - custom_types/monitoring_tosca_types.yaml
+
+topology_template:
+  node_templates:
+    service_ceilometer:
+      type: tosca.nodes.CeilometerService
+      properties:
+          no-create: true
+          no-update: true
+          no-delete: true
+
+    service_analytics:
+      type: tosca.nodes.Service
+      requirements:
+          - monitoring_tenant:
+              node: service_ceilometer
+              relationship: tosca.relationships.TenantOfService
+      properties:
+          kind: analytics
+
+# private network template, created in fixtures.yml
+    Private:
+      type: tosca.nodes.NetworkTemplate
+
+# site, fully created in deployment.yaml
+    mysite:
+      type: tosca.nodes.Site
+
+    trusty-server-multi-nic:
+      type: tosca.nodes.Image
+
+    m1.small:
+      type: tosca.nodes.Flavor
+
+# management network, fully created in management-net.yaml
+    management:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+        no-create: true
+        no-delete: true
+        no-update: true
+
+# public network, fully created in public-net.yaml
+    public:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+        no-create: true
+        no-delete: true
+        no-update: true
+
+    analytics_app_network:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          ip_version: 4
+          labels: analytics_app_private_network
+      requirements:
+          - network_template:
+              node: Private
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_analytics
+              relationship: tosca.relationships.MemberOfSlice
+          - connection:
+              node: mysite_analytics
+              relationship: tosca.relationships.ConnectsToSlice
+
+    mysite_analytics:
+      type: tosca.nodes.Slice
+      properties:
+          network: noauto
+      requirements:
+          - service:
+              node: service_analytics
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - public:
+              node: public
+              relationship: tosca.relationships.ConnectsToNetwork
+          - default_image:
+                node: trusty-server-multi-nic
+                relationship: tosca.relationships.DefaultImage
+          - m1.small:
+              node: m1.small
+              relationship: tosca.relationships.DefaultFlavor
+
+    # Virtual machines
+    auto_scale_virtual_machine:
+      type: tosca.nodes.Compute
+      capabilities:
+        # Host container properties
+        host:
+         properties:
+           num_cpus: 1
+           disk_size: 20 GB
+           mem_size: 2 GB
+      requirements:
+          - slice:
+                node: mysite_analytics
+                relationship: tosca.relationships.MemberOfSlice
+          - image:
+                node: trusty-server-multi-nic
+                relationship: tosca.relationships.UsesImage
+
