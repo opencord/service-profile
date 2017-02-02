@@ -177,7 +177,7 @@ node_types:
                 default: New vBBU Component 
                 description: Just a message 
                 
-    tosca.nodes.VPGWCComponent:
+    tosca.nodes.VPGWCTenant:
         derived_from: tosca.nodes.Root
         description: >
             CORD: vPGWC Component of MCORD Service.
@@ -196,6 +196,11 @@ node_types:
                 required: false
                 default: New vPGWc Component 
                 description: Just a message 
+            image_name: 
+                type: string
+                required: true
+                default: default
+                description: Name of VM image
 
     tosca.nodes.VSGWTenant:
         derived_from: tosca.nodes.Root
@@ -215,6 +220,11 @@ node_types:
                 required: false
                 default: New vSGW Tenant
                 description: Just a message
+            image_name: 
+                type: string
+                required: true
+                default: default
+                description: Name of VM image
 
 topology_template:
   node_templates:
@@ -236,7 +246,7 @@ topology_template:
       properties:
           kind: vEPC
           icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vpgwc/vpgwccomponent
+          view_url: /admin/vpgwc/VPGWCTenant
           public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
           private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
       artifacts:
@@ -596,7 +606,21 @@ topology_template:
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
+          default_node: compute1
 
+
+    tenant#vpgwctenant1:
+      type: tosca.nodes.VPGWCTenant
+      properties:
+          display_message: just a message
+          image_name: pgwc
+      requirements:
+        - tenant:
+            node: vPGWC
+            relationship: tosca.relationships.MemberOfService
+        - dependency:
+            node: mysite_vpgwc_slice1
+            relationship: tosca.relationships.DependsOn
 
     tenant#vmmetenant1:
       type: tosca.nodes.VMMETenant
@@ -625,20 +649,4 @@ topology_template:
             node: mysite_vmme_slice1
             relationship: tosca.relationships.DependsOn
 
-
-#default_node: compute10
-
-#    mysite_VPGWC_Component:
-#      description: MCORD Service default Component
-#      type: tosca.nodes.VPGWCComponent
-#      requirements:
-#          - provider_service:
-#              node: vPGWC
-#              relationship: tosca.relationships.MemberOfService
-#          - vpgwc_slice:
-#              node: mysite_vpgwc_slice1
-#              relationship: tosca.relationships.MemberOfSlice
-#      properties:
-#          display_message: vPGWC looks good!
-#          s5s8_pgw_tag: 300
 
