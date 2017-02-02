@@ -247,3 +247,14 @@ ui: xos_gui_c rest-gw
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
+xos_gui_sample_extension_c:
+	# this folder is cloned by repo
+	cd $(HOME_DIR)/xos-sample-gui-extension; sudo docker build --no-cache=${NO_DOCKER_CACHE} -t xosproject/xos-sample-gui-extension .
+
+ui-sample-extension: xos_gui_sample_extension_c
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/xos-gui-extension.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+

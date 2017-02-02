@@ -12,8 +12,6 @@ topology_template:
     xos-spa-gui:
       type: tosca.nodes.Component
       properties:
-        # command: cd /var/www; BRAND=cord npm run build
-        name: xos-spa-gui
         image: xosproject/xos-gui
         ports: 4000:4000
 

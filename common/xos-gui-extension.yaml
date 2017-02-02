@@ -1,0 +1,37 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Onboard the exampleservice
+
+imports:
+   - custom_types/xos.yaml
+
+topology_template:
+  node_templates:
+
+    # UI Container
+    xos-spa-gui:
+      type: tosca.nodes.Component
+      properties:
+        no-create: true
+        no-update: true
+        no-delete: true
+
+     # UI Extension Container
+    xos-sample-gui-extension:
+      type: tosca.nodes.Component
+      properties:
+        image: xosproject/xos-sample-gui-extension
+        ports: 4001:4000
+        # extra: '["xos-sample-gui-extension:4001/spa/vendor.js", "xos-sample-gui-extension:4001/spa/app.js"]'
+        extra: '["http://xos.dev:4001/spa/vendor.js", "http://xos.dev:4001/spa/app.js"]'
+
+    gui-to-extension:
+      type: tosca.nodes.ComponentLink
+      properties:
+          container: xos-sample-gui-extension
+          alias: xos-sample-gui-extension
+          kind: internal
+      requirements:
+          - xos:
+             node: xos-spa-gui
+             relationship: tosca.relationships.LinkOfComponent

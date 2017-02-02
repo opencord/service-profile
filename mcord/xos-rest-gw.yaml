@@ -12,7 +12,6 @@ topology_template:
     xos-rest-gateway:
       type: tosca.nodes.Component
       properties:
-        name: xos-rest-gateway
         image: xosproject/xos-rest-gw
         command: npm start -- --config gateway-config.yml
         ports: 3000:3000

@@ -11,7 +11,7 @@ BOOTSTRAP_PROJECT  ?= ocb
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-xos: prereqs config_dirs xos_download opencloud_services bootstrap onboarding
+xos: prereqs config_dirs xos_download opencloud_services bootstrap onboarding rest-gw ui
 
 opencloud_services: $(SERVICE_DIR) \
 	$(SERVICE_DIR)/onos-service \
