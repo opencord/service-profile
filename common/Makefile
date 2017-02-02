@@ -159,7 +159,7 @@ bootstrap: $(BOOTSTRAP_YML) $(CONFIG_DIR)/xos.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/xos.yaml
 
 # container creation targets
-local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c
+local_containers: prereqs xos_download update_certs xos_base_c xos_devel_c chameleon_c
 
 test_containers: local_containers xos_test_c
 
@@ -190,6 +190,8 @@ xos_gui_c:
 	# this folder is cloned by repo
 	cd $(LIBRARY_DIR)/xos-gui; sudo docker build --no-cache=${NO_DOCKER_CACHE} -t xosproject/xos-gui .
 
+chameleon_c:
+	cd $(XOS_DIR)/containers/chameleon; make
 
 # utilties/convenience targets
 cleanup: stop rm $(CONFIG_DIR)/cleanup.sh
