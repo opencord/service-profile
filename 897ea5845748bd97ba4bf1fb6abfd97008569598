@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0f191f_5c46df24",
+        "filename": "cord-pod/xos.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2017-02-02T23:17:35Z",
+      "side": 1,
+      "message": "would you not rather use consul to resolve the endpoint?",
+      "range": {
+        "startLine": 83,
+        "startChar": 60,
+        "endLine": 83,
+        "endChar": 77
+      },
+      "revId": "897ea5845748bd97ba4bf1fb6abfd97008569598",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
