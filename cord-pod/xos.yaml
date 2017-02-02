@@ -75,3 +75,12 @@ topology_template:
           - xos: 
              node: xos 
              relationship: tosca.relationships.UsedByXOS 
+
+    # Chameleon
+    xos-chameleon:
+      type: tosca.nodes.Component
+      properties:
+        command: python chameleon/chameleon/main.py -R 9101 -G xos-core:50055
+        name: xos-chameleon
+        image: xosproject/chameleon
+        ports: 9101:9101
