@@ -22,6 +22,29 @@
       "revId": "897ea5845748bd97ba4bf1fb6abfd97008569598",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa0f191f_5c2b7f30",
+        "filename": "cord-pod/xos.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2017-02-03T00:48:08Z",
+      "side": 1,
+      "message": "This field has been removed",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 27
+      },
+      "revId": "897ea5845748bd97ba4bf1fb6abfd97008569598",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
