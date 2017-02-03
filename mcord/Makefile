@@ -12,6 +12,12 @@ XOS_UI_PORT        :=8888
 
 include $(COMMON_DIR)/Makefile
 
+pull_services:
+	git clone https://gerrit.opencord.org/vBBU ~/xos_services/vBBU
+	git clone https://gerrit.opencord.org/vMME ~/xos_services/vMME
+	git clone https://gerrit.opencord.org/vSGW ~/xos_services/vSGW
+	git clone https://gerrit.opencord.org/vPGWC ~/xos_services/vPGWC
+
 xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig
 
 onboarding:
