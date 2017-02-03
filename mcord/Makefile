@@ -18,7 +18,6 @@ pull_services:
 	git clone https://gerrit.opencord.org/vSGW ~/xos_services/vSGW
 	git clone https://gerrit.opencord.org/vPGWC ~/xos_services/vPGWC
 
-
 xos: prereqs config_dirs xos_download cord_services cord_libraries bootstrap onboarding podconfig rest-gw ui
 onboarding:
 	@echo "[ONBOARDING]"
