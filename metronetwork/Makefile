@@ -41,6 +41,15 @@ onboarding:
 ecord_services:
 	$(RUN_TOSCA) ecord-services.yaml
 
+onboard_veg:
+    bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+    $(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+    $(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vEG/xos/veg-onboard.yaml
+    $(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+    bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vEG
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+
 clean-config-folder:
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_mcord_config
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_cord_config
