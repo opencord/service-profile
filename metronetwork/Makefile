@@ -16,7 +16,7 @@ BOOTSTRAP_DEVEL_YML        ?= $(CONFIG_DIR)/docker-compose-bootstrap-devel.yml
 # Include common functions
 include $(COMMON_DIR)/Makefile
 
-metronetwork: prereqs config_dirs xos_download cord_services cord_libraries bootstrap dashboard onboarding ecord_services rest-gw ui
+metronetwork: prereqs config_dirs xos_download cord_services cord_libraries bootstrap dashboard onboarding onboard_veg ecord_services rest-gw ui
 
 # Targets to accomodate users with HTTP proxies
 metronetworkconfig: prereqs config_dirs xos_download cord_services cord_libraries
@@ -38,12 +38,32 @@ onboarding:
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
+onboard_veg:
+	sudo cp ../cord-pod/id_rsa key_import/veg_rsa
+	sudo cp ../cord-pod/id_rsa.pub key_import/veg_rsa.pub
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vrouter/xos/vrouter-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vEG/xos/veg-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vrouter
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/veg
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+
 ecord_services:
 	$(RUN_TOSCA) ecord-services.yaml
+
+enable-vegmonitoring:
+	$(RUN_TOSCA) vegmonitoring.yaml
+	@echo "Validate if vEG metrics are available...."
+	ansible-playbook -i local $(SERVICE_DIR)/monitoring/xos/test/monitoring_test_vsgmetrics.yaml
 
 clean-config-folder:
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_mcord_config
 	sudo docker exec $(DOCKER_PROJECT)_xos_ui_1 rm -f /opt/xos/xos_configuration/xos_cord_config
+
+# Test and development
 
 onboardmetronetlocal:
 	@echo "[ONBOARDING VNOD LOCAL]"
