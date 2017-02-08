@@ -220,11 +220,11 @@ node_types:
                 required: false
                 default: New vSGW Tenant
                 description: Just a message
-            image_name: 
-                type: string
-                required: true
-                default: default
-                description: Name of VM image
+#            image_name: 
+#                type: string
+#                required: true
+#                default: default
+#                description: Name of VM image
 
 topology_template:
   node_templates:
@@ -447,6 +447,22 @@ topology_template:
               node: mysite_mobile_net
               relationship: tosca.relationships.ConnectsToSlice
 
+    wan_network:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          ip_version: 4
+          cidr: 102.0.0.0/24
+      requirements:
+          - network_template:
+              node: External
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.MemberOfSlice
+          - slice:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.ConnectsToSlice
+
     mysite:
       type: tosca.nodes.Site
 
@@ -547,6 +563,9 @@ topology_template:
           - connection_to_shared_network:
               node: shared_network
               relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_wan_network:
+              node: wan_network
+              relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
 
@@ -606,13 +625,26 @@ topology_template:
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
+#          default_node: compute1
 
-
-    tenant#vpgwctenant1:
+    tenant#vPGWU:
       type: tosca.nodes.VPGWCTenant
       properties:
           display_message: just a message
-          image_name: pgwc
+          image_name: pgwu
+      requirements:
+        - tenant:
+            node: vPGWC
+            relationship: tosca.relationships.MemberOfService
+        - dependency:
+            node: mysite_vpgwc_slice1
+            relationship: tosca.relationships.DependsOn
+
+    tenant#vPGWC:
+      type: tosca.nodes.VPGWCTenant
+      properties:
+          display_message: just a message
+          image_name: trusty-server-multi-nic
       requirements:
         - tenant:
             node: vPGWC
