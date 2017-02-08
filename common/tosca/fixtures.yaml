@@ -33,6 +33,9 @@ topology_template:
     neutron_port_name:
       type: tosca.nodes.NetworkParameterType
 
+    neutron_port_ip:
+      type: tosca.nodes.NetworkParameterType
+
 # ----------------------------------------------------------------------------
 # Roles
 # ----------------------------------------------------------------------------
