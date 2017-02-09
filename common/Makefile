@@ -186,7 +186,10 @@ xos_rest_gw_c:
 	# this folder is cloned by repo
 	cd $(LIBRARY_DIR)/xos-rest-gw; sudo docker build --no-cache=${NO_DOCKER_CACHE} -t xosproject/xos-rest-gw .
 
-xos_gui_c:
+xos_gui_volume_container:
+	docker create -v /var/www/dist/extensions --name gui-extensions-store node:argon /bin/true
+
+xos_gui_c: xos_gui_volume_container
 	# this folder is cloned by repo
 	cd $(LIBRARY_DIR)/xos-gui; sudo docker build --no-cache=${NO_DOCKER_CACHE} -t xosproject/xos-gui .
 

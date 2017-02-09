@@ -14,6 +14,17 @@ topology_template:
       properties:
         image: xosproject/xos-gui
         ports: 4000:4000
+    
+    ## TODO support volumes from in XOSComponents
+    # UI Extensions will be loaded in this folder
+    gui-extensions-store:
+      type: tosca.nodes.ComponentVolumeContainer
+      properties:
+          name: gui-extensions-store
+      requirements:
+          - xos:
+             node: xos-spa-gui
+             relationship: tosca.relationships.VolumeContainerOfComponent
 
     # UI Style Config
     /var/www/dist/style.config.js:
