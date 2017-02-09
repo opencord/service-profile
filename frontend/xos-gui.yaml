@@ -14,6 +14,17 @@ topology_template:
       properties:
         image: xosproject/xos-gui
         ports: 4000:4000
+    
+    # UI Extensions will be loaded in this folder
+    /var/www/dist/extensions:
+      type: tosca.nodes.ComponentVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, ./../../xos-gui/src/extensions, ENV_VAR ] }
+          read_only: false
+      requirements:
+          - xos:
+             node: xos-spa-gui
+             relationship: tosca.relationships.VolumeOfComponent
 
     # UI Style Config
     /var/www/dist/style.config.js:
