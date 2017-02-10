@@ -4,11 +4,15 @@ include $(COMMON_DIR)/Makedefs
 
 HAS_BASE=$(shell docker images | grep xos-base )
 
+deprecation_warning: 
+	cat ../README.md
+	sleep 300
+
 # prerequisite software
 .PHONY: prereqs
-prereqs: /usr/local/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
+prereqs: deprecation_warning /usr/local/bin/http /usr/bin/docker /usr/bin/curl /usr/local/bin/docker-compose
 
-apt-prereqs:
+apt-prereqs: deprecation_warning
 	sudo apt-get update
 	sudo apt-get -y install apt-transport-https ca-certificates python-pip
 	touch $@
