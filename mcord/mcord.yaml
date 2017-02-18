@@ -519,7 +519,7 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: bbu 
+                node: trusty-server-multi-nic 
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
                 node: m1.xlarge
@@ -549,7 +549,7 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: pgwc 
+                node: trusty-server-multi-nic 
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
                 node: m1.large
@@ -580,7 +580,7 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: sgwc
+                node: trusty-server-multi-nic
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
                 node: m1.large
@@ -609,7 +609,7 @@ topology_template:
               node: mysite
               relationship: tosca.relationships.MemberOfSite
           - default_image:
-                node: mme
+                node: trusty-server-multi-nic
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
                 node: m1.large
@@ -627,57 +627,57 @@ topology_template:
           network: noauto
 #          default_node: compute1
 
-    tenant#vPGWU:
-      type: tosca.nodes.VPGWCTenant
-      properties:
-          display_message: just a message
-          image_name: pgwu
-      requirements:
-        - tenant:
-            node: vPGWC
-            relationship: tosca.relationships.MemberOfService
-        - dependency:
-            node: mysite_vpgwc_slice1
-            relationship: tosca.relationships.DependsOn
+    # tenant#vPGWU:
+    #   type: tosca.nodes.VPGWCTenant
+    #   properties:
+    #       display_message: just a message
+    #       image_name: pgwu
+    #   requirements:
+    #     - tenant:
+    #         node: vPGWC
+    #         relationship: tosca.relationships.MemberOfService
+    #     - dependency:
+    #         node: mysite_vpgwc_slice1
+    #         relationship: tosca.relationships.DependsOn
 
-    tenant#vPGWC:
-      type: tosca.nodes.VPGWCTenant
-      properties:
-          display_message: just a message
-          image_name: trusty-server-multi-nic
-      requirements:
-        - tenant:
-            node: vPGWC
-            relationship: tosca.relationships.MemberOfService
-        - dependency:
-            node: mysite_vpgwc_slice1
-            relationship: tosca.relationships.DependsOn
+    # tenant#vPGWC:
+    #   type: tosca.nodes.VPGWCTenant
+    #   properties:
+    #       display_message: just a message
+    #       image_name: trusty-server-multi-nic
+    #   requirements:
+    #     - tenant:
+    #         node: vPGWC
+    #         relationship: tosca.relationships.MemberOfService
+    #     - dependency:
+    #         node: mysite_vpgwc_slice1
+    #         relationship: tosca.relationships.DependsOn
 
-    tenant#vmmetenant1:
-      type: tosca.nodes.VMMETenant
-      properties:
-          tenant_message: just a message
-          image_name: default
-      requirements:
-        - tenant:
-            node: vMME
-            relationship: tosca.relationships.MemberOfService
-        - dependency:
-            node: mysite_vmme_slice1
-            relationship: tosca.relationships.DependsOn
+    # tenant#vmmetenant1:
+    #   type: tosca.nodes.VMMETenant
+    #   properties:
+    #       tenant_message: just a message
+    #       image_name: default
+    #   requirements:
+    #     - tenant:
+    #         node: vMME
+    #         relationship: tosca.relationships.MemberOfService
+    #     - dependency:
+    #         node: mysite_vmme_slice1
+    #         relationship: tosca.relationships.DependsOn
 
 
-    tenant#vmmetenant2:
-      type: tosca.nodes.VMMETenant
-      properties:
-          tenant_message: just a message 2
-          image_name: trusty-server-multi-nic
-      requirements:
-        - tenant:
-            node: vMME
-            relationship: tosca.relationships.MemberOfService
-        - dependency:
-            node: mysite_vmme_slice1
-            relationship: tosca.relationships.DependsOn
+    # tenant#vmmetenant2:
+    #   type: tosca.nodes.VMMETenant
+    #   properties:
+    #       tenant_message: just a message 2
+    #       image_name: trusty-server-multi-nic
+    #   requirements:
+    #     - tenant:
+    #         node: vMME
+    #         relationship: tosca.relationships.MemberOfService
+    #     - dependency:
+    #         node: mysite_vmme_slice1
+    #         relationship: tosca.relationships.DependsOn
 
 
