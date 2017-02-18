@@ -105,7 +105,7 @@ for NODE in $NODES; do
               relationship: tosca.relationships.MemberOfService
 
     # VTN hostManagementIface field for node $NODE
-    ${NODE}_dataPlaneIp_tag:
+    ${NODE}_hostManagementIface_tag:
       type: tosca.nodes.Tag
       properties:
           name: hostManagementIface
