@@ -1,0 +1,141 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Just enough Tosca to get the vEG slice running on the CORD POD
+
+imports:
+   - custom_types/xos.yaml
+
+topology_template:
+  node_templates:
+    # CORD Services
+    service#vtr:
+      type: tosca.nodes.Service
+      properties:
+          view_url: /admin/vtr/vtrservice/$id$/
+          kind: vTR
+          replaces: service_vtr
+
+    addresses_veg:
+      type: tosca.nodes.AddressPool
+      properties:
+          addresses: 10.168.0.0/24
+          gateway_ip: 10.168.0.1
+          gateway_mac: 02:42:0a:a8:00:01
+
+    addresses_exampleservice-public:
+      type: tosca.nodes.AddressPool
+      properties:
+          addresses: 10.168.1.0/24
+          gateway_ip: 10.168.1.1
+          gateway_mac: 02:42:0a:a8:00:01
+
+    service#veg:
+      type: tosca.nodes.VEGService
+      requirements:
+          - vrouter_tenant:
+              node: service#vrouter
+              relationship: tosca.relationships.TenantOfService
+      properties:
+          view_url: /admin/veg/vegservice/$id$/
+          backend_network_label: hpc_client
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/veg/keys/veg_rsa
+          replaces: service_veg
+      artifacts:
+          pubkey: /opt/xos/services/veg/keys/veg_rsa.pub
+
+    service#vrouter:
+      type: tosca.nodes.VRouterService
+      properties:
+          view_url: /admin/vrouter/vrouterservice/$id$/
+          replaces: service_vrouter
+      requirements:
+          - addresses_veg:
+              node: addresses_veg
+              relationship: tosca.relationships.ProvidesAddresses
+          - addresses_service1:
+              node: addresses_exampleservice-public
+              relationship: tosca.relationships.ProvidesAddresses
+
+
+    service#ONOS_CORD:
+      type: tosca.nodes.ONOSService
+      properties:
+          no-delete: true
+          no-create: true
+          no-update: true
+
+    service#ONOS_Fabric:
+      type: tosca.nodes.ONOSService
+      properties:
+          no-delete: true
+          no-create: true
+          no-update: true
+
+    vRouter_ONOS_app:
+      type: tosca.nodes.ONOSvRouterApp
+      requirements:
+          - onos_tenant:
+              node: service#ONOS_Fabric
+              relationship: tosca.relationships.TenantOfService
+          - vrouter_service:
+              node: service#vrouter
+              relationship: tosca.relationships.UsedByService
+      properties:
+          dependencies: org.onosproject.vrouter
+          autogenerate: vrouter-network-cfg
+
+    Private:
+      type: tosca.nodes.NetworkTemplate
+
+    management:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          no-create: true
+          no-delete: true
+          no-update: true
+
+    image#veg-1.1:
+      type: tosca.nodes.Image
+
+    mysite:
+      type: tosca.nodes.Site
+
+    label_veg:
+      type: tosca.nodes.NodeLabel
+
+    # Networks required by the CORD setup
+    mysite_veg-access:
+      type: tosca.nodes.network.Network
+      properties:
+          ip_version: 4
+      requirements:
+          - network_template:
+              node: Private
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_veg
+              relationship: tosca.relationships.MemberOfSlice
+          - connection:
+              node: mysite_veg
+              relationship: tosca.relationships.ConnectsToSlice
+
+    # CORD Slices
+    mysite_veg:
+      description: vEG Controller Slice
+      type: tosca.nodes.Slice
+      properties:
+          network: noauto
+      requirements:
+          - veg_service:
+              node: service#veg
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - image:
+              node: image#veg-1.1
+              relationship: tosca.relationships.DefaultImage
