@@ -63,6 +63,19 @@ topology_template:
          path: /opt/xos/images/bbu.qcow2
          disk_format: QCOW2
          container_format: BARE
+    bbu_s:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/bbus.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    cookies:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/cookies.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+
     m1.small:
       type: tosca.nodes.Flavor
 
