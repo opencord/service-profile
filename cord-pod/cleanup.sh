@@ -50,3 +50,4 @@ neutron net-delete management || true
 neutron net-delete management_hosts || true
 neutron net-delete mysite_vsg-access || true
 neutron net-delete public || true
+neutron net-delete exampleservice_network || true
