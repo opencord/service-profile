@@ -15,54 +15,195 @@ topology_template:
          path: /opt/xos/images/trusty-server-multi-nic.qcow2
          disk_format: QCOW2
          container_format: BARE
-    licenseserver:
+
+    bbu-snapshot-Feb20:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/licenseserver.qcow2
-         disk_format: QCOW2
-         container_format: BARE
-    hss:
+         path: /opt/xos/images/bbu-snapshot-Feb20.ami
+         disk_format: ami
+         container_format: ami
+    bbu_kernel:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/hss.qcow2
-         disk_format: QCOW2
-         container_format: BARE
-    mme:
+         path: /opt/xos/images/bbu_kernel.aki
+         disk_format: aki
+         container_format: aki
+
+    open-mme-snapshot-Feb20:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/mme.qcow2
+         path: /opt/xos/images/open-mme-snapshot-Feb20.qcow2
          disk_format: QCOW2
          container_format: BARE
-    pgwc:
+    open-sgw-snapshot-Feb20:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/pgwc.qcow2
+         path: /opt/xos/images/open-sgw-snapshot-Feb20.qcow2
          disk_format: QCOW2
          container_format: BARE
-    pgwu:
+    open-pgw-snapshot-Feb20:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/pgwu.qcow2
+         path: /opt/xos/images/open-pgw-snapshot-Feb20.qcow2
          disk_format: QCOW2
          container_format: BARE
-    sgwc:
+
+    licenseserver-snapshot-Feb20:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/sgwc.qcow2
+         path: /opt/xos/images/licenseserver-snapshot-Feb20.qcow2
          disk_format: QCOW2
          container_format: BARE
-    sgwu:
+    hss-snapshot-Feb20:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/sgwu.qcow2
+         path: /opt/xos/images/hss-snapshot-Feb20.qcow2
          disk_format: QCOW2
          container_format: BARE
-    bbu:
+
+    mme1-snapshot-Feb20:
       type: tosca.nodes.Image
       properties:
-         path: /opt/xos/images/bbu.qcow2
+         path: /opt/xos/images/mme1-snapshot-Feb20.qcow2
          disk_format: QCOW2
          container_format: BARE
+    sgwc1-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/sgwc1-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    pgwc1-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/pgwc1-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    sgwu1-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/sgwu1-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    pgwu1-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/pgwu1-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+
+    mme2-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/mme2-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    sgwc2-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/sgwc2-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    pgwc2-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/pgwc2-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    sgwu2-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/sgwu2-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    pgwu2-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/pgwu2-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+
+    cookie-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/cookie-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    NAT-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/NAT-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+    xpose-snapshot-Feb20:
+      type: tosca.nodes.Image
+      properties:
+         path: /opt/xos/images/xpose-snapshot-Feb20.qcow2
+         disk_format: QCOW2
+         container_format: BARE
+
+#    licenseserver:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/licenseserver.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    hss:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/hss.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    mme:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/mme.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    pgwc:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/pgwc.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    pgwu:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/pgwu.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    sgwc:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/sgwc.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    sgwu:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/sgwu.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    bbu:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/bbu.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    bbu_s:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/bbus.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+#    cookies:
+#      type: tosca.nodes.Image
+#      properties:
+#         path: /opt/xos/images/cookies.qcow2
+#         disk_format: QCOW2
+#         container_format: BARE
+
+
     m1.small:
       type: tosca.nodes.Flavor
 
