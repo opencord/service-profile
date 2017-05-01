@@ -34,10 +34,6 @@ cleanup_network management
 cleanup_network management_host
 cleanup_network shared_network
 cleanup_network vsg_network
-#cleanup_network lan_rru_network
-#cleanup_network lan_3gpp_s5s8_pgw_network
-#cleanup_network lan_3gpp_s1u_network
-#cleanup_network lan_3gpp_s1mme_network
 cleanup_network lan_taas_test_network1
 cleanup_network lan_taas_public_network
 
