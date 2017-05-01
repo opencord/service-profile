@@ -43,7 +43,7 @@ onboarding:
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vtn/xos/vtn-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/onos-service/xos/onos-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/vMME/xos/vmme-onboard.yaml
-	#$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/fabric-onboard.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/fabric/xos/fabric-onboard.yaml
 	$(RUN_TOSCA_BOOTSTRAP) synchronizers.yaml
 	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/ng-xos-lib
@@ -53,7 +53,13 @@ onboarding:
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vtn
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/onos
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/vmme
-	#bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/fabric
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
+
+progran:
+	$(RUN_TOSCA_BOOTSTRAP) $(SERVICE_DIR)/progran/xos/progran-onboard.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) services/progran
 	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
 	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
 
@@ -65,11 +71,14 @@ podconfig: nodes.yaml images.yaml
 	$(RUN_TOSCA) nodes.yaml
 	$(RUN_TOSCA) images.yaml
 
+images:
+	$(RUN_TOSCA) images.yaml
+
 vtn: vtn-external.yaml
 	$(RUN_TOSCA) vtn-external.yaml
 
 vtn-external.yaml:
-	export SETUPDIR=$(CONFIG_DIR); bash ./make-vtn-external-yaml.sh
+#	export SETUPDIR=$(CONFIG_DIR); bash ./make-vtn-external-yaml.sh
 
 mcord:
 	$(RUN_TOSCA) mgmt-net.yaml
@@ -97,3 +106,14 @@ delete_fabric_config:
 reactivate_fabric_apps:
 	curl -sSL --user karaf:karaf -X POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/active
 	curl -sSL --user karaf:karaf -X POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/active
+
+deactivate_fabric_apps:
+	curl -sSL --user karaf:karaf -X POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.vrouter/deactivate
+	curl -sSL --user karaf:karaf -X POST http://onos-fabric:8181/onos/v1/applications/org.onosproject.segmentrouting/deactive
+
+experimental-ui:
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/disable-onboarding.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(CONFIG_DIR)/ui_containers.yaml
+	$(RUN_TOSCA_BOOTSTRAP) $(COMMON_DIR)/tosca/enable-onboarding.yaml
+	bash $(COMMON_DIR)/wait_for_onboarding_ready.sh $(XOS_BOOTSTRAP_PORT) xos
+	bash $(COMMON_DIR)/wait_for_xos_port.sh $(XOS_UI_PORT)
