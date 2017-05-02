@@ -177,7 +177,7 @@ node_types:
                 default: New vBBU Component 
                 description: Just a message 
                 
-    tosca.nodes.VPGWCTenant:
+    tosca.nodes.VPGWCComponent:
         derived_from: tosca.nodes.Root
         description: >
             CORD: vPGWC Component of MCORD Service.
@@ -196,11 +196,6 @@ node_types:
                 required: false
                 default: New vPGWc Component 
                 description: Just a message 
-            image_name: 
-                type: string
-                required: true
-                default: default
-                description: Name of VM image
 
     tosca.nodes.VSGWTenant:
         derived_from: tosca.nodes.Root
@@ -220,11 +215,6 @@ node_types:
                 required: false
                 default: New vSGW Tenant
                 description: Just a message
-#            image_name: 
-#                type: string
-#                required: true
-#                default: default
-#                description: Name of VM image
 
 topology_template:
   node_templates:
@@ -246,7 +236,7 @@ topology_template:
       properties:
           kind: vEPC
           icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vpgwc/VPGWCTenant
+          view_url: /admin/vpgwc/vpgwccomponent
           public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
           private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
       artifacts:
@@ -282,10 +272,6 @@ topology_template:
 
     m1.xlarge:
       type: tosca.nodes.Flavor
-    m1.large:
-      type: tosca.nodes.Flavor
-    m1.small:
-      type: tosca.nodes.Flavor
 
     Private:
       type: tosca.nodes.NetworkTemplate
@@ -317,9 +303,9 @@ topology_template:
       type: tosca.nodes.network.Network
       properties:
           ip_version: 4
-          cidr: 10.1.0.0/24
-          start_ip: 10.1.0.128
-          end_ip: 10.1.0.254
+          cidr: 10.6.0.0/24
+          start_ip: 10.6.0.128
+          end_ip: 10.6.0.254
       requirements:
           - network_template:
               node: management_hosts_template
@@ -327,7 +313,6 @@ topology_template:
           - owner:
               node: mysite_management
               relationship: tosca.relationships.MemberOfSlice
-
     vsg_template:
       type: tosca.nodes.NetworkTemplate
       properties:
@@ -350,6 +335,7 @@ topology_template:
           - connection:
               node: mysite_vbbu_slice1
               relationship: tosca.relationships.ConnectsToSlice
+
 
 #    lan_3gpp_s1mme_network:
 #      type: tosca.nodes.network.Network.XOS
@@ -466,24 +452,11 @@ topology_template:
     mysite:
       type: tosca.nodes.Site
 
-    licenseserver:
-      type: tosca.nodes.Image
-    bbu:
-      type: tosca.nodes.Image
-    bbu_kernel:
-      type: tosca.nodes.Image
-    mme:
-      type: tosca.nodes.Image
-    hss:
-      type: tosca.nodes.Image
-    sgwc:
-      type: tosca.nodes.Image
-    sgwu:
-      type: tosca.nodes.Image
-    pgwc:
-      type: tosca.nodes.Image
-    pgwu:
-      type: tosca.nodes.Image
+#    mcord-bbu-multi-nic:
+#      type: tosca.nodes.Image
+
+#    mcord-vpgwc-onos-multi-nic:
+#      type: tosca.nodes.Image
 
     trusty-server-multi-nic:
       type: tosca.nodes.Image
@@ -527,11 +500,11 @@ topology_template:
           - connection_to_management:
               node: management
               relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_management_host:
-              node: management_host
-              relationship: tosca.relationships.ConnectsToNetwork
           - connection_to_shared_network:
               node: shared_network
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_management_host:
+              node: management_host
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
@@ -552,7 +525,7 @@ topology_template:
                 node: trusty-server-multi-nic 
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
-                node: m1.large
+                node: m1.xlarge
                 relationship: tosca.relationships.DefaultFlavor
           - connection_to_management:
               node: management
@@ -583,7 +556,7 @@ topology_template:
                 node: trusty-server-multi-nic
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
-                node: m1.large
+                node: m1.xlarge
                 relationship: tosca.relationships.DefaultFlavor
           - connection_to_management:
               node: management
@@ -612,7 +585,7 @@ topology_template:
                 node: trusty-server-multi-nic
                 relationship: tosca.relationships.DefaultImage
           - default_flavor:
-                node: m1.large
+                node: m1.xlarge
                 relationship: tosca.relationships.DefaultFlavor
           - connection_to_management:
               node: management
@@ -625,59 +598,49 @@ topology_template:
               relationship: tosca.relationships.ConnectsToNetwork
       properties:
           network: noauto
-#          default_node: compute1
-
-    # tenant#vPGWU:
-    #   type: tosca.nodes.VPGWCTenant
-    #   properties:
-    #       display_message: just a message
-    #       image_name: pgwu
-    #   requirements:
-    #     - tenant:
-    #         node: vPGWC
-    #         relationship: tosca.relationships.MemberOfService
-    #     - dependency:
-    #         node: mysite_vpgwc_slice1
-    #         relationship: tosca.relationships.DependsOn
-
-    # tenant#vPGWC:
-    #   type: tosca.nodes.VPGWCTenant
-    #   properties:
-    #       display_message: just a message
-    #       image_name: trusty-server-multi-nic
-    #   requirements:
-    #     - tenant:
-    #         node: vPGWC
-    #         relationship: tosca.relationships.MemberOfService
-    #     - dependency:
-    #         node: mysite_vpgwc_slice1
-    #         relationship: tosca.relationships.DependsOn
-
-    # tenant#vmmetenant1:
-    #   type: tosca.nodes.VMMETenant
-    #   properties:
-    #       tenant_message: just a message
-    #       image_name: default
-    #   requirements:
-    #     - tenant:
-    #         node: vMME
-    #         relationship: tosca.relationships.MemberOfService
-    #     - dependency:
-    #         node: mysite_vmme_slice1
-    #         relationship: tosca.relationships.DependsOn
 
 
-    # tenant#vmmetenant2:
-    #   type: tosca.nodes.VMMETenant
-    #   properties:
-    #       tenant_message: just a message 2
-    #       image_name: trusty-server-multi-nic
-    #   requirements:
-    #     - tenant:
-    #         node: vMME
-    #         relationship: tosca.relationships.MemberOfService
-    #     - dependency:
-    #         node: mysite_vmme_slice1
-    #         relationship: tosca.relationships.DependsOn
+#    tenant#vmmetenant1:
+#      type: tosca.nodes.VMMETenant
+#      properties:
+#          tenant_message: just a message
+#          image_name: default
+#      requirements:
+#        - tenant:
+#            node: vMME
+#            relationship: tosca.relationships.MemberOfService
+#        - dependency:
+#            node: mysite_vmme_slice1
+#            relationship: tosca.relationships.DependsOn
 
+
+#    tenant#vmmetenant2:
+#      type: tosca.nodes.VMMETenant
+#      properties:
+#          tenant_message: just a message 2
+#          image_name: mcord-vpgwc-onos-multi-nic
+#      requirements:
+#        - tenant:
+#            node: vMME
+#            relationship: tosca.relationships.MemberOfService
+#        - dependency:
+#            node: mysite_vmme_slice1
+#            relationship: tosca.relationships.DependsOn
+
+
+#default_node: compute10
+
+#    mysite_VPGWC_Component:
+#      description: MCORD Service default Component
+#      type: tosca.nodes.VPGWCComponent
+#      requirements:
+#          - provider_service:
+#              node: vPGWC
+#              relationship: tosca.relationships.MemberOfService
+#          - vpgwc_slice:
+#              node: mysite_vpgwc_slice1
+#              relationship: tosca.relationships.MemberOfSlice
+#      properties:
+#          display_message: vPGWC looks good!
+#          s5s8_pgw_tag: 300
 
