@@ -16,6 +16,7 @@ topology_template:
           view_url: /admin/onos/onosservice/$id$/
           no_container: true
           rest_hostname: onos-cord
+          rest_port: 8182
           replaces: service_ONOS_CORD
 
     service#vtn:
@@ -25,13 +26,15 @@ topology_template:
           privateGatewayMac: 00:00:00:00:00:01
           localManagementIp: 172.27.0.1/24
           ovsdbPort: 6641
-          sshUser: root
+          sshUser: ubuntu
           sshKeyFile: /root/node_key
           sshPort: 22
-          xosEndpoint: http://xos/
+          xosEndpoint: http://xos:8888/
           xosUser: padmin@vicci.org
           xosPassword: letmein
           replaces: service_vtn
+          vtnAPIVersion: 2
+          controllerPort: onos-cord:6654
 
     only-bucket:
       type: tosca.nodes.Node
@@ -69,7 +72,7 @@ topology_template:
       type: tosca.nodes.Tag
       properties:
           name: dataPlaneIp
-          value: 10.168.0.253/24
+          value: 10.6.1.2/24
       requirements:
           - target:
               node: only-bucket
@@ -77,47 +80,15 @@ topology_template:
           - service:
               node: service#ONOS_CORD
               relationship: tosca.relationships.MemberOfService
-
-    strange-touch:
-      type: tosca.nodes.Node
-
-    # VTN bridgeId field for node strange-touch
-    strange-touch_bridgeId_tag:
+   # VTN hostManagementIface field for node only-bucket
+    only-bucket_hostManagementIface_tag:
       type: tosca.nodes.Tag
       properties:
-          name: bridgeId
-          value: of:0000001e67d2ef17
+          name: hostManagementIface
+          value: veth3
       requirements:
           - target:
-              node: strange-touch
-              relationship: tosca.relationships.TagsObject
-          - service:
-              node: service#ONOS_CORD
-              relationship: tosca.relationships.MemberOfService
-
-    # VTN dataPlaneIntf field for node strange-touch
-    strange-touch_dataPlaneIntf_tag:
-      type: tosca.nodes.Tag
-      properties:
-          name: dataPlaneIntf
-          value: fabric
-      requirements:
-          - target:
-              node: strange-touch
-              relationship: tosca.relationships.TagsObject
-          - service:
-              node: service#ONOS_CORD
-              relationship: tosca.relationships.MemberOfService
-
-    # VTN dataPlaneIp field for node strange-touch
-    strange-touch_dataPlaneIp_tag:
-      type: tosca.nodes.Tag
-      properties:
-          name: dataPlaneIp
-          value: 10.168.0.253/24
-      requirements:
-          - target:
-              node: strange-touch
+              node: only-bucket
               relationship: tosca.relationships.TagsObject
           - service:
               node: service#ONOS_CORD
@@ -159,7 +130,7 @@ topology_template:
       type: tosca.nodes.Tag
       properties:
           name: dataPlaneIp
-          value: 10.168.0.253/24
+          value: 10.6.1.3/24
       requirements:
           - target:
               node: salty-interest
@@ -168,50 +139,20 @@ topology_template:
               node: service#ONOS_CORD
               relationship: tosca.relationships.MemberOfService
 
-    compute1:
-      type: tosca.nodes.Node
-
-    # VTN bridgeId field for node compute1
-    compute1_bridgeId_tag:
+   # VTN hostManagementIface field for node salty-interest
+    salty-interest_hostManagementIface_tag:
       type: tosca.nodes.Tag
       properties:
-          name: bridgeId
-          value: of:0000001e67d2ab52
+          name: hostManagementIface
+          value: veth3
       requirements:
           - target:
-              node: compute1
+              node: salty-interest
               relationship: tosca.relationships.TagsObject
           - service:
               node: service#ONOS_CORD
               relationship: tosca.relationships.MemberOfService
 
-    # VTN dataPlaneIntf field for node compute1
-    compute1_dataPlaneIntf_tag:
-      type: tosca.nodes.Tag
-      properties:
-          name: dataPlaneIntf
-          value: fabric
-      requirements:
-          - target:
-              node: compute1
-              relationship: tosca.relationships.TagsObject
-          - service:
-              node: service#ONOS_CORD
-              relationship: tosca.relationships.MemberOfService
-
-    # VTN dataPlaneIp field for node compute1
-    compute1_dataPlaneIp_tag:
-      type: tosca.nodes.Tag
-      properties:
-          name: dataPlaneIp
-          value: 10.168.0.253/24
-      requirements:
-          - target:
-              node: compute1
-              relationship: tosca.relationships.TagsObject
-          - service:
-              node: service#ONOS_CORD
-              relationship: tosca.relationships.MemberOfService
 
     VTN_ONOS_app:
       type: tosca.nodes.ONOSVTNApp
