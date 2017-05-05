@@ -1,0 +1,40 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Onboard the exampleservice
+
+imports:
+   - custom_types/xos.yaml
+
+topology_template:
+  node_templates:
+
+    # UI Container
+    xos-spa-gui:
+      type: tosca.nodes.Component
+      properties:
+        # command: cd /var/www; BRAND=opencloud npm run build
+        name: xos-spa-gui
+        image: xosproject/xos-gui
+        ports: 4000:4000
+        
+    # UI Style Config
+    /var/www/dist/style.config.js:
+      type: tosca.nodes.ComponentVolume
+      properties:
+          host_path: { path_join: [ SELF, CONFIG_DIR, ./ui-style-config.js, ENV_VAR ] }
+          read_only: false
+      requirements:
+          - xos:
+             node: xos-spa-gui
+             relationship: tosca.relationships.VolumeOfComponent
+
+    gui-to-gw:
+      type: tosca.nodes.ComponentLink
+      properties:
+          container: xos-rest-gateway
+          alias: xos-rest-gw
+          kind: internal
+      requirements:
+          - xos:
+             node: xos-spa-gui
+             relationship: tosca.relationships.LinkOfComponent

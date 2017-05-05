@@ -1,0 +1,107 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Auto generated file to enable monitoring of infrastructure services (OpenStack, ONOS...etc).
+
+imports:
+   - custom_types/xos.yaml
+   - custom_types/monitoring_tosca_types.yaml
+
+topology_template:
+  node_templates:
+    service_ceilometer:
+      type: tosca.nodes.CeilometerService
+      properties:
+          no-create: true
+          no-update: true
+          no-delete: true
+
+    onos_monitoring_agent_head_node:
+      description: Monitoring agent info
+      type: tosca.nodes.InfraMonitoringAgentInfo
+      properties:
+          start_url: http://ceilometer-1.cord.lab:5004/monitoring/agent/onos/start
+          start_url_json_data: { get_artifact: [ SELF, onos_monitoring_service_endpoints, LOCAL_FILE] }
+          stop_url: http://ceilometer-1.cord.lab:5004/monitoring/agent/onos/stop
+      artifacts:
+          onos_monitoring_service_endpoints: /root/setup/onos_monitoring_service_endpoints.json
+
+    os_monitoring_agent_head_node:
+      description: Openstack Monitoring agent info
+      type: tosca.nodes.InfraMonitoringAgentInfo
+      properties:
+          start_url: http://ceilometer-1.cord.lab:5004/monitoring/agent/openstack/start
+          stop_url: http://ceilometer-1.cord.lab:5004/monitoring/agent/openstack/stop
+
+    os_monitoring_agent_cp_1:
+      description: Openstack Monitoring agent info for only-bucket
+      type: tosca.nodes.InfraMonitoringAgentInfo
+      properties:
+          start_url: http://only-bucket.cord.lab:5004/monitoring/agent/openstack/start
+          stop_url: http://only-bucket.cord.lab:5004/monitoring/agent/openstack/stop
+
+    os_monitoring_agent_cp_2:
+      description: Openstack Monitoring agent info for handy-stomach
+      type: tosca.nodes.InfraMonitoringAgentInfo
+      properties:
+          start_url: http://handy-stomach.cord.lab:5004/monitoring/agent/openstack/start
+          stop_url: http://handy-stomach.cord.lab:5004/monitoring/agent/openstack/stop
+
+    os_monitoring_agent_cp_3:
+      description: Openstack Monitoring agent info for strange-touch
+      type: tosca.nodes.InfraMonitoringAgentInfo
+      properties:
+          start_url: http://strange-touch.cord.lab:5004/monitoring/agent/openstack/start
+          stop_url: http://strange-touch.cord.lab:5004/monitoring/agent/openstack/stop
+
+    os_monitoring_agent_cp_4:
+      description: Openstack Monitoring agent info for salty-interest
+      type: tosca.nodes.InfraMonitoringAgentInfo
+      properties:
+          start_url: http://salty-interest.cord.lab:5004/monitoring/agent/openstack/start
+          stop_url: http://salty-interest.cord.lab:5004/monitoring/agent/openstack/stop
+
+    os_monitoring_agent_cp_5:
+      description: Openstack Monitoring agent info for compute1
+      type: tosca.nodes.InfraMonitoringAgentInfo
+      properties:
+          start_url: http://compute1.cord.lab:5004/monitoring/agent/openstack/start
+          stop_url: http://compute1.cord.lab:5004/monitoring/agent/openstack/stop
+
+    os_monitoring_collector_plugin:
+      description: Infra Monitoring collector plugin info
+      type: tosca.nodes.MonitoringCollectorPluginInfo
+      properties:
+          plugin_folder_path: /opt/xos/synchronizers/monitoring/ceilometer/ceilometer-plugins/network/ext_services/openstack_infra/
+          plugin_rabbit_exchange: openstack_infra
+ 
+    openstack_monitoring_publisher_tenant:
+      description: OpenStack Monitoring Publisher Tenant
+      type: tosca.nodes.OpenStackMonitoringPublisher
+      requirements:
+          - provider_service:
+              node: service_ceilometer
+              relationship: tosca.relationships.TenantOfService
+          - monitoring_collector_plugin:
+              node: os_monitoring_collector_plugin
+              relationship: tosca.relationships.ProvidesMonitoringCollectorPluginInfo
+          - monitoring_agent_1:
+              node: os_monitoring_agent_head_node
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
+          - monitoring_agent_2:
+              node: onos_monitoring_agent_head_node
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
+          - monitoring_agent_3:
+              node: os_monitoring_agent_cp_1
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
+          - monitoring_agent_4:
+              node: os_monitoring_agent_cp_2
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
+          - monitoring_agent_5:
+              node: os_monitoring_agent_cp_3
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
+          - monitoring_agent_6:
+              node: os_monitoring_agent_cp_4
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
+          - monitoring_agent_7:
+              node: os_monitoring_agent_cp_5
+              relationship: tosca.relationships.ProvidesInfraMonitoringAgentInfo
