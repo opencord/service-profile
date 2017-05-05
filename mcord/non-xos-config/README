@@ -1,0 +1,52 @@
+mcord@mcord:~/service-profile/mcord$ git status
+On branch cord-2.0
+Your branch is up-to-date with 'origin/cord-2.0'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   ../cord-pod/monitoringservice.yaml
+	modified:   ../frontend/Makefile
+	modified:   ../frontend/gateway-config.yml
+	modified:   ../frontend/ui_containers.yaml
+	modified:   Makefile
+	modified:   cleanup.sh
+	modified:   images.yaml
+	modified:   mcord.yaml
+	modified:   mgmt-net.yaml
+	modified:   monitoringservice.yaml
+	modified:   monitoringtenant.yaml
+	modified:   network-cfg.json
+	modified:   setup.yaml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	../cord-pod/#monitoringservice.yaml#
+	../cord-pod/admin-openrc.sh
+	../cord-pod/node_key
+	../frontend/gui.yaml
+	../mcord.tar.gz
+	admin-openrc.sh
+	apt-prereqs
+	containers.txt
+	error-pingping.log
+	files/activetest_config
+	files/passivetest_config
+	gateway-config.yml
+	id_rsa
+	id_rsa.pub
+	images-mwc.yaml
+	inframonitoring.yaml
+	node_key
+	nodes.yaml
+	non-xos-config/
+	onos_monitoring_service_endpoints.json
+	ui-style-config.js
+	ui_containers.yaml
+	vtn-external-april-1.yaml
+	vtn-external.yaml
+	vtnconfig.json
+
+

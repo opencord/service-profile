@@ -1,0 +1,59 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+imports:
+   - custom_types/xos.yaml
+
+description: list of compute nodes, created by platform-install
+
+topology_template:
+  node_templates:
+
+# Site/Deployment, fully defined in deployment.yaml
+    mysite:
+      type: tosca.nodes.Site
+
+    MyDeployment:
+      type: tosca.nodes.Deployment
+
+#  compute node
+    compute1:
+      type: tosca.nodes.Node
+      requirements:
+        - site:
+            node: mysite
+            relationship: tosca.relationships.MemberOfSite
+        - deployment:
+            node: MyDeployment
+            relationship: tosca.relationships.MemberOfDeployment
+
+# compute nodes 1
+    only-bucket:
+      type: tosca.nodes.Node
+      requirements:
+        - site:
+            node: mysite
+            relationship: tosca.relationships.MemberOfSite
+        - deployment:
+            node: MyDeployment
+            relationship: tosca.relationships.MemberOfDeployment
+# compute nodes 2
+    salty-interest:
+      type: tosca.nodes.Node
+      requirements:
+        - site:
+            node: mysite
+            relationship: tosca.relationships.MemberOfSite
+        - deployment:
+            node: MyDeployment
+            relationship: tosca.relationships.MemberOfDeployment
+#  nodes 3
+# commented by pingping  after MWC , before ONS
+#    strange-touch:
+#      type: tosca.nodes.Node
+#      requirements:
+#        - site:
+#            node: mysite
+#            relationship: tosca.relationships.MemberOfSite
+#        - deployment:
+#            node: MyDeployment
+#            relationship: tosca.relationships.MemberOfDeployment
